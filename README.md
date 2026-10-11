@@ -6,7 +6,7 @@ A mobile-first construction-site simulator prototype, built as a single HTML can
 When the GitHub Pages workflow finishes successfully, the game will be available at:
 **https://xz64uj777.github.io/Chatdemo/**
 
-Check [Actions](https://github.com/xz64uj777/Chatdemo/actions) for the latest deployment and JavaScript syntax check. If the live page is not available yet, open `index.html` from this repository or wait for the Pages deployment to finish.
+Check [Actions](https://github.com/xz64uj777/Chatdemo/actions) for the latest deployment and JavaScript syntax check. If deployment fails with a Pages setup error, enable Pages once: open **Settings → Pages**, choose **GitHub Actions** as the build and deployment source, and save. Then return to Actions and rerun the latest failed workflow. The workflow cannot enable Pages itself with its current repository token. If you only need the source, open `index.html` in this repository; that page shows code rather than running the game.
 
 ## What's playable now
 - **Drive on site:** tap an open spot to drive there, or use the directional pad. The camera follows your machine, and every machine has its own parking spot.
