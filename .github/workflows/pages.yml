@@ -27,6 +27,13 @@ jobs:
         run: |
           node -e "const fs=require('fs'); const html=fs.readFileSync('index.html','utf8'); const match=html.match(/<script>([\\s\\S]*?)<\\/script>/); if(!match) throw new Error('No inline game script found'); fs.writeFileSync('/tmp/buildworks.js',match[1]);"
           node --check /tmp/buildworks.js
+      - name: Package browser game for download
+        uses: actions/upload-artifact@v4
+        with:
+          name: BuildWorks-web-game
+          path: index.html
+          if-no-files-found: error
+          retention-days: 30
       - name: Set up Pages
         uses: actions/configure-pages@v5
       - name: Upload static game
