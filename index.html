@@ -88,6 +88,14 @@ for(const p of piles){ctx.fillStyle='#656452';ctx.beginPath();ctx.ellipse(p.x,p.
 // props / pallets
 for(let i=0;i<7;i++){ctx.fillStyle='#8e5e35';ctx.fillRect(795+i*35,340,26,22);ctx.fillStyle='#d6ad70';ctx.fillRect(797+i*35,343,22,4);ctx.fillRect(797+i*35,351,22,4)}
 ctx.fillStyle='#eee1bf';ctx.font='bold 15px system-ui';ctx.fillText('LUMBER & SUPPLIES',790,325);
+// compact site office and safety perimeter
+ctx.fillStyle='#0003';ctx.fillRect(1124,365,76,54);ctx.fillStyle='#31505b';ctx.fillRect(1118,354,76,52);ctx.fillStyle='#526d77';ctx.beginPath();ctx.moveTo(1112,354);ctx.lineTo(1157,333);ctx.lineTo(1201,354);ctx.closePath();ctx.fill();ctx.fillStyle='#a9d3db';ctx.fillRect(1127,365,22,16);ctx.fillRect(1160,365,22,16);ctx.fillStyle='#273a40';ctx.fillRect(1152,380,18,26);ctx.fillStyle='#f0b32d';ctx.fillRect(1120,412,73,5);ctx.fillStyle='#fff';ctx.font='bold 10px system-ui';ctx.fillText('SITE OFFICE',1125,348);
+// site boundary posts and striped safety tape
+for(let x=40;x<1360;x+=100){ctx.fillStyle='#5b5e52';ctx.fillRect(x,65,5,34);ctx.fillStyle='#d8ad3b';ctx.fillRect(x+5,72,82,4);ctx.fillStyle='#343b3c';ctx.fillRect(x+5,78,82,3)}
+// traffic cones protect the active delivery area
+for(let i=0;i<6;i++){const cx=pad.x+14+i*((pad.w-28)/5),cy=pad.y+pad.h+12;ctx.fillStyle='#0003';ctx.beginPath();ctx.ellipse(cx,cy+5,10,4,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#e46f2d';ctx.beginPath();ctx.moveTo(cx-8,cy+3);ctx.lineTo(cx,cy-14);ctx.lineTo(cx+8,cy+3);ctx.closePath();ctx.fill();ctx.fillStyle='#f3e6ce';ctx.fillRect(cx-5,cy-3,10,3)}
+// site worker in high-visibility PPE
+ctx.fillStyle='#353b3c';ctx.beginPath();ctx.ellipse(746,395,9,5,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#f1b72c';ctx.fillRect(740,374,12,18);ctx.fillStyle='#e2b68d';ctx.beginPath();ctx.arc(746,369,6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#e5bd36';ctx.fillRect(737,363,18,4);ctx.fillStyle='#30383b';ctx.fillRect(741,391,4,9);ctx.fillRect(748,391,4,9);
 // truck parked
 // player machine
 const m=machines[state.machine];vehicle(state.x,state.y,state.heading,m.color,state.machine===0?'LOADER':state.machine===1?'TRUCK':state.machine===2?'EXCAVATOR':'CRANE',true);
