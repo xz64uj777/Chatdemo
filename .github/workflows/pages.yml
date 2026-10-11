@@ -50,8 +50,10 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-      - name: Set up Pages
+      - name: Set up Pages and enable it if needed
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Stage playable site
         run: |
