@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Reconstruct canonical Field Ops 3D source
-        run: cat field_ops_3d/parts/part-*.bin | gzip -dc > index.html
+        run: test -s index.html && echo "Using canonical Field Ops 3D index.html"
 
       - name: Validate HTML and JavaScript module syntax
         run: |
