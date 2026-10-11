@@ -9,15 +9,15 @@ When the GitHub Pages workflow finishes successfully, the game will be available
 Check [Actions](https://github.com/xz64uj777/Chatdemo/actions) for the latest deployment and JavaScript syntax check. If the live page is not available yet, open `index.html` from this repository or wait for the Pages deployment to finish.
 
 ## What's playable now
-- **Drive on site:** tap an open spot to drive there, or use the directional pad. The camera follows your machine.
+- **Drive on site:** tap an open spot to drive there, or use the directional pad. The camera follows your machine, and every machine has its own parking spot.
 - **Realistic directional controls:** ▲ forward, ▼ reverse, ◀ / ▶ steering; WASD and arrow keys are supported.
 - **Precision mode:** reduces vehicle speed for careful work around the stockpiles and delivery areas.
 - **Wheel loader:** lower the bucket, scoop gravel at the stockpile, carry it and dump in the marked pad.
-- **Articulated dump truck:** load up to two units at once and unload only inside the marked zone.
+- **Articulated dump truck:** load up to two units at once at the stockpile, or have the wheel loader transfer its bucket load into the parked truck. Unload only inside the marked zone.
 - **Excavator:** dig the four marked sections of the utility trench.
 - **Mobile crane:** lower the hook, pick lumber pallets from the supply racks, and place them in the staging zone.
 - **Contracts and rewards:** five jobs, cash, reputation, material purchases and progress tracking.
-- **Save progress:** the browser stores cash, stock, contract progress, vehicle position and current equipment locally.
+- **Save progress:** the browser stores cash, stock, contract progress, each machine's parking position, carried cargo and current equipment locally.
 
 ## Controls
 | Control | Action |
