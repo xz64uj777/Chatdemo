@@ -36,8 +36,6 @@ jobs:
           retention-days: 30
       - name: Set up Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - name: Upload static game
         uses: actions/upload-pages-artifact@v3
         with:
