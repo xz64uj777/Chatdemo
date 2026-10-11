@@ -45,7 +45,7 @@ button:active{transform:translateY(1px);filter:brightness(1.2)}button.primary{ba
 (()=>{'use strict';
 const canvas=document.getElementById('world'),ctx=canvas.getContext('2d');
 const $=id=>document.getElementById(id);
-const state={cash:2400,gravel:0,rep:0,load:0,bucketDown:false,completed:0,job:0,machine:0,x:0,y:0,heading:0,keys:{},last:0,toastTimer:0,delivered:0,targetX:null,targetY:null};
+const state={cash:2400,gravel:0,rep:0,load:0,bucketDown:false,completed:0,job:0,machine:0,x:490,y:520,heading:0,keys:{},last:0,toastTimer:0,delivered:0,targetX:null,targetY:null};
 try{const saved=JSON.parse(localStorage.getItem('buildworks-save-v2')||'null');if(saved&&typeof saved==='object'){for(const k of ['cash','gravel','rep','load','bucketDown','completed','job','machine','x','y','heading','delivered'])if(saved[k]!==undefined)state[k]=saved[k];}}catch(e){}
 function save(){try{localStorage.setItem('buildworks-save-v2',JSON.stringify({cash:state.cash,gravel:state.gravel,rep:state.rep,load:state.load,bucketDown:state.bucketDown,completed:state.completed,job:state.job,machine:state.machine,x:state.x,y:state.y,heading:state.heading,delivered:state.delivered}));}catch(e){}}
 const machines=[
