@@ -1,38 +1,26 @@
-# BuildWorks — Field Ops
+# FIELD OPS 3D — Corps Response
 
-A mobile-first construction-site simulator prototype, built as a single HTML canvas game.
+The playable game in this repository is **Field Ops 3D**, based on the supplied `field_ops_3d_v08.zip` source (Site Crew v0.8). It replaces the old flat BuildWorks canvas prototype as the published game.
 
 ## Play
-When the GitHub Pages workflow finishes successfully, the game will be available at:
-**https://xz64uj777.github.io/Chatdemo/**
 
-Check [Actions](https://github.com/xz64uj777/Chatdemo/actions) for the latest deployment and JavaScript syntax check. If deployment fails with a Pages setup error, enable Pages once: open **Settings → Pages**, choose **GitHub Actions** as the build and deployment source, and save. Then return to Actions and rerun the latest failed workflow. The workflow cannot enable Pages itself with its current repository token. If you only need the source, open `index.html` in this repository; that page shows code rather than running the game.
+After the GitHub Pages workflow succeeds: https://xz64uj777.github.io/Chatdemo/
 
-## What's playable now
-- **Drive on site:** tap an open spot to drive there, or use the directional pad. The camera follows your machine, and every machine has its own parking spot.
-- **Realistic directional controls:** ▲ forward, ▼ reverse, ◀ / ▶ steering; WASD and arrow keys are supported.
-- **Precision mode:** reduces vehicle speed for careful work around the stockpiles and delivery areas.
-- **Wheel loader:** lower the bucket, scoop gravel at the stockpile, carry it and dump in the marked pad.
-- **Articulated dump truck:** load up to two units at once at the stockpile, or have the wheel loader transfer its bucket load into the parked truck. Unload only inside the marked zone.
-- **Excavator:** dig the four marked sections of the utility trench.
-- **Mobile crane:** lower the hook, pick lumber pallets from the supply racks, and place them in the staging zone.
-- **Contracts and rewards:** five jobs, cash, reputation, material purchases and progress tracking.
-- **Save progress:** the browser stores cash, stock, contract progress, each machine's parking position, carried cargo and current equipment locally.
+The game is a browser-first Three.js construction and field-operations simulator. It includes five machines, a multi-contract campaign, on-site material handling, equipment-specific guidance, touch controls, and local save progress.
 
-## Controls
-| Control | Action |
-| --- | --- |
-| Tap an open site location | Drive to that location |
-| ▲ / ▼ | Drive forward / reverse |
-| ◀ / ▶ | Steer |
-| Lower / Raise bucket or hook | Prepare the loader or crane |
-| Scoop / Load / Pick pallet | Load the current machine near its supply point |
-| Dump / Unload / Place pallet | Deliver in the highlighted zone |
-| Work | Dig trench sections or perform the active contract action |
-| Machine | Cycle between loader, truck, excavator and crane |
-| Materials | Buy gravel |
-| Contracts | View current and locked work orders |
-| Tutorial | Open the in-game field manual |
+## Controls and first steps
 
-## Prototype status
-This is an actively evolving prototype, not a finished 3D simulator. Current priorities are better equipment-specific animations, more tactile controls, more job variety, more convincing loading/hauling, and testing on real phones. No install is needed to play the web version.
+- Use the on-screen joystick to drive and steer; the camera follows the active machine.
+- Use the equipment buttons to operate the bucket, hook, excavator tools, and other machine functions.
+- Follow the job panel and waypoint marker to find the contract board, supply areas, and work zones.
+- Open the in-game guide for machine-specific instructions.
+- Progress is saved locally in the browser on that device.
+
+## Source and deployment
+
+- `field_ops_3d/parts/` contains the canonical compressed v0.8 source in ordered binary parts.
+- `index.html` is a browser fallback loader; the GitHub Actions workflow reconstructs the original HTML, checks the JavaScript module syntax, and deploys the playable file to GitHub Pages.
+- Three.js is loaded from jsDelivr, so an internet connection is required when starting the game.
+- The previous BuildWorks prototype remains in Git history and can be restored if needed.
+
+This is an evolving prototype. A successful syntax check does not replace real-device gameplay testing.
