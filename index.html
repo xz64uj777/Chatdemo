@@ -95,6 +95,38 @@ if(def.id==='CRANE'){box(0x565c60,0,2.15,-.4,2.7,.65,3,g);craneUpper=new THREE.G
  if(def.id==='EXCAVATOR'){excavatorUpper=new THREE.Group();excavatorUpper.position.set(0,1.35,.15);g.add(excavatorUpper);box(0x343a3a,0,1.45,.15,2.7,.7,3,excavatorUpper);box(0x252e32,.35,2.35,-.55,1.8,1.25,1.55,excavatorUpper);box(0x8eb7c6,.35,2.38,-1.34,1.38,.92,.12,excavatorUpper);excavatorBoom=new THREE.Group();excavatorBoom.position.set(0,2.05,-.65);excavatorUpper.add(excavatorBoom);box(0xc38a20,0,0,-1.95,.72,.72,4.1,excavatorBoom);box(0xe0a52c,0,.18,-1.85,.34,.28,3.5,excavatorBoom);excavatorStick=new THREE.Group();excavatorStick.position.set(0,0,-3.85);excavatorBoom.add(excavatorStick);box(0xc38a20,0,0,-1.55,.48,.48,3.3,excavatorStick);box(0x6b7171,0,-.12,-1.45,.18,.18,2.8,excavatorStick);excavatorBucket=new THREE.Group();excavatorBucket.position.set(0,0,-3.05);excavatorStick.add(excavatorBucket);box(0x858b8b,0,-.15,-.4,1.02,.65,1.05,excavatorBucket);box(0x6d7474,0,-.5,-.83,.94,.16,.6,excavatorBucket);for(const side of [-1,1])box(0x9da3a2,side*.47,-.23,-.28,.12,.56,.72,excavatorBucket);for(let tooth=-.3;tooth<=.31;tooth+=.2)box(0x4c5252,tooth,-.55,-1.05,.12,.14,.32,excavatorBucket);implement=excavatorBucket;}
  // Extra machine-specific mechanical detail so equipment silhouettes read clearly at phone scale.
  if(def.id==='DOZER'){for(let side of [-1,1]){box(0x4b4b47,side*2.18,.82,0,.18,1.25,5.8,g);for(let z=-2.2;z<=2.2;z+=.9)box(0x777b78,side*2.29,.42,z,.12,.12,.55,g)}}
+ if(def.id==='DOZER'){
+   // D7 detail pass: reinforced cab, track rollers, service grille, exhaust and blade hydraulics.
+   box(0x343b3d,0,3.18,-.38,2.42,.22,2.12,g);
+   for(const side of [-1,1]){
+     box(0x20282b,side*1.08,2.82,-.42,.14,1.38,1.72,g);
+     box(0x20282b,side*1.08,3.18,-.42,.14,.16,1.9,g);
+     box(0x20282b,side*1.08,2.83,-1.28,.14,.82,.14,g);
+     box(0x20282b,side*1.08,2.83,.48,.14,.82,.14,g);
+     box(0x718d96,side*.62,2.86,-1.31,.68,.62,.07,g);
+     box(0x718d96,side*1.09,2.82,-.38,.055,.72,1.15,g);
+     for(let z=-1.95;z<=1.96;z+=.78){
+       const roller=mesh(new THREE.CylinderGeometry(.31,.31,.16,16),mat(0x777e7e,.8,.3),side*2.34,.77,z,g);roller.rotation.z=Math.PI/2;
+       const hub=mesh(new THREE.CylinderGeometry(.105,.105,.18,12),mat(0x343a3b,.75,.35),side*2.35,.77,z,g);hub.rotation.z=Math.PI/2;
+     }
+     for(const z of [-2.38,2.38]){
+       const sprocket=mesh(new THREE.CylinderGeometry(.43,.43,.18,18),mat(0x555d5d,.8,.32),side*2.34,.78,z,g);sprocket.rotation.z=Math.PI/2;
+       const hub=mesh(new THREE.CylinderGeometry(.19,.19,.2,14),mat(0x92999a,.7,.3),side*2.35,.78,z,g);hub.rotation.z=Math.PI/2;
+     }
+     const cyl=mesh(new THREE.CylinderGeometry(.095,.12,1.05,10),mat(0x656e70,.45,.5),side*1.55,1.53,-2.42,g);cyl.rotation.x=-.36;
+     const rod=mesh(new THREE.CylinderGeometry(.045,.045,.58,10),mat(0xb9c1c1,.35,.6),side*1.55,1.8,-2.62,g);rod.rotation.x=-.36;
+     box(0x303638,side*1.78,1.95,-2.48,.2,.2,.55,g);
+     box(0xffd56a,side*1.35,2.04,-1.78,.3,.2,.16,g);
+     box(0x9ba2a2,side*2.45,1.13,-3.27,.22,.7,.82,g);
+   }
+   const exhaust=mesh(new THREE.CylinderGeometry(.13,.16,.95,12),mat(0x42494a,.75,.35),-.72,2.35,.92,g);
+   exhaust.rotation.x=.05;
+   mesh(new THREE.CylinderGeometry(.19,.19,.13,12),mat(0x202527,.8,.25),-.72,2.84,.92,g);
+   box(0x4c5557,0,1.96,-2.07,1.18,.52,.18,g);
+   for(let y=1.78;y<=2.15;y+=.12)box(0x20282b,0,y,-2.18,.92,.045,.045,g);
+   box(0x1f2729,0,1.72,-2.22,.85,.12,.08,g);
+   for(const x of [-1.18,1.18])box(0xffd66d,x,2.08,-1.88,.24,.2,.16,g);
+ }
  if(def.id==='LOADER'){box(0xd49a22,0,1.72,1.05,3.55,1.05,3.25,g);box(0xb47d16,0,1.85,2.35,3.15,.72,1.5,g);box(0x252b2e,.45,2.78,-.2,2.05,1.55,1.85,g);box(0x8eb7c6,.45,2.82,-1.12,1.7,1.05,.12,g);box(0x8eb7c6,1.46,2.65,-.2,.12,1.0,1.55,g);box(0x8eb7c6,-.56,2.65,-.2,.12,1.0,1.55,g);box(0xd49a22,0,1.55,-1.05,3.2,.7,1.0,g);for(const side of [-1,1]){box(0x252b2e,side*1.55,1.85,1.0,.14,.55,1.7,g);box(0xb0b6b6,side*1.72,2.15,1.05,.08,.16,.8,g)}}
  if(def.id==='CRANE'){for(const side of [-1,1]){box(0x22282b,side*1.65,1.1,.9,.28,.3,2.3,g);box(0x42494b,side*2.45,.18,.9,.18,.18,1.4,g)}}
  if(def.id==='EXCAVATOR'||def.id==='DOZER'){for(const side of [-1,1]){const tg=new THREE.Group();tg.position.set(side*2.12,.76,.05);g.add(tg);const shape=new THREE.Shape();shape.moveTo(-2.5,-.43);shape.quadraticCurveTo(-2.82,-.43,-2.82,-.12);shape.lineTo(-2.82,.12);shape.quadraticCurveTo(-2.82,.43,-2.5,.43);shape.lineTo(2.5,.43);shape.quadraticCurveTo(2.82,.43,2.82,.12);shape.lineTo(2.82,-.12);shape.quadraticCurveTo(2.82,-.43,2.5,-.43);shape.closePath();const beltGeo=new THREE.ExtrudeGeometry(shape,{depth:.42,bevelEnabled:true,bevelSegments:2,steps:1,bevelSize:.045,bevelThickness:.045});beltGeo.rotateY(Math.PI/2);beltGeo.translate(-.21,0,0);mesh(beltGeo,mat(0x222627,.85,.3),0,0,0,tg);for(let z=-2.25;z<=2.26;z+=.42){box(0x777d7b,0,.445,z,.43,.09,.28,tg);box(0x555c5b,0,-.445,z,.43,.09,.28,tg)}for(const z of [-2.7,2.7])for(let y=-.2;y<=.21;y+=.2)box(0x666d6b,0,y,z,.43,.09,.24,tg);for(const z of [-2.25,2.25]){const idler=mesh(new THREE.CylinderGeometry(.39,.39,.5,18),mat(0x3e4545,.8,.3),0,-.02,z,tg);idler.rotation.z=Math.PI/2}for(let z=-1.75;z<=1.76;z+=.7){const roller=mesh(new THREE.CylinderGeometry(.23,.23,.54,14),mat(0x59605f,.7,.28),0,-.12,z,tg);roller.rotation.z=Math.PI/2;mesh(new THREE.CylinderGeometry(.1,.1,.56,12),mat(0x242a2a),0,-.12,z,tg).rotation.z=Math.PI/2}}}
