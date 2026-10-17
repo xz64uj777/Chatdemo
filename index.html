@@ -229,4 +229,22 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
  else if(m.workAnim>0){m.workAnim=Math.max(0,m.workAnim-dt*1.35);const pulse=Math.sin((1-m.workAnim)*Math.PI*3);if(m.def.id==='DOZER'&&m.implement)m.implement.position.y=1.25+.2*pulse;/* Loader bucket is attached to bucketPivot; never animate its local Y independently or it jumps out of the lift arms. */else if(m.def.id==='CRANE'&&m.implement)m.implement.rotation.z=.08*pulse;if(m.workAnim===0){if(m.def.id==='DOZER'&&m.implement)m.implement.position.y=1.25;/* Keep the loader bucket's fixed local mount; bucketPivot controls its world height. */if(m.def.id==='CRANE'&&m.implement)m.implement.rotation.z=0;}}
  updateMaterialFlights(dt);boardBeacon.position.y=6.2+Math.sin(elapsed*2.5)*.35;const boardDist=Math.round(Math.hypot(g.position.x-BOARD.x,g.position.z-BOARD.z));$('waypoint').textContent=contractComplete&&jobNo===1?`🟡 CONTRACT BOARD · ${boardDist} m · beside fuel station`:(near(BOARD.x,BOARD.z,16)&&contractComplete?'🟡 PRESS LOAD / USE TO ACCEPT NEXT JOB':`🟡 BOARD ${boardDist} m · beside fuel station`);const target=boardView?new THREE.Vector3(BOARD.x,2.2,BOARD.z):g.position.clone().setY(g.position.y+2.3);const behind=boardView?new THREE.Vector3(0,5.5,10):new THREE.Vector3(0,7.3+cameraPitch,cameraDistance).applyAxisAngle(new THREE.Vector3(0,1,0),g.rotation.y+cameraYaw);camera.position.lerp(target.clone().add(behind),.085);camera.lookAt(target.x,target.y+.2,target.z);renderer.render(scene,camera);$('fuel').textContent=Math.floor(fuel)+'%';$('load').textContent=m.cargo.toFixed(1)+' t';$('speed').textContent=`${Math.round(Math.abs(speed)*3.6)} km/h${speed<-.2?' R':speed>.2?' F':' · 0'}`;drawMap();if(elapsed-lastSave>4){lastSave=elapsed;saveGame(true)}}
 const restored=loadGame();updateWorkVisuals();machines.forEach(syncCargo);setActive(active);hud();refreshGuide();updateControlVisibility();if(!restored)$('machineGuide').classList.add('open');notice(restored?'Welcome back — your site has been restored.':'Field Ops 3D v0.8: loader lift/curl controls and five contracts.');animate();addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
-</script></body></html>
+</script>
+<script>
+/* Make the machine selector discoverable on first load. */
+(function(){
+  const showMachineMenu = () => {
+    const picker = document.getElementById('machinePicker');
+    const hideButton = document.getElementById('panelHide');
+    document.body.classList.remove('panels-hidden');
+    if (picker) picker.classList.add('open');
+    if (hideButton) hideButton.textContent = '− HIDE MENUS';
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', showMachineMenu, { once: true });
+  } else {
+    showMachineMenu();
+  }
+})();
+</script>
+</body></html>
