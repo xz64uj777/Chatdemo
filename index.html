@@ -231,19 +231,23 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
 const restored=loadGame();updateWorkVisuals();machines.forEach(syncCargo);setActive(active);hud();refreshGuide();updateControlVisibility();if(!restored)$('machineGuide').classList.add('open');notice(restored?'Welcome back — your site has been restored.':'Field Ops 3D v0.8: loader lift/curl controls and five contracts.');animate();addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
 </script>
 <script>
-/* Make the machine selector discoverable on first load. */
+/* Keep menus tucked away on startup so they do not obstruct the game view. */
 (function(){
-  const showMachineMenu = () => {
+  const hideMenusOnStart = () => {
     const picker = document.getElementById('machinePicker');
+    const options = document.getElementById('optionsMenu');
+    const guide = document.getElementById('machineGuide');
     const hideButton = document.getElementById('panelHide');
+    if (picker) picker.classList.remove('open');
+    if (options) options.classList.remove('open');
+    if (guide) guide.classList.remove('open');
     document.body.classList.remove('panels-hidden');
-    if (picker) picker.classList.add('open');
     if (hideButton) hideButton.textContent = '− HIDE MENUS';
   };
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', showMachineMenu, { once: true });
+    document.addEventListener('DOMContentLoaded', hideMenusOnStart, { once: true });
   } else {
-    showMachineMenu();
+    hideMenusOnStart();
   }
 })();
 </script>
