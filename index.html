@@ -77,20 +77,28 @@ function makeMachine(def){const g=new THREE.Group();const body=box(def.color,0,1
    // Lift arms and a hinged, open-top bucket. Gravel is parented to the bucket so it moves with the tool.
    for(const side of [-1,1]){const armPivot=new THREE.Group();armPivot.position.set(side*1.38,1.9,-1.15);g.add(armPivot);const arm=box(0x343b3d,0,0,-1.4,.24,.30,2.8,armPivot);arm.rotation.x=-.12;box(0x596165,0,-.045,-1.4,.29,.15,2.62,armPivot);const armPin=mesh(new THREE.CylinderGeometry(.17,.17,.14,16),mat(0x6e777b,.48,.35),side*1.38,1.9,-1.15,g);armPin.rotation.z=Math.PI/2;liftArms.push(armPivot)}
    bucketPivot=new THREE.Group();bucketPivot.position.set(0,1.9,-2.9);g.add(bucketPivot);for(const side of [-1,1]){const link=box(0x343b3d,side*1.22,-.02,.1,.16,.16,1.05,bucketPivot);link.rotation.x=-.18;const pin=mesh(new THREE.CylinderGeometry(.16,.16,.12,16),mat(0x9ba3a5,.5,.3),side*1.34,-.02,-.05,bucketPivot);pin.rotation.z=Math.PI/2;}implement=new THREE.Group();implement.position.set(0,-.12,-.42);bucketPivot.add(implement);
-   // Redesigned wheel-loader bucket: deeper scoop profile, taller rear wall, broad floor, reinforced side cheeks and cutting edge.
-   box(0x737d80,0,-.40,-1.08,3.28,.22,2.24,implement);
-   box(0x929b9d,0,-.01,-.02,3.28,.96,.24,implement);
-   box(0x657074,0,-.36,-2.18,3.32,.24,.22,implement);
+   // Proper wheel-loader scoop: curved floor/back shell, tall side cheeks, and a full-width cutting edge.
+   // Use a continuous curved steel shell rather than separate rectangular slabs.
+   const bucketSteel=mat(0x7c878a,.62,.28);bucketSteel.side=THREE.DoubleSide;
+   const profile=[[-.50,-2.18],[-.47,-1.88],[-.39,-1.55],[-.27,-1.24],[-.08,-.96],[.17,-.73],[.40,-.55],[.54,-.43]];
+   const shellVerts=[],shellIdx=[],halfWidth=1.53,n=profile.length;
+   for(const x of [-halfWidth,halfWidth])for(const p of profile)shellVerts.push(x,p[0],p[1]);
+   for(let k=0;k<n-1;k++)shellIdx.push(k,k+1,n+k+1,k,n+k+1,n+k);
+   const shellGeo=new THREE.BufferGeometry();shellGeo.setAttribute('position',new THREE.Float32BufferAttribute(shellVerts,3));shellGeo.setIndex(shellIdx);shellGeo.computeVertexNormals();
+   mesh(shellGeo,bucketSteel,0,0,0,implement);
+   // Cheek plates trace the scoop profile and contain material as the bucket curls.
    for(const side of [-1,1]){
-     const cheek=mesh(new THREE.BufferGeometry(),mat(0x7f898b,.58,.3),0,0,0,implement);
-     const verts=[side*1.48,-.32,-2.18, side*1.48,.48,-.42, side*1.48,.50,.10, side*1.48,-.32,.10,
-                  side*1.64,-.32,-2.18, side*1.64,.48,-.42, side*1.64,.50,.10, side*1.64,-.32,.10]
-     const idx=[0,1,2,0,2,3,4,6,5,4,7,6,0,4,5,0,5,1,1,5,6,1,6,2,2,6,7,2,7,3,3,7,4,3,4,0];
-     cheek.geometry.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));cheek.geometry.setIndex(idx);cheek.geometry.computeVertexNormals();
-     for(let tooth=-1.3;tooth<=1.3;tooth+=.43)box(0x4a5153,tooth,-.51,-2.22,.22,.13,.38,implement);
-     box(0xb0b6b6,side*1.56,-.06,-1.05,.07,.12,1.55,implement);
+     const x=side*1.54, pts=[[-.50,-2.18],[-.47,-1.88],[-.39,-1.55],[-.27,-1.24],[-.08,-.96],[.17,-.73],[.40,-.55],[.54,-.43],[.55,.05],[-.50,.05]];
+     const verts=[];for(const p of pts)verts.push(x,p[0],p[1]);
+     const tris=[0,1,2,0,2,3,0,3,4,0,4,5,0,5,6,0,6,7,0,7,8,0,8,9];
+     const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));geo.setIndex(tris);geo.computeVertexNormals();
+     const plate=mesh(geo,mat(0x899396,.58,.28),0,0,0,implement);plate.material.side=THREE.DoubleSide;
+     box(0x596367,side*1.57,-.12,-1.15,.10,.12,1.05,implement);
    }
-   box(0x535d60,0,-.14,-.42,2.75,.12,1.25,implement);
+   // Reinforced lip and short teeth span the whole bucket width.
+   box(0x535d60,0,-.49,-2.18,3.22,.16,.24,implement);
+   box(0xb4babc,0,-.43,-2.15,3.18,.07,.14,implement);
+   for(let tooth=-1.38;tooth<=1.38;tooth+=.46)box(0x41494c,tooth,-.54,-2.25,.22,.12,.26,implement);
    cargoVisual=new THREE.Group();implement.add(cargoVisual);for(let ci=0;ci<16;ci++){const rock=mesh(new THREE.DodecahedronGeometry(.16+(ci%3)*.055,0),mat([0x776b57,0x9b8b70,0x625c51,0xb2a184][ci%4]),((ci%4)-1.5)*.48,-.2+(ci%2)*.08,-.9+Math.floor(ci/4)*.34,cargoVisual);rock.rotation.set(ci*.4,ci*.8,ci*.3)}cargoVisual.visible=false
  }
  if(def.id==='TRUCK'){
