@@ -74,23 +74,21 @@ function makeMachine(def){const g=new THREE.Group();const body=box(def.color,0,1
  const wheels=[],steerWheels=[],liftArms=[];for(let side of [-1,1]){if(def.id==='DOZER'||def.id==='EXCAVATOR'){box(0x282b2c,side*2.05,.8,0,.65,1.15,5.7,g)}else{for(let z of [-1.8,1.8]){const axle=new THREE.Group();axle.position.set(side*2.1,.75,z);g.add(axle);const radius=def.id==='TRUCK'?.72:def.id==='CRANE'?.78:.72;const w=mesh(new THREE.CylinderGeometry(radius,radius,.55,20),mat(0x242628),0,0,0,axle);w.rotation.z=Math.PI/2;wheels.push(w);const hub=mesh(new THREE.CylinderGeometry(radius*.42,radius*.42,.57,16),mat(0xa9afb0,.55,.25),0,0,0,axle);hub.rotation.z=Math.PI/2;wheels.push(hub);if(z<0)steerWheels.push(axle)}}}
  let implement=null;let bucketPivot=null;let cargoVisual=null;let tailgate=null;let craneUpper=null;let craneBoom=null;let craneExtension=null;let craneCable=null;let craneRope=null;let craneHook=null;let excavatorUpper=null;let excavatorBoom=null;let excavatorStick=null;let excavatorBucket=null;if(def.id==='DOZER'){box(0xd49a22,0,1.55,.75,3.45,1.05,3.35,g);box(0x9f7316,0,1.65,2.35,3.15,.72,1.55,g);box(0x252b2e,.38,2.55,-.25,2.05,1.28,1.8,g);box(0x8eb7c6,.38,2.58,-1.18,1.65,.92,.12,g);box(0x8eb7c6,1.37,2.48,-.2,.12,.78,1.35,g);box(0x8eb7c6,-.61,2.48,-.2,.12,.78,1.35,g);box(0xd49a22,0,1.62,-1.35,3.05,.72,.95,g);/* Front loader geometry is built in the dedicated linkage block below; avoid duplicate legacy bucket and arms. */}
  if(def.id==='LOADER'){
-   // Compact articulated wheel-loader front end: twin box-section lift arms, cross brace,
-   // visible hydraulic rams, pinned curl links and a true open bucket (never forklift forks).
-   const armGold=mat(0xd6a126,.48,.3), darkSteel=mat(0x30383c,.55,.32), ramChrome=mat(0xb6c0c3,.32,.62);
+   // Heavy wheel-loader linkage: two solid yellow arms with steel pins and restrained hydraulics.
+   const darkSteel=mat(0x30383c,.62,.22), ramChrome=mat(0xb6c0c3,.4,.48), pinSteel=mat(0x626c70,.55,.28);
    for(const side of [-1,1]){
      const armPivot=new THREE.Group();armPivot.position.set(side*1.38,1.68,-1.15);g.add(armPivot);
      const arm=box(0xd49a22,0,0,-1.025,.48,.55,2.05,armPivot);arm.rotation.x=-.06;
-     // Reinforced arm cheek and visible pin boss at the bucket end.
-     box(0xb17d1d,side*.015,.01,-1.02,.51,.59,1.72,armPivot);
-     const endPin=mesh(new THREE.CylinderGeometry(.19,.19,.22,20),mat(0x7e898d,.45,.4),side*1.38,0,-2.05,armPivot);endPin.rotation.z=Math.PI/2;
-     const shoulder=mesh(new THREE.CylinderGeometry(.25,.25,.22,20),mat(0x626c70,.48,.35),side*1.38,1.68,-1.15,g);shoulder.rotation.z=Math.PI/2;
-     // Hydraulic lift ram body and polished rod, mounted along each arm.
-     const ram=mesh(new THREE.CylinderGeometry(.105,.13,1.18,12),darkSteel,side*.92,1.22,-1.82,g);ram.rotation.x=-.18;
-     const rod=mesh(new THREE.CylinderGeometry(.055,.055,.72,12),ramChrome,side*.92,1.56,-2.25,g);rod.rotation.x=-.18;
+     // Rounded-looking steel pivot bosses sit on the arm itself, not out in space.
+     const endPin=mesh(new THREE.CylinderGeometry(.17,.17,.18,20),pinSteel,0,0,-2.02,armPivot);endPin.rotation.z=Math.PI/2;
+     const shoulder=mesh(new THREE.CylinderGeometry(.22,.22,.18,20),pinSteel,0,0,0,armPivot);shoulder.rotation.z=Math.PI/2;
+     // Dark hydraulic cylinder with a short chrome rod; kept tight to the yellow arm.
+     const ram=mesh(new THREE.CylinderGeometry(.095,.11,.95,12),darkSteel,side*.93,.18,-.94,armPivot);ram.rotation.x=-.16;
+     const rod=mesh(new THREE.CylinderGeometry(.045,.045,.48,12),ramChrome,side*.93,.38,-1.48,armPivot);rod.rotation.x=-.16;
      liftArms.push(armPivot);
    }
-   // Cross tube makes the two arms read as one loader linkage.
-   box(0x9a741f,0,1.75,-2.10,2.15,.22,.28,g);
+   // A low-profile cross tube is behind the bucket, between the lift arms.
+   box(0x9a741f,0,1.75,-2.10,2.15,.18,.22,g);
    bucketPivot=new THREE.Group();bucketPivot.position.set(0,1.68,-3.2);g.add(bucketPivot);
    for(const side of [-1,1]){const pin=mesh(new THREE.CylinderGeometry(.105,.105,.16,20),mat(0xaab2b4,.4,.55),side*1.38,0,-.04,bucketPivot);pin.rotation.z=Math.PI/2;}
    // Wide, deep general-purpose bucket with curved back, substantial side cheeks and a reinforced cutting edge.
