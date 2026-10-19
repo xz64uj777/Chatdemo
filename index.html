@@ -9,12 +9,13 @@
 #materialGuide{display:none!important}
 #leftPanelTools{top:10px;left:198px;flex-wrap:wrap;max-width:min(380px,42vw);z-index:8}
 #job{top:108px}
-#guideBtn{top:118px}
+#guideBtn{top:118px;right:158px}
+#minimap{top:112px!important;right:8px;z-index:6}
 @media(max-width:520px){
   #leftPanelTools{top:98px!important;left:7px!important;max-width:94vw}
   #job{top:142px}
-  #guideBtn{top:98px}
-  #minimap{top:268px}
+  #guideBtn{top:98px;right:96px}
+  #minimap{top:136px!important;right:7px;width:76px;height:76px}
 }
 @media(min-width:850px){
   body.dual-joystick-layout #controls{grid-template-columns:124px minmax(0,460px) 124px;justify-content:space-between}
@@ -27,7 +28,7 @@
 
 <div id="job" class="panel"><strong id="jobTitle">JOB 01 · ACCESS ROAD</strong><br><span id="objective">Haul aggregate to the marked road section.</span><div style="height:7px;background:#ffffff20;border-radius:8px;margin:8px 0 5px;overflow:hidden"><div id="bar" style="height:100%;width:0;background:#e5a82c;transition:width .2s"></div></div><b id="progress">0 / 100 work units</b><br><span id="stage" class="muted">Stage 1 of 3 · Deliver aggregate</span><br><span id="jobTip" class="muted">Tip: drive close to the pile before loading.</span></div>
 <div id="waypoint">🟡 CONTRACT BOARD · follow the marker</div><div id="leftPanelTools"><button id="panelSide" type="button">⇄ MOVE RIGHT</button><button id="panelHide" type="button">− HIDE MENUS</button><button id="machinePickerToggle" type="button">🚜 MACHINES ▾</button><button id="optionsToggle" type="button">⚙ OPTIONS</button></div><section id="optionsMenu"><div class="optionRow"><strong>CONTROL OPTIONS</strong><button id="optionsClose" type="button">CLOSE</button></div><label for="moveSensitivity">Touch movement sensitivity <span id="moveSensitivityValue">100%</span></label><input id="moveSensitivity" type="range" min="50" max="150" value="100" step="5"><label for="throttleSensitivity">Truck throttle response <span id="throttleSensitivityValue">100%</span></label><input id="throttleSensitivity" type="range" min="50" max="150" value="100" step="5"><label for="boomSensitivity">Boom / tool sensitivity <span id="boomSensitivityValue">100%</span></label><input id="boomSensitivity" type="range" min="50" max="175" value="100" step="5"><label for="soundVolume">Machine sound <span id="soundVolumeValue">72%</span></label><input id="soundVolume" type="range" min="0" max="100" value="72" step="5"><div class="optionRow"><span style="font-size:11px">Engines, hydraulics, alarms</span><button id="soundMute" type="button">SOUND ON</button></div><div style="font-size:10px;color:#c4d0d2;margin-top:8px">Changes save on this device. Tap the site or press a key to start audio. Horn is H. Horizontal camera movement is inverted.</div></section><section id="machinePicker" aria-label="Choose machine"><strong>CHOOSE MACHINE</strong><button type="button" data-machine="0">D7 DOZER</button><button type="button" data-machine="1">WHEEL LOADER</button><button type="button" data-machine="2">DUMP TRUCK</button><button type="button" data-machine="3">MOBILE CRANE</button><button type="button" data-machine="4">EXCAVATOR</button><button type="button" data-machine="5">ASPHALT PAVER</button></section><div id="materialGuide">MATERIALS: Tan pile is rock base, not pavement. Dump it on the tan gap, then grade with the D7. The black pile is hot-mix asphalt. Only the paver lays that, and the lane turns black behind the screed. Truck: bed up, then GATE OPEN.</div><button id="guideBtn" type="button">📘 MACHINE GUIDE</button><section id="machineGuide" aria-live="polite"><button id="machineGuideClose" type="button">CLOSE</button><strong id="guideTitle">DUMP TRUCK</strong><div id="guideText"></div></section><div id="notice" role="status" aria-live="polite"></div><div id="crosshair"></div><canvas id="minimap" width="140" height="140" aria-label="Site map"></canvas>
-<div id="controls"><div class="dpad" id="joystick" aria-label="Driving joystick on left"><div class="stick" id="stick"></div></div><div id="toolJoystickWrap"><div class="toolJoyLabel">BOOM / BUCKET</div><div class="tooljoy" id="toolJoystick" aria-label="Excavator right joystick"><div class="toolstick" id="toolStick"></div></div><div class="toolJoyLabel">RIGHT JOYSTICK</div></div><div class="actions"><button id="switch" class="primary">🚜 MACHINE</button><button id="boardGo" class="primary">GO TO BOARD</button><button id="restart">↻ RESTART</button><button id="interact">LOAD / USE</button><button id="gateRelease" class="primary" style="display:none">GATE OPEN / CLOSE</button><button id="work">WORK</button><button id="refuel" style="display:none">FUEL</button><button id="throttle">▲ DRIVE</button><button id="brake">▼ BRAKE / REV</button><button id="toolUp">TOOL UP</button><button id="toolDown">TOOL DOWN</button><button id="toolCurl">BUCKET CURL</button><button id="curlBack">CURL BACK</button><button id="dumpBucket">DUMP BUCKET</button><button id="boomLeft">SLEW ◀</button><button id="boomRight">SLEW ▶</button><button id="boomOut">BOOM OUT</button><button id="boomIn">BOOM IN</button><button id="steerLeft">◀ STEER</button><button id="steerRight">STEER ▶</button><button id="park">PARK</button><button id="lights">LIGHTS OFF</button><button id="horn">HORN</button></div></div>
+<div id="controls"><div class="dpad" id="joystick" aria-label="Driving joystick on left"><div class="stick" id="stick"></div></div><div id="toolJoystickWrap"><div class="toolJoyLabel">BOOM / BUCKET</div><div class="tooljoy" id="toolJoystick" aria-label="Excavator right joystick"><div class="toolstick" id="toolStick"></div></div><div class="toolJoyLabel">RIGHT JOYSTICK</div></div><div class="actions"><button id="switch" class="primary">🚜 MACHINE</button><button id="boardGo" class="primary">GO TO BOARD</button><button id="restart">↻ RESTART</button><button id="interact">LOAD / USE</button><button id="gateRelease" class="primary" style="display:none">GATE OPEN / CLOSE</button><button id="work">WORK</button><button id="refuel" style="display:none">FUEL</button><button id="throttle">▲ DRIVE</button><button id="brake">▼ BRAKE / REV</button><button id="toolUp">TOOL UP</button><button id="toolDown">TOOL DOWN</button><button id="toolCurl">BUCKET CURL</button><button id="curlBack">CURL BACK</button><button id="dumpBucket">DUMP BUCKET</button><button id="boomLeft">SLEW ◀</button><button id="boomRight">SLEW ▶</button><button id="boomOut">BOOM OUT</button><button id="boomIn">BOOM IN</button><button id="steerLeft">◀ STEER</button><button id="steerRight">STEER ▶</button><button id="park">PARK</button><button id="lights">LIGHTS ON</button><button id="horn">HORN</button></div></div>
 <div id="bottom"><b>Joystick</b> drive / operate · Excavator & crane: PARK ON locks chassis so both sticks work tools · loader dirt transfers to truck, truck tips at green road · <b>MACHINE</b> switch · <b>LOAD / USE</b> load/transfer/dump · <b>WORK</b> crane lifts / paving only<br><span id="toastline">Park the dump truck in the yellow load lane, or scoop with the wheel loader. Deliver to the marked site. The crane has to set a girder before a deck appears.</span></div>
 <script type="module">
 
@@ -572,7 +573,7 @@ function marker(x, z, color, label) {
     new THREE.RingGeometry(3.8, 4.2, 32),
     mat(color),
     x,
-    0.13,
+    0.52,
     z,
   );
   ring.rotation.x = -Math.PI / 2;
@@ -590,7 +591,7 @@ for (let i = -2; i <= 2; i++) box(0x2b2416, 8 + i * 2.4, 0.11, 12, 0.34, 0.03, 8
 box(0xe7c56a, 1.2, 3.1, 12, 0.22, 5.4, 0.22);
 box(0xf0c84a, 2.5, 5.2, 12, 2.6, 1.3, 0.14);
 function moveMarker(m, x, z) {
-  m.ring.position.set(x, 0.13, z);
+  m.ring.position.set(x, 0.52, z);
   m.post.position.set(x, 1.2, z);
   m.flag.position.set(x + 0.85, 2, z);
 }
@@ -735,7 +736,7 @@ function makeMachine(def) {
   for (let side of [-1, 1]) {
     if (def.id === "DOZER" || def.id === "EXCAVATOR") {
       box(0x282b2c, side * 2.05, 0.8, 0, 0.65, 1.15, 5.7, g);
-    } else {
+    } else if (def.id !== "PAVER") {
       for (let z of [-1.8, 1.8]) {
         const axle = new THREE.Group();
         axle.position.set(side * 2.1, 0.75, z);
@@ -1299,31 +1300,81 @@ function makeMachine(def) {
     }
   }
   if (def.id === "PAVER") {
-    box(0xe6b325, 0, 0.95, 0.15, 2.5, 0.55, 4.4, g);
-    box(0x2a2e30, 0, 1.35, -1.45, 2.15, 0.85, 1.7, g);
-    box(0x3c4144, 0, 1.85, -1.45, 1.85, 0.16, 1.45, g);
-    hopperFill = box(0x141414, 0, 1.42, -1.45, 1.55, 0.55, 1.2, g);
-    hopperFill.visible = false;
-    box(0xd7a21e, 0.15, 1.85, 0.35, 1.35, 1.15, 1.15, g);
-    box(0x8eb7c6, 0.15, 1.95, -0.2, 1.05, 0.62, 0.08, g);
-    box(0x4a4030, -0.95, 1.15, 0.7, 0.35, 0.7, 0.7, g);
-    box(0x2e3336, 0.85, 1.55, 0.85, 0.28, 0.7, 0.55, g);
-    implement = new THREE.Group();
-    implement.position.set(0, 0.86, 2.55);
-    g.add(implement);
-    box(0x1a1c1d, 0, 0, 0, 3.55, 0.28, 0.42, implement);
-    box(0xc98416, 0, 0.22, 0.05, 3.7, 0.1, 0.62, implement);
     for (const side of [-1, 1]) {
-      box(0x3a3f42, side * 1.72, 0.15, 0, 0.16, 0.7, 0.7, implement);
-      box(0xe6b325, side * 1.15, 0.55, -0.15, 0.12, 0.55, 0.9, g);
+      const tg = new THREE.Group();
+      tg.position.set(side * 1.48, 0.52, 0.05);
+      g.add(tg);
+      box(0x1b1e1f, 0, 0, 0, 0.46, 0.78, 5.15, tg);
+      for (let z = -2.35; z <= 2.36; z += 0.36) {
+        box(0x4a5152, 0, 0.38, z, 0.5, 0.07, 0.2, tg);
+        box(0x3a4041, 0, -0.38, z, 0.5, 0.07, 0.2, tg);
+      }
+      for (const z of [-2.2, 2.2]) {
+        const idler = mesh(
+          new THREE.CylinderGeometry(0.34, 0.34, 0.4, 14),
+          mat(0x2a3032),
+          0,
+          0,
+          z,
+          tg,
+        );
+        idler.rotation.z = Math.PI / 2;
+      }
+      for (let z = -1.45; z <= 1.46; z += 0.72) {
+        const roller = mesh(
+          new THREE.CylinderGeometry(0.16, 0.16, 0.36, 10),
+          mat(0x596061),
+          0,
+          -0.18,
+          z,
+          tg,
+        );
+        roller.rotation.z = Math.PI / 2;
+      }
     }
+    box(0x3a3f42, 0, 0.92, 0.1, 2.05, 0.38, 4.5, g);
+    box(0xe6b325, 0, 1.32, -1.45, 2.55, 0.78, 1.7, g);
+    for (const side of [-1, 1]) {
+      box(0xd7a21e, side * 1.22, 1.62, -1.45, 0.1, 0.62, 1.55, g);
+      const push = mesh(
+        new THREE.CylinderGeometry(0.16, 0.16, 0.14, 12),
+        mat(0x9aa1a3, 0.4, 0.55),
+        side * 0.48,
+        0.78,
+        -2.45,
+        g,
+      );
+      push.rotation.x = Math.PI / 2;
+      box(0xe6b325, side * 0.72, 1.15, 0.85, 0.1, 0.12, 1.45, g);
+    }
+    hopperFill = box(0x141414, 0, 1.42, -1.42, 1.85, 0.42, 1.25, g);
+    hopperFill.visible = false;
+    box(0xe6b325, 0.15, 1.72, 0.4, 1.2, 0.85, 1.05, g);
+    box(0x8eb7c6, 0.15, 1.82, -0.08, 0.95, 0.48, 0.06, g);
+    for (const [x, z] of [[-0.35, 0.02], [0.65, 0.02], [-0.35, 0.82], [0.65, 0.82]])
+      box(0x2a2e30, x, 2.05, z, 0.06, 0.5, 0.06, g);
+    box(0x2a2e30, 0.15, 2.28, 0.42, 1.2, 0.06, 1.05, g);
+    box(0x2e3336, -0.95, 1.42, 0.55, 0.48, 0.62, 0.85, g);
+    implement = new THREE.Group();
+    implement.position.set(0, 0.62, 2.62);
+    g.add(implement);
+    box(0x1a1c1d, 0, 0, 0, 3.85, 0.28, 0.5, implement);
+    box(0xc98416, 0, 0.2, 0.06, 4.05, 0.08, 0.68, implement);
+    for (const side of [-1, 1])
+      box(0x3a3f42, side * 1.92, 0.08, 0, 0.12, 0.52, 0.62, implement);
   }
   const lamps = [];
   for (const side of [-1, 1]) {
-    const lamp = new THREE.PointLight(0xffe6b0, 0, 24, 2);
-    lamp.position.set(side * 0.92, 1.9, -3.55);
+    const lamp = new THREE.SpotLight(0xfff1c4, 0, 48, 0.62, 0.35, 1);
+    lamp.position.set(side * 0.72, 1.85, -3.15);
+    lamp.target.position.set(side * 0.72, 0.15, -16);
     g.add(lamp);
+    g.add(lamp.target);
     lamps.push(lamp);
+    const fill = new THREE.PointLight(0xffe6b0, 0, 18, 1.4);
+    fill.position.set(side * 0.72, 1.7, -2.4);
+    g.add(fill);
+    lamps.push(fill);
   }
   const exhaustAnchor = new THREE.Object3D();
   const stack = {
@@ -1603,15 +1654,17 @@ function updateSky(dt, px, pz) {
   const ang = (day - 0.25) * Math.PI * 2;
   const elev = Math.sin(ang);
   sun.position.set(Math.cos(ang) * 90, Math.max(6, elev * 96), 36);
-  const night = elev < 0.08;
+  const night = elev < 0.12;
   const w = weatherNow();
   const rainOn = w === "rain";
   const over = w === "overcast" || rainOn;
-  const sky = night ? 0x243444 : rainOn ? 0x667884 : over ? 0x89a0ae : 0x91c5e3;
+  const sky = night ? 0x4d647c : rainOn ? 0x667884 : over ? 0x89a0ae : 0x91c5e3;
   scene.background.setHex(sky);
   scene.fog.color.setHex(sky);
-  sun.intensity = night ? 0.55 : rainOn ? 0.9 : over ? 1.6 : 3;
-  hemi.intensity = night ? 0.85 : rainOn ? 1.05 : 2.1;
+  scene.fog.near = night ? 160 : 115;
+  scene.fog.far = night ? 360 : 290;
+  sun.intensity = night ? 1.25 : rainOn ? 0.9 : over ? 1.6 : 3;
+  hemi.intensity = night ? 1.7 : rainOn ? 1.05 : 2.1;
   rain.visible = rainOn;
   if (rainOn) {
     rain.position.set(px, 0, pz);
@@ -1853,7 +1906,7 @@ function updateControlVisibility() {
   $("refuel").style.display = near(-37, -36, 13) ? "" : "none";
   $("toolJoystickWrap").classList.toggle(
     "show",
-    ["EXCAVATOR", "LOADER", "CRANE", "DOZER", "PAVER"].includes(id),
+    ["EXCAVATOR", "LOADER", "CRANE", "DOZER"].includes(id),
   );
   $("joystick").setAttribute(
     "aria-label",
@@ -3129,9 +3182,11 @@ $("park").onclick = () => {
 $("lights").onclick = () => {
   lightsOn = !lightsOn;
   machines.forEach((m) =>
-    m.lamps.forEach((l) => (l.intensity = lightsOn ? 2.1 : 0)),
+    m.lamps.forEach((l) => {
+      l.intensity = lightsOn ? (l.isSpotLight ? 22 : 6) : 0;
+    }),
   );
-  $("lights").textContent = lightsOn ? "LIGHTS ON" : "LIGHTS OFF";
+  $("lights").textContent = lightsOn ? "LIGHTS OFF" : "LIGHTS ON";
   bootAudio();
   sfxClank();
   notice(lightsOn ? "Work lights on." : "Work lights off.");
@@ -4385,7 +4440,10 @@ function animate() {
       m.hopperFill.scale.y = Math.max(0.12, Math.min(1, m.cargo / 6));
     }
     const screedDown = m.toolPosition < 0.45;
-    const onLane = Math.abs(g.position.z - 32) < 7.2 && Math.abs(g.position.x) < 38;
+    const onLane =
+      Math.abs(g.position.z - 32) < 8.6 &&
+      g.position.x > PAVE_X0 - 2 &&
+      g.position.x < PAVE_X0 + PAVE_W * 8 + 4;
     const laying =
       jobNo === 1 &&
       graded >= 40 &&
@@ -4393,11 +4451,14 @@ function animate() {
       screedDown &&
       onLane &&
       m.cargo > 0.05 &&
-      Math.abs(speed) > 0.25;
+      Math.abs(speed) > 0.2;
     if (laying) {
       const screed = worldPoint(g, 0, 0.2, 2.7);
-      const ix = Math.floor((screed.x - PAVE_X0) / PAVE_W);
+      let ix = Math.floor((screed.x - PAVE_X0) / PAVE_W);
+      if (ix >= 8 && screed.x < PAVE_X0 + PAVE_W * 8 + 3.2) ix = 7;
+      if (ix < 0 && screed.x > PAVE_X0 - 1.6) ix = 0;
       if (ix === paved) {
+        m.paveMiss = 0;
         m.paveTravel = (m.paveTravel || 0) + Math.abs(speed) * dt;
         if (Math.random() < 0.55)
           puff(
@@ -4410,7 +4471,7 @@ function animate() {
             (Math.random() - 0.5) * 0.3,
             0.45,
           );
-        if (m.paveTravel >= 6) {
+        if (m.paveTravel >= (paved === 7 ? 2.2 : 3.4)) {
           m.paveTravel = 0;
           paved += 1;
           m.cargo = Math.max(0, m.cargo - 1.15);
@@ -4428,11 +4489,14 @@ function animate() {
         m.paveNote = elapsed;
         notice(
           ix < paved
-            ? "That section is already black. The next open joint is further east."
-            : "Start at the west cones. The paver has to lay the sections in order.",
+            ? "That section is already black. The next open joint is further along the lane."
+            : "Lay the sections in order, west joint first. The screed has to cross the open joint.",
         );
       }
-    } else m.paveTravel = 0;
+    } else {
+      m.paveMiss = (m.paveMiss || 0) + dt;
+      if (m.paveMiss > 0.55) m.paveTravel = 0;
+    }
   }
   if (m.def.id === "CRANE" && m.craneCable) {
     if (parked && Math.abs(excLeftX) > 0.04 && m.craneUpper)
