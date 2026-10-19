@@ -722,11 +722,11 @@ const materialFlights = [];
 function makeMachine(def) {
   const g = new THREE.Group();
   const body = box(def.color, 0, 1.75, 0, 4.2, 1.7, 5.8, g);
-  if (["TRUCK", "DOZER", "LOADER", "PAVER"].includes(def.id)) {
+  if (["TRUCK", "DOZER", "LOADER", "PAVER", "CRANE", "EXCAVATOR"].includes(def.id)) {
     body.visible = false;
     g.remove(body);
   }
-  if (!["TRUCK", "DOZER", "LOADER", "PAVER"].includes(def.id)) {
+  if (!["TRUCK", "DOZER", "LOADER", "PAVER", "CRANE", "EXCAVATOR"].includes(def.id)) {
     box(0x29363b, 0.5, 3, -0.45, 2.2, 1.8, 2.1, g);
     box(0x15242a, 0.5, 3.05, -0.45, 1.7, 1.3, 1.7, g);
   }
@@ -1019,28 +1019,45 @@ function makeMachine(def) {
     hoistRod.rotation.x = -0.72;
   }
   if (def.id === "CRANE") {
-    box(0x565c60, 0, 2.15, -0.4, 2.7, 0.65, 3, g);
+    box(0x3a4146, 0, 1.15, 0.1, 2.4, 0.42, 5.4, g);
+    box(0x2a3034, 0, 1.42, 1.55, 2.2, 0.55, 1.5, g);
+    for (const side of [-1, 1]) {
+      box(0x4a5256, side * 1.15, 0.72, -1.7, 0.85, 0.12, 0.16, g);
+      box(0x4a5256, side * 1.15, 0.72, 1.7, 0.85, 0.12, 0.16, g);
+      box(0xc98416, side * 1.55, 0.22, -1.7, 0.42, 0.1, 0.42, g);
+      box(0xc98416, side * 1.55, 0.22, 1.7, 0.42, 0.1, 0.42, g);
+    }
     craneUpper = new THREE.Group();
-    craneUpper.position.set(0, 2.55, -0.35);
+    craneUpper.position.set(0, 1.7, -0.15);
     g.add(craneUpper);
-    box(0xd7a92f, 0, 0.28, 0, 2.15, 0.48, 2.1, craneUpper);
-    box(0x4a5357, 0.35, 0.95, -0.25, 1.35, 1.35, 1.35, craneUpper);
-    box(0x8eb7c6, 0.35, 1.02, -0.72, 1.08, 0.72, 0.12, craneUpper);
+    mesh(
+      new THREE.CylinderGeometry(1.15, 1.25, 0.28, 18),
+      mat(0x2c3234),
+      0,
+      0.16,
+      0,
+      craneUpper,
+    );
+    box(0xd6a82e, 0, 0.7, 0.55, 2.05, 0.7, 2.3, craneUpper);
+    box(0x2a3032, 0, 0.85, 1.7, 2.15, 0.95, 0.85, craneUpper);
+    box(0x243036, -0.55, 1.45, -0.15, 0.95, 0.95, 1.15, craneUpper);
+    box(0x8eb7c6, -0.55, 1.5, -0.74, 0.82, 0.62, 0.06, craneUpper);
     craneBoom = new THREE.Group();
-    craneBoom.position.set(0, 0.72, -0.45);
+    craneBoom.position.set(0.15, 1.15, -0.85);
     craneUpper.add(craneBoom);
-    box(0xd8b14c, 0, 0, -3.25, 0.72, 0.72, 6.8, craneBoom);
-    box(0x9a7d3b, 0, 0, -3.25, 0.78, 0.78, 6.8, craneBoom);
+    box(0xe0b84a, 0, 0.08, -6.1, 0.62, 0.62, 12.2, craneBoom);
+    box(0x8d7340, 0, 0.32, -5.6, 0.28, 0.16, 10.4, craneBoom);
     craneExtension = new THREE.Group();
-    craneExtension.position.set(0, 0, -3.9);
+    craneExtension.position.set(0, 0.08, -7.2);
     craneBoom.add(craneExtension);
-    box(0xe3bf57, 0, 0, -2.15, 0.48, 0.48, 4.5, craneExtension);
+    box(0xf0c85a, 0, 0, -4.3, 0.4, 0.4, 8.6, craneExtension);
+    box(0xb8903c, 0, 0, -4.3, 0.22, 0.22, 8.2, craneExtension);
     craneCable = new THREE.Group();
-    craneCable.position.set(0, 0, -4.45);
+    craneCable.position.set(0, 0, -8.5);
     craneExtension.add(craneCable);
     craneRope = mesh(
-      new THREE.CylinderGeometry(0.045, 0.045, 2.4, 8),
-      mat(0x252a2c),
+      new THREE.CylinderGeometry(0.04, 0.04, 2.4, 8),
+      mat(0x1c2123),
       0,
       -1.2,
       0,
@@ -1049,45 +1066,63 @@ function makeMachine(def) {
     craneHook = new THREE.Group();
     craneHook.position.set(0, -2.45, 0);
     craneCable.add(craneHook);
-    box(0x252a2c, 0, 0, 0, 0.22, 0.3, 0.22, craneHook);
-    box(0x252a2c, 0.13, -0.13, 0, 0.12, 0.28, 0.12, craneHook);
+    box(0x252a2c, 0, 0, 0, 0.28, 0.22, 0.16, craneHook);
+    box(0xc98416, 0, -0.22, 0, 0.16, 0.28, 0.1, craneHook);
     implement = craneBoom;
   }
   if (def.id === "EXCAVATOR") {
     excavatorUpper = new THREE.Group();
-    excavatorUpper.position.set(0, 1.35, 0.15);
+    excavatorUpper.position.set(0, 1.45, 0);
     g.add(excavatorUpper);
-    box(0x343a3a, 0, 1.45, 0.15, 2.7, 0.7, 3, excavatorUpper);
-    box(0x252e32, 0.35, 2.35, -0.55, 1.8, 1.25, 1.55, excavatorUpper);
-    box(0x8eb7c6, 0.35, 2.38, -1.34, 1.38, 0.92, 0.12, excavatorUpper);
+    mesh(
+      new THREE.CylinderGeometry(1.15, 1.28, 0.26, 16),
+      mat(0x2c3234),
+      0,
+      0.16,
+      0,
+      excavatorUpper,
+    );
+    box(0xe39b21, 0, 0.78, 0.25, 2.15, 0.72, 2.45, excavatorUpper);
+    box(0x2a3032, 0, 0.9, 1.45, 2.05, 0.85, 0.7, excavatorUpper);
+    box(0x243036, -0.62, 1.45, -0.25, 0.95, 0.95, 1.1, excavatorUpper);
+    box(0x8eb7c6, -0.62, 1.5, -0.82, 0.82, 0.62, 0.06, excavatorUpper);
+    box(0xc98416, 0.55, 1.2, 0.35, 0.7, 0.55, 1.35, excavatorUpper);
     excavatorBoom = new THREE.Group();
-    excavatorBoom.position.set(0, 2.05, -0.65);
+    excavatorBoom.position.set(0.2, 1.05, -1.05);
     excavatorUpper.add(excavatorBoom);
-    box(0xc38a20, 0, 0, -1.95, 0.72, 0.72, 4.1, excavatorBoom);
-    box(0xe0a52c, 0, 0.18, -1.85, 0.34, 0.28, 3.5, excavatorBoom);
+    box(0xe39b21, 0, 0.06, -2.35, 0.4, 0.5, 4.7, excavatorBoom);
+    box(0xc98416, 0, 0.28, -2.1, 0.18, 0.14, 3.6, excavatorBoom);
+    const boomCyl = mesh(
+      new THREE.CylinderGeometry(0.08, 0.1, 2.4, 8),
+      mat(0x8d9496, 0.45, 0.4),
+      0,
+      -0.15,
+      -1.5,
+      excavatorBoom,
+    );
+    boomCyl.rotation.x = Math.PI / 2;
     excavatorStick = new THREE.Group();
-    excavatorStick.position.set(0, 0, -3.85);
+    excavatorStick.position.set(0, 0.06, -4.55);
     excavatorBoom.add(excavatorStick);
-    box(0xc38a20, 0, 0, -1.55, 0.48, 0.48, 3.3, excavatorStick);
-    box(0x6b7171, 0, -0.12, -1.45, 0.18, 0.18, 2.8, excavatorStick);
+    box(0xd4921c, 0, 0, -1.35, 0.34, 0.4, 2.7, excavatorStick);
+    const stickCyl = mesh(
+      new THREE.CylinderGeometry(0.06, 0.07, 1.7, 8),
+      mat(0xb7c0c2, 0.4, 0.45),
+      0,
+      0.16,
+      -1.1,
+      excavatorStick,
+    );
+    stickCyl.rotation.x = Math.PI / 2;
     excavatorBucket = new THREE.Group();
-    excavatorBucket.position.set(0, 0, -3.05);
+    excavatorBucket.position.set(0, -0.05, -2.6);
     excavatorStick.add(excavatorBucket);
-    box(0x858b8b, 0, -0.15, -0.4, 1.02, 0.65, 1.05, excavatorBucket);
-    box(0x6d7474, 0, -0.5, -0.83, 0.94, 0.16, 0.6, excavatorBucket);
+    box(0x6a7070, 0, -0.2, -0.2, 1.15, 0.72, 0.85, excavatorBucket);
+    box(0x555b5b, 0, -0.55, -0.5, 1.05, 0.12, 0.5, excavatorBucket);
     for (const side of [-1, 1])
-      box(
-        0x9da3a2,
-        side * 0.47,
-        -0.23,
-        -0.28,
-        0.12,
-        0.56,
-        0.72,
-        excavatorBucket,
-      );
-    for (let tooth = -0.3; tooth <= 0.31; tooth += 0.2)
-      box(0x4c5252, tooth, -0.55, -1.05, 0.12, 0.14, 0.32, excavatorBucket);
+      box(0x8d9494, side * 0.52, -0.15, -0.15, 0.1, 0.62, 0.7, excavatorBucket);
+    for (let tooth = -0.36; tooth <= 0.37; tooth += 0.24)
+      box(0x3e4444, tooth, -0.62, -0.78, 0.1, 0.12, 0.28, excavatorBucket);
     implement = excavatorBucket;
   }
   // Extra machine-specific mechanical detail so equipment silhouettes read clearly at phone scale.
@@ -1226,12 +1261,6 @@ function makeMachine(def) {
       box(0x252b2e, side * 1.15, 1.55, 1.7, 0.12, 0.28, 0.7, rearFrame);
       box(0xd49a22, side * 1.35, 1.05, -1.55, 0.55, 0.16, 0.85, g);
       box(0xd49a22, side * 1.35, 1.05, 1.85, 0.55, 0.16, 0.85, rearFrame);
-    }
-  }
-  if (def.id === "CRANE") {
-    for (const side of [-1, 1]) {
-      box(0x22282b, side * 1.65, 1.1, 0.9, 0.28, 0.3, 2.3, g);
-      box(0x42494b, side * 2.45, 0.18, 0.9, 0.18, 0.18, 1.4, g);
     }
   }
   if (def.id === "EXCAVATOR" || def.id === "DOZER") {
@@ -1439,6 +1468,20 @@ machines.forEach((m) => {
   m.toolPosition =
     m.def.id === "LOADER" ? 0 : m.def.id === "DOZER" ? 1.25 : m.def.id === "PAVER" ? 0.86 : 0;
   m.bucketCurl = m.def.id === "LOADER" ? 0.35 : 0;
+  if (m.def.id === "EXCAVATOR") {
+    m.boomAngle = 0.7;
+    m.stickAngle = -1.05;
+    m.bucketCurl = 0.4;
+    if (m.excavatorBoom) m.excavatorBoom.rotation.x = m.boomAngle;
+    if (m.excavatorStick) m.excavatorStick.rotation.x = m.stickAngle;
+    if (m.excavatorBucket) m.excavatorBucket.rotation.x = m.bucketCurl;
+  }
+  if (m.def.id === "CRANE") {
+    m.boomAngle = 0.42;
+    m.boomExtension = 0;
+    m.ropeLength = 2.4;
+    if (m.craneBoom) m.craneBoom.rotation.x = m.boomAngle;
+  }
 });
 let active = 2;
 const player = () => machines[active];
@@ -1851,7 +1894,8 @@ const guideCopy = {
     title: "MOBILE CRANE · SLEW / LIFT",
     steps: [
       "Drive to the BEAMS rack west of the river. WORK or LOAD / USE hooks the next girder onto the cable.",
-      "SLEW turns the house. BOOM UP / DOWN pitches the boom. BOOM OUT / IN telescopes. The right stick pays out the cable.",
+      "BOOM UP raises the boom. BOOM DOWN lowers it. Hold BOOM OUT to telescope, BOOM IN to retract. No park brake required.",
+      "Right stick up reels the hook in. Right stick down pays cable out. SLEW turns the house.",
       "Haul the hanging girder to the blue bridge marker.",
       "Boom the hook over the abutment, then SET GIRDER. The deck does not appear unless a girder is actually on the hook.",
       "Finish the rock base, grade it, then pave with the asphalt paver before the first set. Three girders close Job 01.",
@@ -1861,9 +1905,9 @@ const guideCopy = {
   EXCAVATOR: {
     title: "EXCAVATOR · ISO JOYSTICKS",
     steps: [
-      "Position the tracks at the yellow cut area. Stop or creep slowly.",
-      "LEFT stick left/right swings the upper house; LEFT stick up/down moves the dipper stick.",
-      "RIGHT stick up/down raises/lowers the boom; RIGHT stick left/right curls or dumps the bucket.",
+      "The left stick does not drive. Use DRIVE and STEER to move the tracks.",
+      "LEFT stick left/right slews the house. LEFT stick up crowds the stick; down reaches it out.",
+      "RIGHT stick up raises the boom; down lowers it. RIGHT stick left curls the bucket; right dumps it.",
       "Curl and pull in the yellow cut. Soil stays in the bucket. Slew clear and curl out to dump a spoil mound the loader can haul for free.",
     ],
     work: "AUTO DIG",
@@ -3058,7 +3102,14 @@ holdButton(
   "toolUp",
   (v) => {
     const m = player();
-    toolAxis = m.def.id === "TRUCK" ? 0 : v ? (m.def.id === "PAVER" ? 1 : -1) : 0;
+    toolAxis =
+      m.def.id === "TRUCK"
+        ? 0
+        : v
+          ? m.def.id === "PAVER" || m.def.id === "CRANE"
+            ? 1
+            : -1
+          : 0;
     if (m.def.id === "TRUCK" && v) {
       m.toolPosition = 0.25;
       m.implement.rotation.x = 0.25;
@@ -3089,7 +3140,14 @@ holdButton(
   "toolDown",
   (v) => {
     const m = player();
-    toolAxis = m.def.id === "TRUCK" ? 0 : v ? (m.def.id === "PAVER" ? -1 : 1) : 0;
+    toolAxis =
+      m.def.id === "TRUCK"
+        ? 0
+        : v
+          ? m.def.id === "PAVER" || m.def.id === "CRANE"
+            ? -1
+            : 1
+          : 0;
     if (v && m.def.id === "TRUCK") {
       m.dumping = false;
       m.gateOpen = false;
@@ -3231,9 +3289,9 @@ function moveTool(dir) {
     notice(dir > 0 ? "Lift arms raised. The bucket stays on the pins." : "Lift arms lowered. Crowd the cutting edge into the pile.");
   } else if (m.def.id === "CRANE") {
     m.boomAngle = THREE.MathUtils.clamp(
-      (m.boomAngle || -0.12) + dir * 0.08,
-      -0.35,
-      0.48,
+      (m.boomAngle ?? 0.42) + dir * 0.08,
+      -0.05,
+      1.2,
     );
     if (m.craneBoom) m.craneBoom.rotation.x = m.boomAngle;
     notice(
@@ -3383,8 +3441,9 @@ function moveJoy(e) {
     dy = (dy / len) * max;
   }
   if (
-    parked &&
-    ["EXCAVATOR", "CRANE", "LOADER", "DOZER"].includes(player().def.id)
+    player().def.id === "EXCAVATOR" ||
+    (parked &&
+      ["CRANE", "LOADER", "DOZER"].includes(player().def.id))
   ) {
     excLeftX = THREE.MathUtils.clamp(dx / max, -1, 1);
     excLeftY = THREE.MathUtils.clamp(-dy / max, -1, 1);
@@ -3989,19 +4048,20 @@ function animate() {
   elapsed += dt;
   const m = player(),
     g = m.group;
-  if (parked && m.def.id !== "LOADER" && Math.abs(excLeftY) > 0.06)
+  const isoTool = m.def.id === "EXCAVATOR" || m.def.id === "CRANE";
+  if (!isoTool && parked && m.def.id !== "LOADER" && Math.abs(excLeftY) > 0.06)
     m.toolPosition = THREE.MathUtils.clamp(
       (m.toolPosition || 0) + excLeftY * dt * 0.65,
       -0.72,
       0.55,
     );
-  if (parked && m.def.id !== "LOADER" && Math.abs(excLeftX) > 0.06)
+  if (!isoTool && parked && m.def.id !== "LOADER" && Math.abs(excLeftX) > 0.06)
     m.bucketCurl = THREE.MathUtils.clamp(
       (m.bucketCurl ?? 0.35) + excLeftX * dt * 0.75,
       -0.75,
       0.8,
     );
-  if (toolAxis) {
+  if (!isoTool && toolAxis) {
     const loaderMin = m.def.id === "LOADER" ? -0.64 : -0.45;
     m.toolPosition = THREE.MathUtils.clamp(
       (m.toolPosition || 0) +
@@ -4013,7 +4073,7 @@ function animate() {
       m.def.id === "LOADER" ? 1.25 : 1.8,
     );
   }
-  if (Math.abs(excRightY) > 0.06) {
+  if (!isoTool && Math.abs(excRightY) > 0.06) {
     const loaderMin = m.def.id === "LOADER" ? -0.58 : -0.72;
     m.toolPosition = THREE.MathUtils.clamp(
       (m.toolPosition || 0) +
@@ -4025,7 +4085,7 @@ function animate() {
       m.def.id === "LOADER" ? 1.25 : 1.45,
     );
   }
-  if (Math.abs(excRightX) > 0.06)
+  if (!isoTool && Math.abs(excRightX) > 0.06)
     m.bucketCurl = THREE.MathUtils.clamp(
       (m.bucketCurl ?? 0.35) - excRightX * dt * 0.95 * boomSensitivity,
       -0.75,
@@ -4054,20 +4114,6 @@ function animate() {
         0.25,
       );
       m.implement.rotation.x = m.toolPosition;
-    } else if (m.def.id === "CRANE") {
-      m.boomAngle = THREE.MathUtils.clamp(
-        (m.boomAngle || -0.12) + toolAxis * dt * 0.3,
-        -0.35,
-        0.48,
-      );
-      if (m.craneBoom) m.craneBoom.rotation.x = m.boomAngle;
-    } else if (m.def.id === "EXCAVATOR") {
-      m.boomAngle = THREE.MathUtils.clamp(
-        (m.boomAngle ?? -0.18) + toolAxis * dt * 0.45,
-        -0.45,
-        0.55,
-      );
-      if (m.excavatorBoom) m.excavatorBoom.rotation.x = m.boomAngle;
     }
   }
   if (m.def.id === "LOADER") {
@@ -4499,86 +4545,80 @@ function animate() {
     }
   }
   if (m.def.id === "CRANE" && m.craneCable) {
-    if (parked && Math.abs(excLeftX) > 0.04 && m.craneUpper)
+    if (Math.abs(excLeftX) > 0.04 && parked && m.craneUpper)
       m.craneUpper.rotation.y -= excLeftX * dt * 0.8;
-    if (parked && Math.abs(excLeftY) > 0.04) {
+    if (toolAxis)
       m.boomAngle = THREE.MathUtils.clamp(
-        (m.boomAngle ?? -0.12) + excLeftY * dt * 0.42,
-        -0.35,
-        0.48,
+        (m.boomAngle ?? 0.42) + toolAxis * dt * 0.38,
+        -0.05,
+        1.2,
       );
-      if (m.craneBoom) m.craneBoom.rotation.x = m.boomAngle;
-    }
-    if (parked && Math.abs(excRightX) > 0.04 && m.craneExtension) {
+    if (Math.abs(excRightX) > 0.04)
       m.boomExtension = THREE.MathUtils.clamp(
-        (m.boomExtension || 0) + excRightX * dt * 1.15,
+        (m.boomExtension || 0) + excRightX * dt * 2.4,
         0,
-        3.25,
+        12,
       );
-    }
-    if (parked && m.def.id === "CRANE" && m.craneExtension) {
-      if (craneBoomOutHeld)
-        m.boomExtension = THREE.MathUtils.clamp(
-          (m.boomExtension || 0) + dt * 1.05,
-          0,
-          3.25,
-        );
-      if (craneBoomInHeld)
-        m.boomExtension = THREE.MathUtils.clamp(
-          (m.boomExtension || 0) - dt * 1.05,
-          0,
-          3.25,
-        );
-    }
+    if (craneBoomOutHeld)
+      m.boomExtension = THREE.MathUtils.clamp(
+        (m.boomExtension || 0) + dt * 2.2,
+        0,
+        12,
+      );
+    if (craneBoomInHeld)
+      m.boomExtension = THREE.MathUtils.clamp(
+        (m.boomExtension || 0) - dt * 2.2,
+        0,
+        12,
+      );
     if (m.craneExtension)
-      m.craneExtension.position.z = -3.9 - (m.boomExtension || 0);
-    if (parked && Math.abs(excRightY) > 0.04) {
+      m.craneExtension.position.z = -7.2 - (m.boomExtension || 0);
+    if (Math.abs(excRightY) > 0.04)
       m.ropeLength = THREE.MathUtils.clamp(
-        (m.ropeLength ?? 2.4) + excRightY * dt * 2.2,
-        0.45,
-        7,
+        (m.ropeLength ?? 2.4) - excRightY * dt * 2.6,
+        0.7,
+        16,
       );
-      if (m.craneRope) {
-        m.craneRope.scale.y = m.ropeLength / 2.4;
-        m.craneRope.position.y = -m.ropeLength / 2;
-      }
-      if (m.craneHook) m.craneHook.position.y = -m.ropeLength - 0.05;
+    if (m.craneBoom) m.craneBoom.rotation.x = m.boomAngle ?? 0.42;
+    if (m.craneRope) {
+      const rope = m.ropeLength ?? 2.4;
+      m.craneRope.scale.y = rope / 2.4;
+      m.craneRope.position.y = -rope / 2;
     }
-    if (m.craneRope) m.craneRope.position.y = -(m.ropeLength ?? 2.4) / 2;
-    m.craneCable.rotation.x = -(m.boomAngle ?? 0);
+    if (m.craneHook) m.craneHook.position.y = -(m.ropeLength ?? 2.4) - 0.05;
+    m.craneCable.rotation.x = -(m.boomAngle ?? 0.42);
     if (m.craneHook) m.craneHook.rotation.z = Math.sin(elapsed * 1.7) * 0.035;
   }
   if (m.def.id === "EXCAVATOR") {
-    if (parked && Math.abs(excLeftX) > 0.06 && m.excavatorUpper)
+    if (Math.abs(excLeftX) > 0.06 && m.excavatorUpper)
       m.excavatorUpper.rotation.y -= excLeftX * dt * 1.05;
-    if (parked && Math.abs(excLeftY) > 0.06)
+    if (Math.abs(excLeftY) > 0.06)
       m.stickAngle = THREE.MathUtils.clamp(
-        (m.stickAngle ?? 0.18) + excLeftY * dt * 0.8,
-        -0.25,
-        0.82,
+        (m.stickAngle ?? -1.05) + excLeftY * dt * 0.75,
+        -1.45,
+        0.45,
       );
-    if (parked && Math.abs(excRightY) > 0.06)
+    if (Math.abs(excRightY) > 0.06)
       m.boomAngle = THREE.MathUtils.clamp(
-        (m.boomAngle ?? -0.18) + excRightY * dt * 0.85,
-        -0.45,
-        0.58,
+        (m.boomAngle ?? 0.7) + excRightY * dt * 0.7,
+        0.08,
+        1.2,
       );
     if (Math.abs(excRightX) > 0.06)
       m.bucketCurl = THREE.MathUtils.clamp(
-        (m.bucketCurl ?? 0.1) + excRightX * dt * 0.95,
-        -0.8,
-        0.85,
+        (m.bucketCurl ?? 0.4) - excRightX * dt * 1.05,
+        -1.05,
+        1.15,
       );
-    if (m.excavatorBoom) m.excavatorBoom.rotation.x = m.boomAngle ?? -0.18;
-    if (m.excavatorStick) m.excavatorStick.rotation.x = m.stickAngle ?? 0.18;
-    if (m.excavatorBucket) m.excavatorBucket.rotation.x = m.bucketCurl ?? 0.1;
+    if (m.excavatorBoom) m.excavatorBoom.rotation.x = m.boomAngle ?? 0.7;
+    if (m.excavatorStick) m.excavatorStick.rotation.x = m.stickAngle ?? -1.05;
+    if (m.excavatorBucket) m.excavatorBucket.rotation.x = m.bucketCurl ?? 0.4;
     const digZone = Math.hypot(g.position.x - 17, g.position.z + 10) < 23,
       bucketMotion =
         Math.abs(excRightX) > 0.08 ||
         Math.abs(excRightY) > 0.08 ||
         Math.abs(excLeftY) > 0.08,
-      cuttingPose =
-        (m.boomAngle ?? -0.18) > -0.7 && (m.stickAngle ?? 0.18) > -0.7;
+      cuttingPose = (m.stickAngle ?? -1.05) < 0.15 && (m.boomAngle ?? 0.7) < 1.05;
     if (
       digZone &&
       bucketMotion &&
@@ -4785,7 +4825,7 @@ function animate() {
     : g.position.clone().setY(g.position.y + 2.3);
   const behind = boardView
     ? new THREE.Vector3(0, 5.5, 10)
-    : new THREE.Vector3(0, 7.3 + cameraPitch, carriedBeam != null ? Math.max(cameraDistance, 18) : cameraDistance).applyAxisAngle(
+    : new THREE.Vector3(0, 7.3 + cameraPitch, carriedBeam != null ? Math.max(cameraDistance, 18) : cameraDistance + (m.def.id === "CRANE" ? 8 + (m.boomExtension || 0) * 0.45 : 0)).applyAxisAngle(
         new THREE.Vector3(0, 1, 0),
         g.rotation.y + cameraYaw,
       );
