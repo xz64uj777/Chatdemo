@@ -847,6 +847,9 @@ function makeMachine(def) {
     }
     const pinSteel = mat(0x626c70, 0.55, 0.28);
     const armLen = 2.28;
+    box(0xd49a22, 0, 1.15, -1.2, 2.05, 0.62, 1.55, g);
+    box(0x2a3032, 0, 1.02, -1.95, 1.9, 0.42, 0.22, g);
+    box(0x1c2224, 0, 1.05, -2.08, 1.45, 0.28, 0.08, g);
     armRig = new THREE.Group();
     armRig.position.set(0, 1.78, -1.02);
     g.add(armRig);
@@ -1211,8 +1214,8 @@ function makeMachine(def) {
       box(0x20282b, side * 1.08, 3.18, -0.42, 0.14, 0.16, 1.9, g);
       box(0x20282b, side * 1.08, 2.83, -1.28, 0.14, 0.82, 0.14, g);
       box(0x20282b, side * 1.08, 2.83, 0.48, 0.14, 0.82, 0.14, g);
-      box(0x718d96, side * 0.62, 2.86, -1.31, 0.68, 0.62, 0.07, g);
-      box(0x718d96, side * 1.09, 2.82, -0.38, 0.055, 0.72, 1.15, g);
+      glassBox(0x9ec8d8, side * 0.62, 2.86, -1.31, 0.68, 0.62, 0.07, g);
+      glassBox(0x9ec8d8, side * 1.09, 2.82, -0.38, 0.055, 0.72, 1.15, g);
       for (let z = -1.95; z <= 1.96; z += 0.78) {
         const roller = mesh(
           new THREE.CylinderGeometry(0.31, 0.31, 0.16, 16),
@@ -1339,12 +1342,14 @@ function makeMachine(def) {
       1.7,
       rearFrame,
     );
-    box(0x8eb7c6, 0.88, 2.42, 0.95, 0.08, 0.72, 1.05, rearFrame);
-    box(0x8eb7c6, -0.88, 2.42, 0.95, 0.08, 0.72, 1.05, rearFrame);
+    glassBox(0x9ec8d8, 0.88, 2.42, 0.95, 0.08, 0.72, 1.05, rearFrame);
+    glassBox(0x9ec8d8, -0.88, 2.42, 0.95, 0.08, 0.72, 1.05, rearFrame);
+    box(0x2a3032, 0, 1.15, 2.95, 1.8, 0.55, 0.16, rearFrame);
     for (const side of [-1, 1]) {
       box(0x252b2e, side * 1.15, 1.55, 1.7, 0.12, 0.28, 0.7, rearFrame);
       box(0xd49a22, side * 1.35, 1.05, -1.55, 0.55, 0.16, 0.85, g);
       box(0xd49a22, side * 1.35, 1.05, 1.85, 0.55, 0.16, 0.85, rearFrame);
+      box(0x3a4144, side * 1.05, 0.72, 1.55, 0.35, 0.08, 0.55, rearFrame);
     }
   }
   if (def.id === "EXCAVATOR" || def.id === "DOZER") {
