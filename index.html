@@ -2698,8 +2698,8 @@ function acceptNextJob() {
   contractComplete = false;
   delivered = 0;
   graded = 0;
-  paved = 0;
-  beams = 0;
+  paved = 8;
+  beams = 3;
   excavated = 0;
   stock.scale.y = 1;
   stock2.scale.y = 1;
@@ -2707,6 +2707,7 @@ function acceptNextJob() {
   aggregateBits.forEach((stone) => (stone.visible = true));
   gradePatches.forEach((patch) => (patch.visible = false));
   roadMaterialBits.forEach((stone) => (stone.visible = false));
+  placeSetGirders();
   updateWorkVisuals();
   const names = {
     2: "FLOOD CONTROL: excavate the basin, haul backfill, then grade.",
@@ -3135,12 +3136,16 @@ function work() {
   saveGame(true);
 }
 function updateWorkVisuals() {
+  if (jobNo > 1) {
+    paved = 8;
+    beams = 3;
+  }
   asphaltPatches.forEach((p, i) => (p.visible = i < paved));
   paveLines.forEach((p, i) => (p.visible = i < paved));
   buryPavedRock();
   trenchPatches.forEach((p, i) => (p.visible = excavated >= (i + 1) * 4));
   bridgeDecks.forEach((p, i) => {
-    if (i < beams * 3) p.visible = true;
+    p.visible = i < beams * 3;
   });
 }
 function switchMachine(dir = 1) {
@@ -4656,6 +4661,7 @@ function animate() {
         if (jobNo === 1) gradePatches[ix].visible = true;
         m.gradeTimer = 0;
         updateWorkVisuals();
+        checkContractProgress();
         hud();
       } else m.gradeTimer = 0;
     }
@@ -4719,6 +4725,7 @@ function animate() {
           m.cargo = Math.max(0, m.cargo - 1.15);
           cash += 140;
           updateWorkVisuals();
+          checkContractProgress();
           hud();
           saveGame(true);
           notice(
@@ -4873,6 +4880,7 @@ function animate() {
             m.digNote = elapsed;
             notice("CUT · spoil " + m.cargo.toFixed(1) + "/1.6 t · trench " + excavated + "/20. It stays in the bucket.");
           }
+          checkContractProgress();
           hud();
         }
       }
@@ -4985,6 +4993,7 @@ function animate() {
           cash += 150;
           m.dumpPaid = true;
         }
+        checkContractProgress();
         hud();
         }
       }
