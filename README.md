@@ -8,6 +8,8 @@ After the GitHub Pages workflow succeeds: https://xz64uj777.github.io/Chatdemo/
 
 The game is a browser-first Three.js construction and field-operations simulator. It includes five machines, a multi-contract campaign, on-site material handling, equipment-specific guidance, touch controls, and local save progress.
 
+v0.10 play loop: the wheel loader scoops the stockpile ($12/t) or a spoil mound (free) and tips into the dump truck. The truck hauls to the green road marker, raises the bed, then opens the tailgate to pour. The D7 pushes a windrow and grades with the blade down. Paving is a PAVE button on the truck. The crane hooks a girder off the beam rack and sets it over the abutment — the deck does not appear without a girder on the hook. The excavator keeps soil in the bucket until you dump it clear of the cut. Fuel is per machine. The top marker points at the current task.
+
 ## Controls and first steps
 
 - Use the on-screen joystick to drive and steer; the camera follows the active machine.
@@ -18,8 +20,8 @@ The game is a browser-first Three.js construction and field-operations simulator
 
 ## Source and deployment
 
-- `field_ops_3d/parts/` contains the canonical compressed v0.8 source in ordered binary parts.
-- `index.html` is a browser fallback loader; the GitHub Actions workflow reconstructs the original HTML, checks the JavaScript module syntax, and deploys the playable file to GitHub Pages.
+- `index.html` is the playable game. The GitHub Actions workflow checks the JavaScript module syntax and deploys that file to GitHub Pages.
+- `field_ops_3d/parts/` is the older compressed v0.8 source. Pages does not publish it.
 - Three.js is loaded from jsDelivr, so an internet connection is required when starting the game.
 - The previous BuildWorks prototype remains in Git history and can be restored if needed.
 
