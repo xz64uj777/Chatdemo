@@ -1217,30 +1217,71 @@ function makeMachine(def) {
     excavatorBucket = new THREE.Group();
     excavatorBucket.position.set(0, -0.05, -2.6);
     excavatorStick.add(excavatorBucket);
-    box(0x6a7070, 0, -0.2, -0.2, 1.15, 0.72, 0.85, excavatorBucket);
-    box(0x555b5b, 0, -0.55, -0.5, 1.05, 0.12, 0.5, excavatorBucket);
-    for (const side of [-1, 1])
-      box(0x8d9494, side * 0.52, -0.15, -0.15, 0.1, 0.62, 0.7, excavatorBucket);
-    for (let tooth = -0.36; tooth <= 0.37; tooth += 0.24)
-      box(0x3e4444, tooth, -0.62, -0.78, 0.1, 0.12, 0.28, excavatorBucket);
+    // Curved scoop shell: half-cylinder pinned at the rear top edge, mouth open toward the cab.
+    const bucketR = 0.58;
+    const bucketW = 1.14;
+    const bucketShell = mesh(
+      new THREE.CylinderGeometry(
+        bucketR,
+        bucketR,
+        bucketW,
+        24,
+        1,
+        true,
+        Math.PI,
+        Math.PI,
+      ),
+      new THREE.MeshStandardMaterial({
+        color: 0x545d61,
+        roughness: 0.66,
+        metalness: 0.3,
+        side: THREE.DoubleSide,
+      }),
+      0,
+      0,
+      -bucketR,
+      excavatorBucket,
+    );
+    bucketShell.rotation.z = Math.PI / 2;
+    for (const side of [-1, 1]) {
+      const cheek = mesh(
+        new THREE.CircleGeometry(bucketR, 24, Math.PI, Math.PI),
+        new THREE.MeshStandardMaterial({
+          color: 0x6d777b,
+          roughness: 0.6,
+          metalness: 0.3,
+          side: THREE.DoubleSide,
+        }),
+        side * (bucketW / 2 + 0.015),
+        0,
+        -bucketR,
+        excavatorBucket,
+      );
+      cheek.rotation.y = -Math.PI / 2;
+      box(0x4c5457, side * 0.3, 0.06, 0.04, 0.12, 0.32, 0.2, excavatorBucket);
+    }
+    box(0x6d777b, 0, 0, 0.02, bucketW, 0.1, 0.12, excavatorBucket);
+    box(0x3b4245, 0, -0.02, -2 * bucketR - 0.02, bucketW + 0.06, 0.14, 0.14, excavatorBucket);
+    for (let tooth = -0.42; tooth <= 0.43; tooth += 0.21)
+      box(0x2d3336, tooth, -0.06, -2 * bucketR - 0.17, 0.1, 0.12, 0.34, excavatorBucket);
     cargoVisual = new THREE.Group();
     excavatorBucket.add(cargoVisual);
     const spoilCore = mesh(
       new THREE.DodecahedronGeometry(0.42, 1),
       mat(0x6b533e),
       0,
-      -0.24,
-      -0.34,
+      -0.3,
+      -bucketR,
       cargoVisual,
     );
-    spoilCore.scale.set(1.15, 0.72, 0.95);
+    spoilCore.scale.set(1.05, 0.55, 0.95);
     for (let ci = 0; ci < 11; ci++) {
       const clod = mesh(
-        new THREE.DodecahedronGeometry(0.14 + (ci % 3) * 0.04, 0),
+        new THREE.DodecahedronGeometry(0.13 + (ci % 3) * 0.04, 0),
         mat([0x6b533e, 0x7c624a, 0x594432, 0x8a7055][ci % 4]),
         ((ci % 4) - 1.5) * 0.22,
-        -0.1 + Math.floor(ci / 4) * 0.1,
-        -0.22 - (ci % 3) * 0.16,
+        -0.3 + Math.floor(ci / 4) * 0.08,
+        -0.28 - (ci % 3) * 0.22,
         cargoVisual,
       );
       clod.rotation.set(ci * 0.5, ci * 0.9, ci * 0.3);
@@ -2030,7 +2071,7 @@ const guideCopy = {
     title: "WHEEL LOADER · TWO-JOYSTICK CONTROLS",
     steps: [
       "LEFT joystick drives and steers the whole machine. The front wheels cut, and the tail follows. It does not jackknife.",
-      "RIGHT joystick forward/back raises and lowers the lift arms. The bucket stays pinned to the arm tips and holds its attitude unless you curl it. Stick left tips the bucket; stick right curls it back.",
+      "RIGHT joystick forward/back raises and lowers the lift arms. The bucket stays pinned to the arm tips and holds its attitude unless you curl it. Stick right tips the bucket; stick left curls it back.",
       "Lower the arms until the cutting edge is in the tan pile, then creep forward. Being near the pile is not enough.",
       "Raise the loaded bucket, position beside the dump truck, then tip the bucket forward to unload. LOAD / USE only completes the material handoff.",
     ],
@@ -2130,7 +2171,7 @@ function updateControlVisibility() {
   $("gateRelease").textContent = "GATE OPEN / CLOSE";
   $("toolCurl").style.display = ["EXCAVATOR"].includes(id) ? "" : "none";
   $("curlBack").style.display = "none";
-  $("dumpBucket").style.display = "none";
+  $("dumpBucket").style.display = ["EXCAVATOR"].includes(id) ? "" : "none";
   $("boomLeft").style.display = ["CRANE", "EXCAVATOR"].includes(id)
     ? ""
     : "none";
@@ -2170,6 +2211,7 @@ function updateControlVisibility() {
             ? "SCREED UP / DOWN"
             : "BOOM / BUCKET";
   $("toolCurl").textContent = "BUCKET CURL";
+  $("dumpBucket").textContent = "BUCKET DUMP";
 }
 function setActive(i) {
   if (machines[active]) machines[active].fuel = fuel;
@@ -2993,7 +3035,7 @@ function act() {
       notice("Road zone: truck delivers aggregate; dozer grades the surface.");
   } else if (near(17, -10, 16) && m.def.id === "EXCAVATOR") {
     if (m.cargo > 0.15) {
-      m.bucketCurl = -0.62;
+      m.bucketCurl = -0.9;
       if (m.excavatorBucket) m.excavatorBucket.rotation.x = m.bucketCurl;
       notice(Math.hypot(m.group.position.x - 17, m.group.position.z + 10) < 7.5
         ? "Slew the house clear of the cut, then the spoil will fall."
@@ -3373,7 +3415,7 @@ $("toolCurl").onclick = () => {
       0.85,
     );
     if (m.excavatorBucket) m.excavatorBucket.rotation.x = m.bucketCurl;
-    notice(m.bucketCurl < 0 ? "Bucket dumping." : "Bucket curling in.");
+    notice("Bucket curling in.");
   }
 };
 $("curlBack").onclick = () => {
@@ -3384,9 +3426,14 @@ $("curlBack").onclick = () => {
 };
 $("dumpBucket").onclick = () => {
   const m = player();
-  if (m.def.id !== "LOADER") return;
-  m.bucketCurl = -0.62;
-  notice("Bucket tipped. Hold the edge over the truck bed to pour.");
+  if (m.def.id === "EXCAVATOR") {
+    m.bucketCurl = -0.9;
+    if (m.excavatorBucket) m.excavatorBucket.rotation.x = m.bucketCurl;
+    notice("Bucket dumping. Slew clear of the cut so the spoil stays out of the hole.");
+  } else if (m.def.id === "LOADER") {
+    m.bucketCurl = -0.62;
+    notice("Bucket tipped. Hold the edge over the truck bed to pour.");
+  }
 };
 $("boomLeft").onclick = () => {
   const m = player();
@@ -3506,14 +3553,6 @@ function moveTool(dir) {
     );
     if (m.implement) m.implement.position.y = m.toolPosition;
     notice(dir > 0 ? "Screed raised. The mat stops." : "Screed down. Creep the lane to lay black asphalt.");
-  } else if (m.def.id === "EXCAVATOR") {
-    m.toolPosition = THREE.MathUtils.clamp(
-      (m.toolPosition || 0) + dir * 0.12,
-      -0.9,
-      0.5,
-    );
-    m.implement.rotation.x = m.toolPosition;
-    notice(dir > 0 ? "Excavator arm raised." : "Excavator arm lowered.");
   }
 }
 let moveSensitivity = 1,
@@ -4249,7 +4288,12 @@ function animate() {
   const m = player(),
     g = m.group;
   const isoTool = m.def.id === "EXCAVATOR" || m.def.id === "CRANE";
-  if (!isoTool && parked && m.def.id !== "LOADER" && Math.abs(excLeftY) > 0.06)
+  if (
+    !isoTool &&
+    parked &&
+    !["LOADER", "DOZER"].includes(m.def.id) &&
+    Math.abs(excLeftY) > 0.06
+  )
     m.toolPosition = THREE.MathUtils.clamp(
       (m.toolPosition || 0) + excLeftY * dt * 0.65,
       -0.72,
@@ -4273,7 +4317,7 @@ function animate() {
       m.def.id === "LOADER" ? 1.25 : 1.8,
     );
   }
-  if (!isoTool && Math.abs(excRightY) > 0.06) {
+  if (!isoTool && m.def.id !== "DOZER" && Math.abs(excRightY) > 0.06) {
     const loaderMin = m.def.id === "LOADER" ? -0.58 : -0.72;
     m.toolPosition = THREE.MathUtils.clamp(
       (m.toolPosition || 0) +
@@ -4832,16 +4876,16 @@ function animate() {
       );
     if (m.excavatorBoom) m.excavatorBoom.rotation.x = m.boomAngle ?? 0.7;
     if (m.excavatorStick) m.excavatorStick.rotation.x = m.stickAngle ?? -1.05;
+    // +X lifts the tooth lip toward the cab (curl-in); negative tips it forward to dump.
     if (m.excavatorBucket) m.excavatorBucket.rotation.x = m.bucketCurl ?? 0.4;
     const digZone = Math.hypot(g.position.x - 17, g.position.z + 10) < 23,
-      bucketMotion =
-        Math.abs(excRightX) > 0.08 ||
-        Math.abs(excRightY) > 0.08 ||
-        Math.abs(excLeftY) > 0.08,
+      scooping =
+        (excRightX < -0.08 || excLeftY < -0.08) &&
+        (m.bucketCurl ?? 0.4) > -0.2,
       cuttingPose = (m.stickAngle ?? -1.05) < 0.15 && (m.boomAngle ?? 0.7) < 1.05;
     if (
       digZone &&
-      bucketMotion &&
+      scooping &&
       cuttingPose &&
       Math.abs(speed) < 2.2 &&
       excavated < 20
@@ -4886,11 +4930,11 @@ function animate() {
       }
     } else m.digTimer = 0;
     const dumpingSpoil = (m.bucketCurl ?? 0.1) < -0.28 && m.cargo > 0.12;
-    const inHole = Math.hypot(g.position.x - 17, g.position.z + 10) < 7.5;
+    const tip = worldPoint(m.excavatorBucket || g, 0, -0.1, -1.25);
+    const inHole = Math.hypot(tip.x - 17, tip.z + 10) < 6;
     if (dumpingSpoil && !inHole) {
       m.spoilDump = (m.spoilDump || 0) + dt;
       if (m.spoilDump > 0.28) {
-        const tip = worldPoint(m.excavatorBucket || g, 0, -0.3, -0.8);
         const qty = Math.min(m.cargo, 0.4);
         addSpoil(tip.x, tip.z, qty);
         m.cargo = Math.max(0, m.cargo - qty);
@@ -4909,7 +4953,7 @@ function animate() {
     } else m.spoilDump = 0;
     if (
       digZone &&
-      bucketMotion &&
+      scooping &&
       cuttingPose &&
       Math.abs(speed) < 2.2 &&
       m.cargo >= 1.55 &&
