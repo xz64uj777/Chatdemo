@@ -2010,9 +2010,8 @@ const guideCopy = {
   EXCAVATOR: {
     title: "EXCAVATOR · ISO JOYSTICKS",
     steps: [
-      "The left stick does not drive. Use DRIVE and STEER to move the tracks.",
-      "LEFT stick left/right slews the house. LEFT stick up crowds the stick; down reaches it out.",
-      "RIGHT stick up raises the boom; down lowers it. RIGHT stick left curls the bucket; right dumps it.",
+      "Left stick drives and steers the tracks. PARK ON, and that same stick slews the house and moves the dipper.",
+      "Right stick always runs the boom and bucket, parked or not. Up raises the boom, down lowers it. Left curls, right dumps.",
       "Curl and pull in the yellow cut. Soil stays in the bucket. Slew clear and curl out to dump a spoil mound the loader can haul for free.",
     ],
     work: "AUTO DIG",
@@ -2059,7 +2058,9 @@ function updateControlVisibility() {
   );
   $("joystick").setAttribute(
     "aria-label",
-    id === "EXCAVATOR" ? "Left joystick: slew and stick" : "Driving joystick",
+    id === "EXCAVATOR" && parked
+      ? "Left joystick: slew and stick"
+      : "Driving joystick",
   );
   for (const k of [
     "toolUp",
@@ -2460,13 +2461,22 @@ function setCarriedBeam() {
     return true;
   }
   const hook = hookWorld();
-  const overSpan =
-    hook &&
-    Math.abs(hook.x - slot.x) < GIRDER_HALF + 1.2 &&
-    Math.abs(hook.z - slot.z) < 7.5 &&
-    hook.y < 9;
-  if (!overSpan) {
-    notice("Hook is short of the span. BOOM OUT until the 26 m girder hangs across both bank seats.");
+  if (!hook) {
+    notice("This crane has no hook.");
+    return true;
+  }
+  const dx = Math.abs(hook.x - slot.x);
+  const dz = Math.abs(hook.z - slot.z);
+  if (hook.y >= 11) {
+    notice("Hook is too high. Right stick down pays out cable until the girder can land.");
+    return true;
+  }
+  if (dx > GIRDER_HALF + 2.5) {
+    notice("Hook is short of the span. Face the river and hold BOOM OUT until the hook hangs over the gap.");
+    return true;
+  }
+  if (dz > 10) {
+    notice("Wrong bay. SLEW until the hook lines up with the open slot, then SET GIRDER.");
     return true;
   }
   const beam = yardBeams[carriedBeam];
@@ -3546,9 +3556,8 @@ function moveJoy(e) {
     dy = (dy / len) * max;
   }
   if (
-    player().def.id === "EXCAVATOR" ||
-    (parked &&
-      ["CRANE", "LOADER", "DOZER"].includes(player().def.id))
+    parked &&
+    ["EXCAVATOR", "CRANE", "LOADER", "DOZER"].includes(player().def.id)
   ) {
     excLeftX = THREE.MathUtils.clamp(dx / max, -1, 1);
     excLeftY = THREE.MathUtils.clamp(-dy / max, -1, 1);
@@ -4696,9 +4705,9 @@ function animate() {
     if (m.craneHook) m.craneHook.rotation.z = Math.sin(elapsed * 1.7) * 0.035;
   }
   if (m.def.id === "EXCAVATOR") {
-    if (Math.abs(excLeftX) > 0.06 && m.excavatorUpper)
+    if (parked && Math.abs(excLeftX) > 0.06 && m.excavatorUpper)
       m.excavatorUpper.rotation.y -= excLeftX * dt * 1.05;
-    if (Math.abs(excLeftY) > 0.06)
+    if (parked && Math.abs(excLeftY) > 0.06)
       m.stickAngle = THREE.MathUtils.clamp(
         (m.stickAngle ?? -1.05) + excLeftY * dt * 0.75,
         -1.45,
