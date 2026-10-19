@@ -8,7 +8,7 @@ After the GitHub Pages workflow succeeds: https://xz64uj777.github.io/Chatdemo/
 
 The game is a browser-first Three.js construction and field-operations simulator. It includes five machines, a multi-contract campaign, on-site material handling, equipment-specific guidance, touch controls, and local save progress.
 
-v0.10 play loop: the wheel loader scoops the stockpile ($12/t) or a spoil mound (free) and tips into the dump truck. The truck hauls to the green road marker, raises the bed, then opens the tailgate to pour. The D7 pushes a windrow and grades with the blade down. Paving is a PAVE button on the truck. The crane hooks a girder off the beam rack and sets it over the abutment — the deck does not appear without a girder on the hook. The excavator keeps soil in the bucket until you dump it clear of the cut. Fuel is per machine. The top marker points at the current task.
+v0.11 play loop: the wheel loader articulates at the center hitch, and the bucket only fills when the cutting edge is in the stockpile ($12/t) or a spoil mound (free). Tip into the dump truck. The truck hauls to the green road marker, raises the bed, then opens the tailgate to pour. The D7 pushes a windrow and grades with the blade down. Paving is a PAVE button on the truck. The crane hooks a girder off the beam rack and sets it over the abutment — the deck does not appear without a girder on the hook. The excavator keeps soil in the bucket until you dump it clear of the cut. Fuel is per machine. The top marker points at the current task.
 
 ## Controls and first steps
 
