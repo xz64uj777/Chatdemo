@@ -102,6 +102,22 @@ function mesh(geo, material, x, y, z, parent = scene) {
 function box(color, x, y, z, sx, sy, sz, parent = scene) {
   return mesh(new THREE.BoxGeometry(sx, sy, sz), mat(color), x, y, z, parent);
 }
+function glassBox(color, x, y, z, sx, sy, sz, parent = scene) {
+  return mesh(
+    new THREE.BoxGeometry(sx, sy, sz),
+    new THREE.MeshStandardMaterial({
+      color,
+      roughness: 0.06,
+      metalness: 0.2,
+      transparent: true,
+      opacity: 0.5,
+    }),
+    x,
+    y,
+    z,
+    parent,
+  );
+}
 // terrain and route network
 const ground = mesh(
   new THREE.PlaneGeometry(340, 340),
@@ -734,8 +750,8 @@ function makeMachine(def) {
     steerWheels = [],
     liftArms = [];
   for (let side of [-1, 1]) {
-    if (def.id === "DOZER" || def.id === "EXCAVATOR") {
-      box(0x282b2c, side * 2.05, 0.8, 0, 0.65, 1.15, 5.7, g);
+    if (def.id === "DOZER" || def.id === "EXCAVATOR" || def.id === "TRUCK" || def.id === "PAVER") {
+      /* Tracks or a dedicated axle set. No extra loose tires. */
     } else if (def.id !== "PAVER") {
       for (let z of [-1.8, 1.8]) {
         const axle = new THREE.Group();
@@ -785,22 +801,10 @@ function makeMachine(def) {
   let excavatorBucket = null;
   let hopperFill = null;
   if (def.id === "DOZER") {
-    box(0xd49a22, 0, 1.55, 0.75, 3.45, 1.05, 3.35, g);
-    box(0x9f7316, 0, 1.65, 2.35, 3.15, 0.72, 1.55, g);
-    box(0x252b2e, 0.38, 2.55, -0.25, 2.05, 1.28, 1.8, g);
-    box(0x8eb7c6, 0.38, 2.58, -1.18, 1.65, 0.92, 0.12, g);
-    box(0x8eb7c6, 1.37, 2.48, -0.2, 0.12, 0.78, 1.35, g);
-    box(0x8eb7c6, -0.61, 2.48, -0.2, 0.12, 0.78, 1.35, g);
-    box(
-      0xd49a22,
-      0,
-      1.62,
-      -1.35,
-      3.05,
-      0.72,
-      0.95,
-      g,
-    ); /* Front loader geometry is built in the dedicated linkage block below; avoid duplicate legacy bucket and arms. */
+    box(0xd49a22, 0, 1.42, 0.35, 2.55, 0.78, 2.8, g);
+    box(0x9f7316, 0, 1.35, 1.7, 2.35, 0.55, 0.85, g);
+    box(0x2a3032, 0, 1.2, 2.15, 2.15, 0.62, 0.28, g);
+    box(0x1c2224, 0, 1.05, 2.35, 1.7, 0.35, 0.12, g);
   }
   if (def.id === "LOADER") {
     // Articulated loader: the rear frame yaws at the hitch. The bucket is a child of the arm tips, so the pins cannot float off the steel.
@@ -890,7 +894,7 @@ function makeMachine(def) {
     for (const crossZ of [0.1, 1.5, 2.9])
       box(0x343b3e, 0, 1.08, crossZ, 1.9, 0.18, 0.22, g);
     box(0x28343a, 0, 2.15, -2.05, 3.05, 1.75, 2.35, g);
-    box(0x8bb5c8, 0, 2.38, -2.08, 2.55, 0.88, 1.95, g);
+    glassBox(0x9ec8d8, 0, 2.38, -2.08, 2.55, 0.88, 1.95, g);
     box(0x17262d, 0, 2.32, -2.08, 0.12, 0.98, 2.02, g);
     /* Removed fixed side/body panel behind the cab: only the hinged dump bed should form the cargo body. */ box(
       0x59656a,
@@ -986,9 +990,43 @@ function makeMachine(def) {
             axle,
           );
           hub.rotation.z = Math.PI / 2;
+          wheels.push(tire, hub);
         }
       }
+      const front = new THREE.Group();
+      front.position.set(side * 1.55, 0.72, -2.55);
+      g.add(front);
+      const tire = mesh(
+        new THREE.CylinderGeometry(0.72, 0.72, 0.46, 18),
+        mat(0x202326),
+        0,
+        0,
+        0,
+        front,
+      );
+      tire.rotation.z = Math.PI / 2;
+      const hub = mesh(
+        new THREE.CylinderGeometry(0.28, 0.28, 0.48, 14),
+        mat(0xc5ccd0, 0.4, 0.45),
+        0,
+        0,
+        0,
+        front,
+      );
+      hub.rotation.z = Math.PI / 2;
+      wheels.push(tire, hub);
+      steerWheels.push(front);
+      box(0x2a3032, side * 1.35, 0.95, 2.7, 0.08, 0.7, 0.55, g);
     }
+    mesh(
+      new THREE.CylinderGeometry(0.1, 0.12, 1.4, 10),
+      mat(0x3a4144, 0.6, 0.35),
+      1.15,
+      2.7,
+      -0.4,
+      g,
+    );
+    box(0x3d464a, -1.15, 1.35, -0.2, 0.42, 0.55, 1.1, g);
     /* Rear hoist cradle and hydraulic ram; no second fixed body under the tipper. */ box(
       0x343b3e,
       0,
@@ -1238,6 +1276,12 @@ function makeMachine(def) {
       box(0xc8cecc, side * 2.28, 0.04, 0.04, 0.12, 1.16, 0.4, implement);
       box(0xd49a22, side * 1.15, 0.28, 1.05, 0.18, 0.16, 1.85, implement);
     }
+    const ripper = new THREE.Group();
+    ripper.position.set(0, 0.85, 2.7);
+    g.add(ripper);
+    box(0x2c3234, 0, 0.15, 0, 2.2, 0.22, 0.22, ripper);
+    for (const x of [-0.7, 0, 0.7])
+      box(0x1c2124, x, -0.15, 0.15, 0.12, 0.55, 0.16, ripper);
   }
   if (def.id === "LOADER" && rearFrame) {
     mesh(
@@ -1254,7 +1298,15 @@ function makeMachine(def) {
     box(0xb47d16, 0, 1.82, 1.9, 2.0, 0.78, 1.25, rearFrame);
     box(0x8a6412, 0, 1.48, 2.7, 2.25, 0.78, 0.48, rearFrame);
     box(0x252b2e, 0, 2.42, 0.95, 1.75, 1.2, 1.25, rearFrame);
-    box(0x8eb7c6, 0, 2.5, 0.28, 1.5, 0.78, 0.08, rearFrame);
+    glassBox(0x9ec8d8, 0, 2.5, 0.28, 1.5, 0.78, 0.08, rearFrame);
+    mesh(
+      new THREE.CylinderGeometry(0.08, 0.1, 0.7, 10),
+      mat(0x2a3032),
+      0.7,
+      2.15,
+      1.7,
+      rearFrame,
+    );
     box(0x8eb7c6, 0.88, 2.42, 0.95, 0.08, 0.72, 1.05, rearFrame);
     box(0x8eb7c6, -0.88, 2.42, 0.95, 0.08, 0.72, 1.05, rearFrame);
     for (const side of [-1, 1]) {
@@ -1419,6 +1471,22 @@ function makeMachine(def) {
   const reverseLamp = new THREE.PointLight(0xff4a2a, 0, 9, 2);
   reverseLamp.position.set(0, 1.55, 3.35);
   g.add(reverseLamp);
+  const shade = mesh(
+    new THREE.CircleGeometry(def.id === "TRUCK" || def.id === "CRANE" ? 3.3 : 2.5, 18),
+    new THREE.MeshBasicMaterial({
+      color: 0x14160f,
+      transparent: true,
+      opacity: 0.3,
+      depthWrite: false,
+    }),
+    0,
+    0.04,
+    0,
+    g,
+  );
+  shade.rotation.x = -Math.PI / 2;
+  shade.castShadow = false;
+  shade.receiveShadow = false;
   scene.add(g);
   g.position.set(...def.start);
   const startYaw = {
@@ -4314,6 +4382,7 @@ function animate() {
   g.translateZ(-speed * dt);
   g.position.x = THREE.MathUtils.clamp(g.position.x, -145, 145);
   g.position.z = THREE.MathUtils.clamp(g.position.z, -140, 140);
+  g.position.y = -Math.min(0.12, (m.cargo || 0) * 0.009);
   if (m.def.id === "TRUCK") {
     const pileDistance = Math.hypot(g.position.x + 4, g.position.z - 5),
       oldPileDistance = Math.hypot(previousX + 4, previousZ - 5);
