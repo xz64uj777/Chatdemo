@@ -832,6 +832,7 @@ function makeMachine(def) {
   let excavatorStick = null;
   let excavatorBucket = null;
   let hopperFill = null;
+  const outriggers = [];
   if (def.id === "DOZER") {
     box(0xd49a22, 0, 1.42, 0.35, 2.55, 0.78, 2.8, g);
     box(0x9f7316, 0, 1.35, 1.7, 2.35, 0.55, 0.85, g);
@@ -1095,10 +1096,36 @@ function makeMachine(def) {
     box(0x3a4146, 0, 1.15, 0.1, 2.4, 0.42, 5.4, g);
     box(0x2a3034, 0, 1.42, 1.55, 2.2, 0.55, 1.5, g);
     for (const side of [-1, 1]) {
-      box(0x4a5256, side * 1.15, 0.72, -1.7, 0.85, 0.12, 0.16, g);
-      box(0x4a5256, side * 1.15, 0.72, 1.7, 0.85, 0.12, 0.16, g);
-      box(0xc98416, side * 1.55, 0.22, -1.7, 0.42, 0.1, 0.42, g);
-      box(0xc98416, side * 1.55, 0.22, 1.7, 0.42, 0.1, 0.42, g);
+      for (const z of [-1.05, 1.05]) {
+        const rig = new THREE.Group();
+        rig.position.set(side * 0.9, 0.78, z);
+        g.add(rig);
+        const beam = box(0x4a5256, 0, 0, 0, 1.4, 0.14, 0.2, rig);
+        const jack = new THREE.Group();
+        jack.position.set(side * 0.68, 0, 0);
+        rig.add(jack);
+        mesh(
+          new THREE.CylinderGeometry(0.075, 0.075, 0.48, 10),
+          mat(0x8d9598, 0.45, 0.45),
+          0,
+          -0.16,
+          0,
+          jack,
+        );
+        const leg = new THREE.Group();
+        leg.position.set(0, -0.22, 0);
+        jack.add(leg);
+        mesh(
+          new THREE.CylinderGeometry(0.05, 0.05, 0.44, 10),
+          mat(0xcfd6d8, 0.3, 0.65),
+          0,
+          -0.14,
+          0,
+          leg,
+        );
+        box(0xc98416, 0, -0.36, 0, 0.52, 0.1, 0.52, leg);
+        outriggers.push({ rig, beam, jack, leg, side });
+      }
     }
     craneUpper = new THREE.Group();
     craneUpper.position.set(0, 1.7, -0.15);
@@ -1196,6 +1223,29 @@ function makeMachine(def) {
       box(0x8d9494, side * 0.52, -0.15, -0.15, 0.1, 0.62, 0.7, excavatorBucket);
     for (let tooth = -0.36; tooth <= 0.37; tooth += 0.24)
       box(0x3e4444, tooth, -0.62, -0.78, 0.1, 0.12, 0.28, excavatorBucket);
+    cargoVisual = new THREE.Group();
+    excavatorBucket.add(cargoVisual);
+    const spoilCore = mesh(
+      new THREE.DodecahedronGeometry(0.42, 1),
+      mat(0x6b533e),
+      0,
+      -0.24,
+      -0.34,
+      cargoVisual,
+    );
+    spoilCore.scale.set(1.15, 0.72, 0.95);
+    for (let ci = 0; ci < 11; ci++) {
+      const clod = mesh(
+        new THREE.DodecahedronGeometry(0.14 + (ci % 3) * 0.04, 0),
+        mat([0x6b533e, 0x7c624a, 0x594432, 0x8a7055][ci % 4]),
+        ((ci % 4) - 1.5) * 0.22,
+        -0.1 + Math.floor(ci / 4) * 0.1,
+        -0.22 - (ci % 3) * 0.16,
+        cargoVisual,
+      );
+      clod.rotation.set(ci * 0.5, ci * 0.9, ci * 0.3);
+    }
+    cargoVisual.visible = false;
     implement = excavatorBucket;
   }
   // Extra machine-specific mechanical detail so equipment silhouettes read clearly at phone scale.
@@ -1558,6 +1608,7 @@ function makeMachine(def) {
     excavatorStick,
     excavatorBucket,
     hopperFill,
+    outriggers,
     wheels,
     steerWheels,
     liftArms,
@@ -1996,13 +2047,12 @@ const guideCopy = {
     work: "WORK · STATUS",
   },
   CRANE: {
-    title: "MOBILE CRANE · SLEW / LIFT",
+    title: "MOBILE CRANE · OUTRIGGERS + LIFT",
     steps: [
-      "Drive to the BEAMS rack west of the river. WORK or LOAD / USE hooks the next girder onto the cable.",
-      "BOOM UP raises the boom. BOOM DOWN lowers it. Hold BOOM OUT to telescope, BOOM IN to retract. No park brake required.",
-      "Right stick up reels the hook in. Right stick down pays cable out. SLEW turns the house.",
-      "Haul the hanging girder to the blue bridge marker.",
-      "Boom the hook over the abutment, then SET GIRDER. The deck does not appear unless a girder is actually on the hook.",
+      "Drive to the BEAMS rack west of the river, then tap PARK to plant the outriggers before lifting.",
+      "With PARK ON, press WORK or LOAD / USE to hook the next girder. Release PARK to haul it to the bridge.",
+      "At the blue bridge marker, tap PARK ON again so the outriggers lock down, boom out over the span, and press SET GIRDER.",
+      "BOOM UP raises the boom, BOOM DOWN lowers it, and BOOM OUT / IN telescopes. Right stick up/down runs the cable.",
       "Finish the rock base, grade it, then pave with the asphalt paver before the first set. Three girders close Job 01.",
     ],
     work: "WORK · LIFT",
@@ -2333,7 +2383,23 @@ function hud() {
 }
 function syncCargo(m) {
   if (!m.cargoVisual) return;
-  const capacity = m.def.id === "TRUCK" ? 12.5 : 4;
+  const capacity =
+    m.def.id === "TRUCK" ? 12.5 : m.def.id === "EXCAVATOR" ? 1.6 : 4;
+  if (m.def.id === "EXCAVATOR") {
+    const ratio = THREE.MathUtils.clamp(m.cargo / capacity, 0, 1);
+    m.cargoVisual.visible = ratio > 0.02;
+    m.cargoVisual.scale.set(
+      0.7 + ratio * 0.35,
+      0.35 + ratio * 0.75,
+      0.7 + ratio * 0.35,
+    );
+    const total = m.cargoVisual.children.length;
+    const show = Math.max(1, Math.ceil(ratio * total));
+    m.cargoVisual.children.forEach((c, i) => {
+      c.visible = i < show;
+    });
+    return;
+  }
   const count = m.def.id === "TRUCK" ? 32 : 16;
   const visibleCount = Math.ceil(Math.min(1, m.cargo / capacity) * count);
   m.cargoVisual.scale.set(1, 1, 1);
@@ -2438,8 +2504,13 @@ function tryHookBeam() {
     notice("Girders are on the rack marked BEAMS. Park alongside the steel and lower the hook.");
     return true;
   }
+  if (!parked) {
+    notice("OUTRIGGERS RETRACTED · tap PARK to deploy the stabilizer jacks before hooking the girder.");
+    return true;
+  }
   attachBeam(idx);
-  notice(`GIRDER ${idx + 1} ON THE HOOK. Boom it over the abutment, then SET GIRDER.`);
+  sfxClank();
+  notice(`GIRDER ${idx + 1} ON THE HOOK · release PARK to haul to the bridge, then PARK ON to set.`);
   hud();
   saveGame(true);
   return true;
@@ -2453,6 +2524,10 @@ function setCarriedBeam() {
   }
   if (jobNo === 1 && (delivered < 30 || graded < 40 || paved < 8)) {
     notice("Finish the road first: deliver, grade, then pave. The girder can stay on the hook.");
+    return true;
+  }
+  if (!parked) {
+    notice("OUTRIGGERS RETRACTED · tap PARK so the stabilizer jacks plant before setting the 26 m girder.");
     return true;
   }
   const slot = bridgeSlots[beams];
@@ -3346,10 +3421,16 @@ $("park").onclick = () => {
   $("park").textContent = parked ? "PARK ON" : "PARK";
   bootAudio();
   sfxHiss();
+  const isCrane = player().def.id === "CRANE";
+  if (isCrane) sfxClank();
   notice(
-    parked
-      ? "Parking brake engaged · left joystick now operates machine tools."
-      : "Parking brake released · left joystick now drives and steers.",
+    isCrane
+      ? parked
+        ? "Outriggers deployed and hydraulic jacks planted · ready for heavy lifts."
+        : "Outriggers retracted · crane unlocked for travel."
+      : parked
+        ? "Parking brake engaged · left joystick now operates machine tools."
+        : "Parking brake released · left joystick now drives and steers.",
   );
 };
 $("lights").onclick = () => {
@@ -4704,6 +4785,23 @@ function animate() {
     m.craneCable.rotation.x = -(m.boomAngle ?? 0.42);
     if (m.craneHook) m.craneHook.rotation.z = Math.sin(elapsed * 1.7) * 0.035;
   }
+  for (const cm of machines) {
+    if (!cm.outriggers || !cm.outriggers.length) continue;
+    const wantOut = cm === m && parked ? 1 : 0;
+    cm.outriggerDeploy = THREE.MathUtils.damp(
+      cm.outriggerDeploy ?? 0,
+      wantOut,
+      5.5,
+      dt,
+    );
+    const d = cm.outriggerDeploy;
+    const beamPhase = THREE.MathUtils.clamp(d * 1.5, 0, 1);
+    const jackPhase = THREE.MathUtils.clamp((d - 0.3) / 0.7, 0, 1);
+    for (const o of cm.outriggers) {
+      o.rig.position.x = o.side * (0.55 + beamPhase * 1.65);
+      o.leg.position.y = -0.02 - jackPhase * 0.36;
+    }
+  }
   if (m.def.id === "EXCAVATOR") {
     if (parked && Math.abs(excLeftX) > 0.06 && m.excavatorUpper)
       m.excavatorUpper.rotation.y -= excLeftX * dt * 1.05;
@@ -4752,6 +4850,7 @@ function animate() {
         } else {
           const cut = 0.32;
           m.cargo = Math.min(1.6, m.cargo + cut);
+          syncCargo(m);
           excavated = Math.min(20, excavated + 1);
           cash += 8;
           wear(m, 0.08);
@@ -4787,6 +4886,7 @@ function animate() {
         const qty = Math.min(m.cargo, 0.4);
         addSpoil(tip.x, tip.z, qty);
         m.cargo = Math.max(0, m.cargo - qty);
+        syncCargo(m);
         m.spoilDump = 0;
         animateMaterialFlow(tip, new THREE.Vector3(tip.x, 0.2, tip.z), 6);
         if (elapsed - (m.spoilNote || 0) > 1.2) {
