@@ -6,7 +6,11 @@ The playable game in this repository is **Field Ops 3D**, based on the supplied 
 
 After the GitHub Pages workflow succeeds: https://xz64uj777.github.io/Chatdemo/
 
-The game is a browser-first Three.js construction and field-operations simulator. It includes five machines, a multi-contract campaign, on-site material handling, equipment-specific guidance, touch controls, and local save progress.
+The game is a browser-first Three.js construction and field-operations simulator. It includes six machines, a multi-contract campaign, on-site material handling, equipment-specific guidance, touch controls, and local save progress.
+
+v0.18: the dump truck lays rock base only. Hot mix is the black pile north of the approach. The asphalt paver fills there, lowers its screed, and turns each section black as it creeps west to east.
+
+v0.17 adds per-machine engines, hydraulic whine, a backup alarm, horn (H), impact and tailgate sounds, exhaust smoke, and dust. Volume and mute live in Options. Audio starts after the first tap or key press.
 
 v0.16 play loop: the finished pavement stops at the orange cones. The tan gap between those joints is the unfinished approach. Back the dump truck onto that dirt, raise the bed, and open the gate — rock falls out the rear and only counts there. Girders are 26 m and bear on both banks of the 22 m river. Each contract has its own site. Park the dump truck in the yellow load lane and the yard loader fills the bed. The wheel loader steers as one machine. The crane still has to hook a girder before a deck appears.
 

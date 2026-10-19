@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Field Ops 3D — Site Crew v0.16</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Field Ops 3D — Site Crew v0.18</title>
 <style>
 :root{color-scheme:dark}*{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#8db9d1;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#f5f5f2}canvas{display:block}#hud{position:fixed;inset:10px 10px auto;display:flex;gap:8px;justify-content:space-between;align-items:flex-start;pointer-events:none;z-index:3}.panel{background:#182126e8;border:1px solid #ffffff2a;border-radius:10px;padding:9px 12px;box-shadow:0 3px 12px #0002;backdrop-filter:blur(5px);font-size:12px;line-height:1.5}.panel strong{font-size:14px;letter-spacing:.06em}.muted{color:#c4d0d2}#job{position:fixed;left:10px;top:88px;width:min(255px,58vw);z-index:3;pointer-events:none}#notice{position:fixed;left:50%;top:17%;transform:translateX(-50%);background:#172126ed;padding:10px 16px;border:1px solid #ffffff30;border-radius:9px;z-index:6;max-width:90vw;text-align:center;opacity:0;transition:opacity .2s;pointer-events:none}#notice.show{opacity:1}#crosshair{position:fixed;left:50%;top:50%;width:10px;height:10px;border:1px solid #fff9;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}#bottom{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);z-index:4;text-align:center;background:#182126df;border:1px solid #ffffff25;border-radius:10px;padding:8px 12px;font-size:12px;max-width:96vw;width:max-content;pointer-events:none}#controls{position:fixed;inset:auto 12px 86px;display:flex;justify-content:space-between;align-items:end;gap:10px;z-index:5;pointer-events:none;max-height:58vh}.dpad,.actions{pointer-events:auto}.dpad{position:relative;width:138px;height:138px;border-radius:50%;background:#142027a8;border:2px solid #ffffff45;touch-action:none;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 14px #0004}.stick{width:58px;height:58px;border-radius:50%;background:#d8e0e4d9;border:2px solid #fff;box-shadow:0 2px 8px #0006;pointer-events:none;transform:translate(0,0)}.actions{display:grid;grid-template-columns:repeat(2,minmax(62px,76px));gap:6px;max-width:164px;max-height:56vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;padding:2px; -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}button{ -webkit-user-select:none;user-select:none;-webkit-touch-callout:none; font:800 11px system-ui;border:1px solid #ffffff55;border-radius:12px;background:#26363def;color:white;min-height:43px;padding:6px;touch-action:none;box-shadow:0 3px 8px #0004}button.primary{background:#e5a82c;color:#171b1c;border-color:#ffd777}button:active{filter:brightness(1.3);transform:translateY(1px)}#toolDock{display:contents}#toolJoystickWrap{display:none;pointer-events:auto;flex-direction:column;align-items:center;gap:4px}#toolJoystickWrap.show{display:flex}.toolJoyLabel{font-size:9px;font-weight:900;color:#ffe08a;background:#182126dc;padding:3px 7px;border-radius:8px}.tooljoy{position:relative;width:116px;height:116px;border-radius:50%;background:#142027c9;border:2px solid #ffffff60;touch-action:none;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 14px #0005}.toolstick{width:48px;height:48px;border-radius:50%;background:#d8e0e4e8;border:2px solid #fff;box-shadow:0 2px 8px #0006;pointer-events:none;transform:translate(0,0)}#mobileNote{font-size:10px;color:#c4d0d2}#help{display:none}#minimap{position:fixed;right:10px;top:260px;width:112px;height:112px;border-radius:10px;border:1px solid #ffffff55;background:#182126d9;z-index:3}#toastline{font-size:11px;color:#d7e1e1}#saveState{font-size:10px;color:#a7d8a2}#jobTip{display:block;margin-top:4px;font-size:10px}#waypoint{position:fixed;left:50%;top:8px;transform:translateX(-50%);z-index:4;background:#182126f5;border:2px solid #ffd777;border-radius:20px;padding:8px 14px;font-size:12px;font-weight:900;pointer-events:none;white-space:nowrap;box-shadow:0 3px 10px #0004;color:#ffe08a}#leftPanelTools{position:fixed;left:10px;top:204px;z-index:8;display:flex;gap:5px;pointer-events:auto}#leftPanelTools button{min-height:32px;padding:5px 8px;background:#26363df2;font-size:10px}#machinePicker{position:fixed;left:10px;bottom:230px;z-index:9;display:none;width:min(190px,48vw);padding:7px;background:#182126f2;border:1px solid #ffd777;border-radius:10px;box-shadow:0 5px 18px #0006;pointer-events:auto}#machinePicker.open{display:grid;gap:5px}#machinePicker strong{font-size:10px;color:#ffd777;padding:2px 4px}#machinePicker button{min-height:34px;text-align:left;padding:5px 8px}@media(max-width:520px){#machinePicker{left:7px;bottom:218px;width:145px}#leftPanelTools{gap:3px}#leftPanelTools button{padding:4px 6px;font-size:9px}}body.panels-right #job{left:auto;right:10px}body.panels-right #materialGuide{left:auto;right:10px}body.panels-right #leftPanelTools{left:auto;right:10px}body.panels-hidden #job,body.panels-hidden #materialGuide{display:none}@media(max-width:520px){#leftPanelTools{top:178px;left:7px}body.panels-right #leftPanelTools{left:auto;right:7px}body.panels-right #job{right:7px}body.panels-right #materialGuide{right:7px}}#materialGuide{position:fixed;left:10px;top:246px;z-index:3;max-width:210px;background:#182126df;border:1px solid #ffffff25;border-radius:9px;padding:7px 10px;font-size:10px;pointer-events:none}#optionsMenu{position:fixed;left:10px;top:250px;z-index:10;width:min(270px,78vw);max-height:58vh;overflow:auto;display:none;background:#182126f5;border:1px solid #ffd777;border-radius:12px;padding:12px;box-shadow:0 5px 20px #0008;pointer-events:auto}#optionsMenu.open{display:block}#optionsMenu label{display:block;font-size:11px;margin:10px 0 4px}#optionsMenu input[type=range]{width:100%;accent-color:#e5a82c}#optionsMenu .optionRow{display:flex;justify-content:space-between;gap:8px;align-items:center}#guideBtn{position:fixed;right:10px;top:190px;z-index:7;min-height:34px;padding:6px 10px;background:#e5a82c;color:#172126;border-color:#ffe08a}#machineGuide{position:fixed;right:10px;top:230px;z-index:7;width:min(230px,58vw);background:#182126f2;border:1px solid #ffd777;border-radius:10px;padding:10px 12px;box-shadow:0 5px 20px #0006;font-size:11px;line-height:1.45;display:none;pointer-events:auto}#machineGuide.open{display:block}#machineGuide strong{font-size:12px;color:#ffd15a}#machineGuide ol{margin:6px 0 0;padding-left:18px}#machineGuide li{margin:3px 0}#machineGuideClose{float:right;min-height:26px;padding:2px 8px}#bottom{display:none}#minimap{touch-action:none}@media(min-width:850px){#controls{inset:auto 18px 18px}.dpad{width:118px;height:118px;opacity:.8}.stick{width:50px;height:50px}.actions{grid-template-columns:repeat(4,76px);max-width:none}#minimap{width:140px;height:140px}#job{width:270px}#bottom{bottom:12px}}@media(max-width:520px){.tooljoy{width:94px;height:94px}.toolstick{width:40px;height:40px}#hud{inset:7px 7px auto}#job{top:80px;left:7px;width:min(205px,57vw);font-size:11px;padding:8px}#minimap{top:255px;right:7px;width:88px;height:88px}#controls{left:8px;right:8px;bottom:82px;align-items:end;max-height:62vh}.actions{max-height:60vh}.dpad{width:126px;height:126px;flex-shrink:0}.stick{width:54px;height:54px}.actions{grid-template-columns:repeat(2,68px);gap:5px;max-width:142px}button{min-height:40px;font-size:10px;padding:4px;border-radius:10px}#bottom{display:none}#crosshair{display:none}}
 @media(max-width:520px){body.dual-joystick-layout #controls{left:6px;right:6px;display:grid;grid-template-columns:88px minmax(0,1fr) 82px;column-gap:7px;align-items:end}body.dual-joystick-layout #joystick{grid-column:1;grid-row:1;width:88px;height:88px;justify-self:start;flex-shrink:0}body.dual-joystick-layout .actions{grid-column:2;grid-row:1;min-width:0;width:100%;max-width:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}body.dual-joystick-layout #toolJoystickWrap{grid-column:3;grid-row:1;justify-self:end;flex-shrink:0;align-self:end}body.dual-joystick-layout #stick{width:40px;height:40px}body.dual-joystick-layout .tooljoy{width:82px;height:82px}body.dual-joystick-layout .toolstick{width:36px;height:36px}body.dual-joystick-layout .toolJoyLabel{font-size:8px;padding:2px 4px}body.dual-joystick-layout button{min-height:36px;font-size:9px;padding:3px}}@media(min-width:521px){body.dual-joystick-layout #controls{left:12px;right:12px;display:grid;grid-template-columns:118px minmax(0,1fr) 116px;column-gap:12px;align-items:end}body.dual-joystick-layout #joystick{grid-column:1;grid-row:1;justify-self:start;flex-shrink:0}body.dual-joystick-layout .actions{grid-column:2;grid-row:1;width:100%;max-width:none;grid-template-columns:repeat(3,minmax(68px,1fr))}body.dual-joystick-layout #toolJoystickWrap{grid-column:3;grid-row:1;justify-self:end;flex-shrink:0}}</style>
@@ -26,8 +26,8 @@
 <div id="hud"><div class="panel"><strong>FIELD OPS <span style="color:#e5a82c">3D</span></strong><br><span id="machine">D7 DOZER</span><br><span class="muted" id="machineHint">Push and grade the road</span></div><div class="panel" style="text-align:right">CASH <b id="cash">$12,500</b><br>FUEL <b id="fuel">100%</b> · LOAD <b id="load">0 t</b><br>SPEED <b id="speed">0 km/h</b> · <span id="saveState">AUTO-SAVE ON</span><br><span id="shift" class="muted">06:40 · CLEAR</span> · <span id="condition" class="muted">FIT</span><div id="bucketFillWrap" style="display:none;text-align:left;margin-top:5px;min-width:130px">BUCKET <b id="bucketFillText">0 / 4 t · 0%</b><div style="height:7px;background:#ffffff25;border-radius:8px;overflow:hidden;margin-top:3px"><div id="bucketFillBar" style="height:100%;width:0;background:#d5ad72;transition:width .15s"></div></div></div></div></div>
 
 <div id="job" class="panel"><strong id="jobTitle">JOB 01 · ACCESS ROAD</strong><br><span id="objective">Haul aggregate to the marked road section.</span><div style="height:7px;background:#ffffff20;border-radius:8px;margin:8px 0 5px;overflow:hidden"><div id="bar" style="height:100%;width:0;background:#e5a82c;transition:width .2s"></div></div><b id="progress">0 / 100 work units</b><br><span id="stage" class="muted">Stage 1 of 3 · Deliver aggregate</span><br><span id="jobTip" class="muted">Tip: drive close to the pile before loading.</span></div>
-<div id="waypoint">🟡 CONTRACT BOARD · follow the marker</div><div id="leftPanelTools"><button id="panelSide" type="button">⇄ MOVE RIGHT</button><button id="panelHide" type="button">− HIDE MENUS</button><button id="machinePickerToggle" type="button">🚜 MACHINES ▾</button><button id="optionsToggle" type="button">⚙ OPTIONS</button></div><section id="optionsMenu"><div class="optionRow"><strong>CONTROL OPTIONS</strong><button id="optionsClose" type="button">CLOSE</button></div><label for="moveSensitivity">Touch movement sensitivity <span id="moveSensitivityValue">100%</span></label><input id="moveSensitivity" type="range" min="50" max="150" value="100" step="5"><label for="throttleSensitivity">Truck throttle response <span id="throttleSensitivityValue">100%</span></label><input id="throttleSensitivity" type="range" min="50" max="150" value="100" step="5"><label for="boomSensitivity">Boom / tool sensitivity <span id="boomSensitivityValue">100%</span></label><input id="boomSensitivity" type="range" min="50" max="175" value="100" step="5"><div style="font-size:10px;color:#c4d0d2;margin-top:8px">Changes save on this device. Horizontal camera movement is inverted.</div></section><section id="machinePicker" aria-label="Choose machine"><strong>CHOOSE MACHINE</strong><button type="button" data-machine="0">D7 DOZER</button><button type="button" data-machine="1">WHEEL LOADER</button><button type="button" data-machine="2">DUMP TRUCK</button><button type="button" data-machine="3">MOBILE CRANE</button><button type="button" data-machine="4">EXCAVATOR</button></section><div id="materialGuide">MATERIALS: Tan pile or yellow load lane → dump-truck bed → this contract's green marker. Flood control dumps at the basin, the quarry road is the north-south lane, the depot yard is by the warehouse. Loader: RIGHT joystick lifts and curls. Truck: bed up, then GATE OPEN. A loaded truck ruts, and the river bank is soft.</div><button id="guideBtn" type="button">📘 MACHINE GUIDE</button><section id="machineGuide" aria-live="polite"><button id="machineGuideClose" type="button">CLOSE</button><strong id="guideTitle">DUMP TRUCK</strong><div id="guideText"></div></section><div id="notice" role="status" aria-live="polite"></div><div id="crosshair"></div><canvas id="minimap" width="140" height="140" aria-label="Site map"></canvas>
-<div id="controls"><div class="dpad" id="joystick" aria-label="Driving joystick on left"><div class="stick" id="stick"></div></div><div id="toolJoystickWrap"><div class="toolJoyLabel">BOOM / BUCKET</div><div class="tooljoy" id="toolJoystick" aria-label="Excavator right joystick"><div class="toolstick" id="toolStick"></div></div><div class="toolJoyLabel">RIGHT JOYSTICK</div></div><div class="actions"><button id="switch" class="primary">🚜 MACHINE</button><button id="boardGo" class="primary">GO TO BOARD</button><button id="restart">↻ RESTART</button><button id="interact">LOAD / USE</button><button id="gateRelease" class="primary" style="display:none">GATE OPEN / CLOSE</button><button id="work">WORK</button><button id="refuel" style="display:none">FUEL</button><button id="throttle">▲ DRIVE</button><button id="brake">▼ BRAKE / REV</button><button id="toolUp">TOOL UP</button><button id="toolDown">TOOL DOWN</button><button id="toolCurl">BUCKET CURL</button><button id="curlBack">CURL BACK</button><button id="dumpBucket">DUMP BUCKET</button><button id="boomLeft">SLEW ◀</button><button id="boomRight">SLEW ▶</button><button id="boomOut">BOOM OUT</button><button id="boomIn">BOOM IN</button><button id="steerLeft">◀ STEER</button><button id="steerRight">STEER ▶</button><button id="park">PARK</button><button id="lights">LIGHTS OFF</button></div></div>
+<div id="waypoint">🟡 CONTRACT BOARD · follow the marker</div><div id="leftPanelTools"><button id="panelSide" type="button">⇄ MOVE RIGHT</button><button id="panelHide" type="button">− HIDE MENUS</button><button id="machinePickerToggle" type="button">🚜 MACHINES ▾</button><button id="optionsToggle" type="button">⚙ OPTIONS</button></div><section id="optionsMenu"><div class="optionRow"><strong>CONTROL OPTIONS</strong><button id="optionsClose" type="button">CLOSE</button></div><label for="moveSensitivity">Touch movement sensitivity <span id="moveSensitivityValue">100%</span></label><input id="moveSensitivity" type="range" min="50" max="150" value="100" step="5"><label for="throttleSensitivity">Truck throttle response <span id="throttleSensitivityValue">100%</span></label><input id="throttleSensitivity" type="range" min="50" max="150" value="100" step="5"><label for="boomSensitivity">Boom / tool sensitivity <span id="boomSensitivityValue">100%</span></label><input id="boomSensitivity" type="range" min="50" max="175" value="100" step="5"><label for="soundVolume">Machine sound <span id="soundVolumeValue">72%</span></label><input id="soundVolume" type="range" min="0" max="100" value="72" step="5"><div class="optionRow"><span style="font-size:11px">Engines, hydraulics, alarms</span><button id="soundMute" type="button">SOUND ON</button></div><div style="font-size:10px;color:#c4d0d2;margin-top:8px">Changes save on this device. Tap the site or press a key to start audio. Horn is H. Horizontal camera movement is inverted.</div></section><section id="machinePicker" aria-label="Choose machine"><strong>CHOOSE MACHINE</strong><button type="button" data-machine="0">D7 DOZER</button><button type="button" data-machine="1">WHEEL LOADER</button><button type="button" data-machine="2">DUMP TRUCK</button><button type="button" data-machine="3">MOBILE CRANE</button><button type="button" data-machine="4">EXCAVATOR</button><button type="button" data-machine="5">ASPHALT PAVER</button></section><div id="materialGuide">MATERIALS: Tan pile is rock base, not pavement. Dump it on the tan gap, then grade with the D7. The black pile is hot-mix asphalt. Only the paver lays that, and the lane turns black behind the screed. Truck: bed up, then GATE OPEN.</div><button id="guideBtn" type="button">📘 MACHINE GUIDE</button><section id="machineGuide" aria-live="polite"><button id="machineGuideClose" type="button">CLOSE</button><strong id="guideTitle">DUMP TRUCK</strong><div id="guideText"></div></section><div id="notice" role="status" aria-live="polite"></div><div id="crosshair"></div><canvas id="minimap" width="140" height="140" aria-label="Site map"></canvas>
+<div id="controls"><div class="dpad" id="joystick" aria-label="Driving joystick on left"><div class="stick" id="stick"></div></div><div id="toolJoystickWrap"><div class="toolJoyLabel">BOOM / BUCKET</div><div class="tooljoy" id="toolJoystick" aria-label="Excavator right joystick"><div class="toolstick" id="toolStick"></div></div><div class="toolJoyLabel">RIGHT JOYSTICK</div></div><div class="actions"><button id="switch" class="primary">🚜 MACHINE</button><button id="boardGo" class="primary">GO TO BOARD</button><button id="restart">↻ RESTART</button><button id="interact">LOAD / USE</button><button id="gateRelease" class="primary" style="display:none">GATE OPEN / CLOSE</button><button id="work">WORK</button><button id="refuel" style="display:none">FUEL</button><button id="throttle">▲ DRIVE</button><button id="brake">▼ BRAKE / REV</button><button id="toolUp">TOOL UP</button><button id="toolDown">TOOL DOWN</button><button id="toolCurl">BUCKET CURL</button><button id="curlBack">CURL BACK</button><button id="dumpBucket">DUMP BUCKET</button><button id="boomLeft">SLEW ◀</button><button id="boomRight">SLEW ▶</button><button id="boomOut">BOOM OUT</button><button id="boomIn">BOOM IN</button><button id="steerLeft">◀ STEER</button><button id="steerRight">STEER ▶</button><button id="park">PARK</button><button id="lights">LIGHTS OFF</button><button id="horn">HORN</button></div></div>
 <div id="bottom"><b>Joystick</b> drive / operate · Excavator & crane: PARK ON locks chassis so both sticks work tools · loader dirt transfers to truck, truck tips at green road · <b>MACHINE</b> switch · <b>LOAD / USE</b> load/transfer/dump · <b>WORK</b> crane lifts / paving only<br><span id="toastline">Park the dump truck in the yellow load lane, or scoop with the wheel loader. Deliver to the marked site. The crane has to set a girder before a deck appears.</span></div>
 <script type="module">
 
@@ -254,11 +254,83 @@ for (let i = 0; i < bankField.h.length; i++) {
 bankField.pos.needsUpdate = true;
 box(0x6a6248, -64, 3.2, 16, 4, 6.4, 22);
 box(0x5c5648, -62.2, 1.4, 16, 2.2, 2.6, 18);
+const PAVE_X0 = -37.2;
+const PAVE_W = 74.4 / 8;
+const asphaltMat = new THREE.MeshBasicMaterial({ color: 0x101010 });
+const lineMat = new THREE.MeshBasicMaterial({ color: 0xf0d34a });
 const asphaltPatches = [];
+const paveLines = [];
 for (let i = 0; i < 8; i++) {
-  const patch = box(0x25292b, -21 + i * 6, 0.14, 32, 5.58, 0.08, 7.6);
+  const patch = mesh(
+    new THREE.BoxGeometry(PAVE_W - 0.05, 0.22, 17.4),
+    asphaltMat,
+    PAVE_X0 + PAVE_W * (i + 0.5),
+    0.28,
+    32,
+  );
+  patch.castShadow = false;
+  patch.receiveShadow = false;
+  patch.renderOrder = 3;
   patch.visible = false;
   asphaltPatches.push(patch);
+  const line = mesh(
+    new THREE.BoxGeometry(PAVE_W * 0.42, 0.03, 0.16),
+    lineMat,
+    PAVE_X0 + PAVE_W * (i + 0.5),
+    0.4,
+    32,
+  );
+  line.castShadow = false;
+  line.receiveShadow = false;
+  line.renderOrder = 4;
+  line.visible = false;
+  paveLines.push(line);
+}
+const ASPHALT = { x: 18, z: 52 };
+let asphaltLeft = 18;
+const asphaltGroup = new THREE.Group();
+asphaltGroup.position.set(ASPHALT.x, 0, ASPHALT.z);
+scene.add(asphaltGroup);
+const asphaltPile = mesh(
+  new THREE.ConeGeometry(5.2, 2.4, 8),
+  new THREE.MeshBasicMaterial({ color: 0x161616 }),
+  0,
+  1.15,
+  0,
+  asphaltGroup,
+);
+asphaltPile.castShadow = false;
+mesh(
+  new THREE.ConeGeometry(3.1, 1.5, 7),
+  new THREE.MeshBasicMaterial({ color: 0x2a2a2a }),
+  1.6,
+  0.78,
+  1.1,
+  asphaltGroup,
+).castShadow = false;
+for (let i = 0; i < 10; i++) {
+  const chunk = mesh(
+    new THREE.DodecahedronGeometry(0.28 + (i % 3) * 0.08, 0),
+    new THREE.MeshBasicMaterial({ color: i % 2 ? 0x1c1c1c : 0x333333 }),
+    Math.sin(i) * 2.4,
+    0.28,
+    Math.cos(i * 1.7) * 2.2,
+    asphaltGroup,
+  );
+  chunk.castShadow = false;
+}
+function syncAsphaltPile() {
+  const s = Math.max(0.12, asphaltLeft / 18);
+  asphaltPile.scale.set(1, s, 1);
+  asphaltPile.position.y = 1.15 * s;
+}
+function buryPavedRock() {
+  for (const stone of roadMaterialBits) {
+    if (!stone.visible) continue;
+    const ix = Math.floor((stone.position.x - PAVE_X0) / PAVE_W);
+    if (ix >= 0 && ix < paved && Math.abs(stone.position.z - 32) < 9)
+      stone.visible = false;
+  }
 }
 const roadMaterialBits = [];
 for (let i = 0; i < 56; i++) {
@@ -523,6 +595,7 @@ function moveMarker(m, x, z) {
   m.flag.position.set(x + 0.85, 2, z);
 }
 const fuelMarker = marker(-37, -36, 0x71c58a, "FUEL");
+const asphaltMarker = marker(ASPHALT.x, ASPHALT.z, 0x222222, "ASPHALT");
 // Contract board: return here after a completed job to accept the next site assignment.
 const BOARD = { x: -43, z: -27 };
 box(0x242a2c, BOARD.x, 1.55, BOARD.z, 1.1, 3.1, 0.7);
@@ -635,17 +708,24 @@ const machineTypes = [
     color: 0xe39b21,
     start: [17, 0, -10],
   },
+  {
+    id: "PAVER",
+    name: "ASPHALT PAVER",
+    hint: "Screed down lays black asphalt",
+    color: 0xe6b325,
+    start: [18, 0, 58],
+  },
 ];
 const machines = [];
 const materialFlights = [];
 function makeMachine(def) {
   const g = new THREE.Group();
   const body = box(def.color, 0, 1.75, 0, 4.2, 1.7, 5.8, g);
-  if (["TRUCK", "DOZER", "LOADER"].includes(def.id)) {
+  if (["TRUCK", "DOZER", "LOADER", "PAVER"].includes(def.id)) {
     body.visible = false;
     g.remove(body);
   }
-  if (!["TRUCK", "DOZER", "LOADER"].includes(def.id)) {
+  if (!["TRUCK", "DOZER", "LOADER", "PAVER"].includes(def.id)) {
     box(0x29363b, 0.5, 3, -0.45, 2.2, 1.8, 2.1, g);
     box(0x15242a, 0.5, 3.05, -0.45, 1.7, 1.3, 1.7, g);
   }
@@ -702,6 +782,7 @@ function makeMachine(def) {
   let excavatorBoom = null;
   let excavatorStick = null;
   let excavatorBucket = null;
+  let hopperFill = null;
   if (def.id === "DOZER") {
     box(0xd49a22, 0, 1.55, 0.75, 3.45, 1.05, 3.35, g);
     box(0x9f7316, 0, 1.65, 2.35, 3.15, 0.72, 1.55, g);
@@ -1217,6 +1298,26 @@ function makeMachine(def) {
       }
     }
   }
+  if (def.id === "PAVER") {
+    box(0xe6b325, 0, 0.95, 0.15, 2.5, 0.55, 4.4, g);
+    box(0x2a2e30, 0, 1.35, -1.45, 2.15, 0.85, 1.7, g);
+    box(0x3c4144, 0, 1.85, -1.45, 1.85, 0.16, 1.45, g);
+    hopperFill = box(0x141414, 0, 1.42, -1.45, 1.55, 0.55, 1.2, g);
+    hopperFill.visible = false;
+    box(0xd7a21e, 0.15, 1.85, 0.35, 1.35, 1.15, 1.15, g);
+    box(0x8eb7c6, 0.15, 1.95, -0.2, 1.05, 0.62, 0.08, g);
+    box(0x4a4030, -0.95, 1.15, 0.7, 0.35, 0.7, 0.7, g);
+    box(0x2e3336, 0.85, 1.55, 0.85, 0.28, 0.7, 0.55, g);
+    implement = new THREE.Group();
+    implement.position.set(0, 0.86, 2.55);
+    g.add(implement);
+    box(0x1a1c1d, 0, 0, 0, 3.55, 0.28, 0.42, implement);
+    box(0xc98416, 0, 0.22, 0.05, 3.7, 0.1, 0.62, implement);
+    for (const side of [-1, 1]) {
+      box(0x3a3f42, side * 1.72, 0.15, 0, 0.16, 0.7, 0.7, implement);
+      box(0xe6b325, side * 1.15, 0.55, -0.15, 0.12, 0.55, 0.9, g);
+    }
+  }
   const lamps = [];
   for (const side of [-1, 1]) {
     const lamp = new THREE.PointLight(0xffe6b0, 0, 24, 2);
@@ -1224,6 +1325,20 @@ function makeMachine(def) {
     g.add(lamp);
     lamps.push(lamp);
   }
+  const exhaustAnchor = new THREE.Object3D();
+  const stack = {
+    DOZER: [-0.72, 2.95, 0.92],
+    LOADER: [0.62, 2.15, 2.2],
+    TRUCK: [1.05, 2.85, -0.35],
+    CRANE: [-0.95, 2.5, 1.2],
+    EXCAVATOR: [1.15, 2.62, 0.4],
+    PAVER: [0.85, 2.05, 0.7],
+  }[def.id];
+  exhaustAnchor.position.set(...stack);
+  g.add(exhaustAnchor);
+  const reverseLamp = new THREE.PointLight(0xff4a2a, 0, 9, 2);
+  reverseLamp.position.set(0, 1.55, 3.35);
+  g.add(reverseLamp);
   scene.add(g);
   g.position.set(...def.start);
   const startYaw = {
@@ -1232,6 +1347,7 @@ function makeMachine(def) {
     TRUCK: 0,
     CRANE: Math.PI / 2,
     EXCAVATOR: 0,
+    PAVER: 0,
   };
   g.rotation.y = startYaw[def.id] || 0;
   return {
@@ -1256,17 +1372,21 @@ function makeMachine(def) {
     excavatorBoom,
     excavatorStick,
     excavatorBucket,
+    hopperFill,
     wheels,
     steerWheels,
     liftArms,
     lamps,
+    exhaustAnchor,
+    reverseLamp,
     workAnim: 0,
     gradeTimer: 0,
   };
 }
 for (const d of machineTypes) machines.push(makeMachine(d));
 machines.forEach((m) => {
-  m.toolPosition = m.def.id === "LOADER" ? 0 : m.def.id === "DOZER" ? 1.25 : 0;
+  m.toolPosition =
+    m.def.id === "LOADER" ? 0 : m.def.id === "DOZER" ? 1.25 : m.def.id === "PAVER" ? 0.86 : 0;
   m.bucketCurl = m.def.id === "LOADER" ? 0.35 : 0;
 });
 let active = 2;
@@ -1303,7 +1423,7 @@ function notice(s) {
 function saveGame(silent = true) {
   try {
     const data = {
-      v: 7,
+      v: 8,
       carriedBeam,
       spoil: spoilPiles
         .filter((sp) => sp.amount > 0.05)
@@ -1329,6 +1449,7 @@ function saveGame(silent = true) {
       stockY: stock.scale.y,
       stock2Y: stock2.scale.y,
       aggregateTaken,
+      asphaltLeft,
     };
     localStorage.setItem("fieldOps3dSave", JSON.stringify(data));
     $("saveState").textContent = "SAVED";
@@ -1342,7 +1463,7 @@ function loadGame() {
     const raw = localStorage.getItem("fieldOps3dSave");
     if (!raw) return false;
     const d = JSON.parse(raw);
-    if (!d || ![2, 3, 4, 5, 6, 7].includes(d.v)) return false;
+    if (!d || ![2, 3, 4, 5, 6, 7, 8].includes(d.v)) return false;
     active = THREE.MathUtils.clamp(
       Number.isFinite(Number(d.active)) ? Number(d.active) : 2,
       0,
@@ -1357,6 +1478,9 @@ function loadGame() {
     excavated = THREE.MathUtils.clamp(Number(d.excavated) || 0, 0, 20);
     jobNo = THREE.MathUtils.clamp(Number(d.jobNo) || 1, 1, 5);
     contractComplete = !!d.contractComplete;
+    if (Number.isFinite(Number(d.asphaltLeft)))
+      asphaltLeft = THREE.MathUtils.clamp(Number(d.asphaltLeft), 0, 18);
+    syncAsphaltPile();
     if (Array.isArray(d.machines))
       d.machines.forEach((v, i) => {
         if (!machines[i] || !v) return;
@@ -1374,7 +1498,7 @@ function loadGame() {
         machines[i].cargo = THREE.MathUtils.clamp(
           Number(v.cargo) || 0,
           0,
-          machines[i].def.id === "TRUCK" ? 12.5 : 4,
+          machines[i].def.id === "TRUCK" ? 12.5 : machines[i].def.id === "PAVER" ? 6 : 4,
         );
         machines[i].fuel = THREE.MathUtils.clamp(
           Number(v.fuel ?? d.fuel) || 100,
@@ -1677,7 +1801,7 @@ const guideCopy = {
       "SLEW turns the house. BOOM UP / DOWN pitches the boom. BOOM OUT / IN telescopes. The right stick pays out the cable.",
       "Haul the hanging girder to the blue bridge marker.",
       "Boom the hook over the abutment, then SET GIRDER. The deck does not appear unless a girder is actually on the hook.",
-      "Finish delivery, grading, and paving before the first set. Three girders close Job 01.",
+      "Finish the rock base, grade it, then pave with the asphalt paver before the first set. Three girders close Job 01.",
     ],
     work: "WORK · LIFT",
   },
@@ -1690,6 +1814,16 @@ const guideCopy = {
       "Curl and pull in the yellow cut. Soil stays in the bucket. Slew clear and curl out to dump a spoil mound the loader can haul for free.",
     ],
     work: "AUTO DIG",
+  },
+  PAVER: {
+    title: "ASPHALT PAVER · SCREED",
+    steps: [
+      "The dump truck lays rock, not pavement. Hot mix is the black pile north of the approach.",
+      "Park at that pile and press LOAD / USE. The hopper holds 6 t at $28/t.",
+      "SCREED DOWN, then drive slowly from the west cones toward the east. Too fast and the mat tears.",
+      "The lane turns black behind the screed, one section at a time. Reload when the hopper is empty.",
+    ],
+    work: "FILL HOPPER",
   },
 };
 function refreshGuide() {
@@ -1707,19 +1841,19 @@ function updateControlVisibility() {
     "dual-joystick-layout",
     ["LOADER", "DOZER"].includes(id),
   );
-  const paving =
-    id === "TRUCK" &&
-    jobNo === 1 &&
-    !contractComplete &&
-    graded >= 40 &&
-    paved < 8;
-  $("work").style.display = id === "CRANE" || paving ? "" : "none";
+  $("work").style.display = id === "CRANE" || id === "PAVER" ? "" : "none";
   $("work").textContent =
-    id === "CRANE" ? (carriedBeam != null ? "SET GIRDER" : "HOOK GIRDER") : paving ? "PAVE $200" : "WORK";
+    id === "CRANE"
+      ? carriedBeam != null
+        ? "SET GIRDER"
+        : "HOOK GIRDER"
+      : id === "PAVER"
+        ? "FILL HOPPER"
+        : "WORK";
   $("refuel").style.display = near(-37, -36, 13) ? "" : "none";
   $("toolJoystickWrap").classList.toggle(
     "show",
-    ["EXCAVATOR", "LOADER", "CRANE", "DOZER"].includes(id),
+    ["EXCAVATOR", "LOADER", "CRANE", "DOZER", "PAVER"].includes(id),
   );
   $("joystick").setAttribute(
     "aria-label",
@@ -1737,8 +1871,8 @@ function updateControlVisibility() {
     "boomIn",
   ])
     $(k).style.display = id === "EXCAVATOR" || id === "LOADER" ? "none" : "";
-  $("toolUp").style.display = ["TRUCK", "CRANE"].includes(id) ? "" : "none";
-  $("toolDown").style.display = ["TRUCK", "CRANE"].includes(id) ? "" : "none";
+  $("toolUp").style.display = ["TRUCK", "CRANE", "PAVER"].includes(id) ? "" : "none";
+  $("toolDown").style.display = ["TRUCK", "CRANE", "PAVER"].includes(id) ? "" : "none";
   $("gateRelease").style.display = id === "TRUCK" ? "" : "none";
   $("gateRelease").textContent = "GATE OPEN / CLOSE";
   $("toolCurl").style.display = ["EXCAVATOR"].includes(id) ? "" : "none";
@@ -1759,7 +1893,9 @@ function updateControlVisibility() {
         ? "BED UP"
         : id === "CRANE"
           ? "BOOM UP"
-          : "TOOL UP";
+          : id === "PAVER"
+            ? "SCREED UP"
+            : "TOOL UP";
   $("toolDown").textContent =
     id === "LOADER"
       ? "▼ HOLD LOWER"
@@ -1767,7 +1903,9 @@ function updateControlVisibility() {
         ? "BED DOWN"
         : id === "CRANE"
           ? "BOOM DOWN"
-          : "TOOL DOWN";
+          : id === "PAVER"
+            ? "SCREED DOWN"
+            : "TOOL DOWN";
   $("toolJoystickWrap").querySelector(".toolJoyLabel").textContent =
     id === "DOZER"
       ? "BLADE UP / DOWN"
@@ -1775,7 +1913,9 @@ function updateControlVisibility() {
         ? "LIFT / BUCKET"
         : id === "CRANE"
           ? "CRANE BOOM / CABLE"
-          : "BOOM / BUCKET";
+          : id === "PAVER"
+            ? "SCREED UP / DOWN"
+            : "BOOM / BUCKET";
   $("toolCurl").textContent = "BUCKET CURL";
 }
 function setActive(i) {
@@ -1794,6 +1934,7 @@ function setActive(i) {
         ? " · PARK BRAKE ON · both joysticks control the machine tool"
         : ""),
   );
+  sfxSwitch();
 }
 $("guideBtn").onclick = () => {
   $("machineGuide").classList.toggle("open");
@@ -1828,18 +1969,21 @@ function hud() {
   const activeMachine = player();
   const isLoader = activeMachine.def.id === "LOADER",
     isTruck = activeMachine.def.id === "TRUCK",
-    isEx = activeMachine.def.id === "EXCAVATOR";
-  const capacity = isTruck ? 12.5 : isEx ? 1.6 : 4;
+    isEx = activeMachine.def.id === "EXCAVATOR",
+    isPaver = activeMachine.def.id === "PAVER";
+  const capacity = isTruck ? 12.5 : isPaver ? 6 : isEx ? 1.6 : 4;
   const fill =
-    isLoader || isTruck || isEx
+    isLoader || isTruck || isEx || isPaver
       ? Math.max(0, Math.min(100, (activeMachine.cargo / capacity) * 100))
       : 0;
-  $("bucketFillWrap").style.display = isLoader || isTruck || isEx ? "block" : "none";
+  $("bucketFillWrap").style.display = isLoader || isTruck || isEx || isPaver ? "block" : "none";
   $("bucketFillWrap").firstChild.textContent = isTruck
     ? "TRUCK BED "
     : isEx
       ? "SPOIL "
-      : "BUCKET ";
+      : isPaver
+        ? "HOPPER "
+        : "BUCKET ";
   $("bucketFillText").textContent =
     activeMachine.cargo.toFixed(1) +
     " / " +
@@ -1909,7 +2053,7 @@ function hud() {
       $("stage").textContent =
         `Stage 1 of 4 · Road supply (${Math.round(Math.min(30, delivered) * 10) / 10}/30)`;
       $("jobTip").textContent =
-        "Load on the yellow rectangle. The pavement stops at the orange cones. Drive onto the tan gap until the back of the truck is off the asphalt, then BED UP and GATE OPEN.";
+        "Dump rock on the tan gap, out the back. That is base course, not pavement. Asphalt is a separate black pile.";
     } else if (graded < 40) {
       $("objective").textContent =
         "Use the D7 to spread and level the loose rock base.";
@@ -1919,10 +2063,10 @@ function hud() {
         "Lower the D7 blade and drive overlapping passes through the marked repair.";
     } else if (paved < 8) {
       $("objective").textContent =
-        "Lay fresh asphalt over the graded road base.";
-      $("stage").textContent = `Stage 3 of 4 · Pave road (${paved}/8 sections)`;
+        "The paver lays hot mix. The lane turns black behind the screed.";
+      $("stage").textContent = `Stage 3 of 4 · Pave road (${paved}/8 sections black)`;
       $("jobTip").textContent =
-        "Stay in the dump truck on the graded road and press PAVE. Each asphalt panel costs $200. Eight panels, then the crane.";
+        "Switch to the PAVER. Fill the hopper at the black pile ($28/t), SCREED DOWN, and drive west to east. The dump truck does not pave.";
     } else {
       $("objective").textContent =
         "Finish the bridge approach by placing all three bridge deck sections.";
@@ -2490,6 +2634,12 @@ function act() {
     fuel = 100;
     cash -= 250;
     notice("Fuel topped up. Service charge $250.");
+  } else if (m.def.id === "PAVER") {
+    if (near(ASPHALT.x, ASPHALT.z, 11)) fillPaverHopper(m);
+    else
+      notice(
+        "Drive to the black ASPHALT pile and press LOAD / USE. Rock from the dump truck is not hot mix.",
+      );
   } else if (atRoad() && m.def.id !== "EXCAVATOR") {
     if (m.def.id === "TRUCK") {
       if (needsExcavation() && excavated < 20) {
@@ -2543,7 +2693,7 @@ function act() {
         return;
       }
       if (graded >= 40) {
-        notice("Road grading is complete. Head to the bridge with the crane.");
+        notice("Rock base is graded. Switch to the paver — the dump truck does not lay asphalt.");
         return;
       }
       graded = Math.min(40, graded + 5);
@@ -2572,29 +2722,50 @@ function act() {
   hud();
   saveGame(true);
 }
+function fillPaverHopper(m) {
+  if (asphaltLeft <= 0.05) {
+    notice("The asphalt pile is empty.");
+    return;
+  }
+  if (m.cargo >= 5.85) {
+    notice("Hopper is full. SCREED DOWN and pave from the west cones toward the east.");
+    return;
+  }
+  const qty = Math.min(6 - m.cargo, asphaltLeft, cash / 28);
+  if (qty < 0.15) {
+    notice("Hot mix is $28/t. Not enough cash to fill the hopper.");
+    return;
+  }
+  m.cargo += qty;
+  asphaltLeft -= qty;
+  cash -= 28 * qty;
+  syncAsphaltPile();
+  if (m.hopperFill) {
+    m.hopperFill.visible = true;
+    m.hopperFill.scale.y = Math.max(0.15, m.cargo / 6);
+  }
+  notice(
+    `HOPPER ${m.cargo.toFixed(1)}/6 t of hot mix. $28/t. Drive to the west joint and lower the screed.`,
+  );
+}
 function work() {
   if (fuel <= 0) {
     notice("No fuel. Head to the depot.");
     return;
   }
   const m = player();
-  if (
-    m.def.id === "TRUCK" &&
-    jobNo === 1 &&
-    graded >= 40 &&
-    paved < 8 &&
-    atRoad()
-  ) {
-    if (cash < 200)
-      notice("Paving crew needs $200 for the next asphalt section.");
-    else {
-      paved = Math.min(8, paved + 1);
-      cash -= 200;
-      updateWorkVisuals();
-      notice(
-        `ASPHALT LAID · ${paved}/8 sections. Keep paving until all 8 panels are complete.`,
-      );
-    }
+  if (m.def.id === "PAVER") {
+    if (near(ASPHALT.x, ASPHALT.z, 11)) fillPaverHopper(m);
+    else if (graded < 40)
+      notice("Grade the rock base with the D7 before the paver can lay asphalt.");
+    else if (paved >= 8)
+      notice("The approach is black. Take the crane to the beam rack.");
+    else if ((m.toolPosition ?? 0.86) > 0.45)
+      notice("SCREED DOWN, then creep west to east. The mat only lays while the screed is on the lane.");
+    else if (m.cargo < 0.15)
+      notice("Hopper is empty. The black pile is north of the lane.");
+    else
+      notice("Keep the screed down and drive the next unpaved section. The lane turns black behind you.");
   } else if (m.def.id === "DOZER") {
     if (needsExcavation() && excavated < 20) {
       notice("Excavate the drainage basin first.");
@@ -2602,7 +2773,7 @@ function work() {
       if (graded >= 40) {
         notice(
           jobNo === 1
-            ? "Road grading is complete. Switch to the crane for bridge lifts."
+            ? "Rock base is graded. The paver lays the black mat — not the dump truck."
             : "Backfill grading is complete.",
         );
       } else {
@@ -2656,9 +2827,11 @@ function work() {
       );
   } else if (m.def.id === "TRUCK") {
     notice(
-      m.cargo > 0
-        ? "Drive to the green road marker and press LOAD / USE to tip."
-        : "Load aggregate at the tan stockpile with LOAD / USE.",
+      jobNo === 1 && graded >= 40 && paved < 8
+        ? "The dump truck does not pave. Switch to the paver and load the black asphalt pile."
+        : m.cargo > 0
+          ? "Drive to the green road marker and press LOAD / USE to tip rock."
+          : "Load aggregate at the tan stockpile with LOAD / USE.",
     );
   } else if (m.def.id === "CRANE") {
     if (jobNo !== 1 && beams >= 3) notice("The bridge lift phase is already finished.");
@@ -2676,6 +2849,8 @@ function work() {
 }
 function updateWorkVisuals() {
   asphaltPatches.forEach((p, i) => (p.visible = i < paved));
+  paveLines.forEach((p, i) => (p.visible = i < paved));
+  buryPavedRock();
   trenchPatches.forEach((p, i) => (p.visible = excavated >= (i + 1) * 4));
   bridgeDecks.forEach((p, i) => {
     if (i < beams * 3) p.visible = true;
@@ -2686,6 +2861,7 @@ function switchMachine(dir = 1) {
   touchDrive = 0;
   touchSteer = 0;
   toolAxis = 0;
+  bootAudio();
   setActive(active + dir);
   hud();
   saveGame(true);
@@ -2698,6 +2874,7 @@ addEventListener("keydown", (e) => {
   if (e.repeat) return;
   if (k === "q") switchMachine(-1);
   if (k === "e") switchMachine(1);
+  if (k === "h") sfxHorn();
   if (k === "f") act();
   if (k === "r") {
     refuelVehicle();
@@ -2755,6 +2932,7 @@ document.querySelectorAll("#machinePicker [data-machine]").forEach((b) =>
       requested >= 0 &&
       requested < machines.length
     ) {
+      bootAudio();
       setActive(requested);
       speed = 0;
       touchDrive = 0;
@@ -2798,6 +2976,7 @@ $("gateRelease").addEventListener("pointerdown", (e) => {
     return;
   }
   m.gateOpen = !m.gateOpen;
+  sfxClank();
   $("gateRelease").textContent = m.gateOpen
     ? "GATE OPEN · TAP TO CLOSE"
     : "GATE OPEN / CLOSE";
@@ -2826,7 +3005,7 @@ holdButton(
   "toolUp",
   (v) => {
     const m = player();
-    toolAxis = m.def.id === "TRUCK" ? 0 : v ? -1 : 0;
+    toolAxis = m.def.id === "TRUCK" ? 0 : v ? (m.def.id === "PAVER" ? 1 : -1) : 0;
     if (m.def.id === "TRUCK" && v) {
       m.toolPosition = 0.25;
       m.implement.rotation.x = 0.25;
@@ -2857,7 +3036,7 @@ holdButton(
   "toolDown",
   (v) => {
     const m = player();
-    toolAxis = m.def.id === "TRUCK" ? 0 : v ? 1 : 0;
+    toolAxis = m.def.id === "TRUCK" ? 0 : v ? (m.def.id === "PAVER" ? -1 : 1) : 0;
     if (v && m.def.id === "TRUCK") {
       m.dumping = false;
       m.gateOpen = false;
@@ -2939,6 +3118,8 @@ $("park").onclick = () => {
   pedalThrottle = false;
   pedalBrakeDown = false;
   $("park").textContent = parked ? "PARK ON" : "PARK";
+  bootAudio();
+  sfxHiss();
   notice(
     parked
       ? "Parking brake engaged · left joystick now operates machine tools."
@@ -2951,8 +3132,11 @@ $("lights").onclick = () => {
     m.lamps.forEach((l) => (l.intensity = lightsOn ? 2.1 : 0)),
   );
   $("lights").textContent = lightsOn ? "LIGHTS ON" : "LIGHTS OFF";
+  bootAudio();
+  sfxClank();
   notice(lightsOn ? "Work lights on." : "Work lights off.");
 };
+$("horn").onclick = () => sfxHorn();
 function moveTool(dir) {
   const m = player();
   if (!m.implement) {
@@ -3000,6 +3184,14 @@ function moveTool(dir) {
     notice(
       dir > 0 ? "Boom raised / pivoted up." : "Boom lowered / pivoted down.",
     );
+  } else if (m.def.id === "PAVER") {
+    m.toolPosition = THREE.MathUtils.clamp(
+      (m.toolPosition ?? 0.86) + dir * 0.28,
+      0.22,
+      0.92,
+    );
+    if (m.implement) m.implement.position.y = m.toolPosition;
+    notice(dir > 0 ? "Screed raised. The mat stops." : "Screed down. Creep the lane to lay black asphalt.");
   } else if (m.def.id === "EXCAVATOR") {
     m.toolPosition = THREE.MathUtils.clamp(
       (m.toolPosition || 0) + dir * 0.12,
@@ -3012,7 +3204,10 @@ function moveTool(dir) {
 }
 let moveSensitivity = 1,
   throttleSensitivity = 1,
-  boomSensitivity = 1;
+  boomSensitivity = 1,
+  soundVolume = 0.72,
+  soundMuted = false,
+  audioBooted = false;
 try {
   const s = JSON.parse(localStorage.getItem("fieldOps3dOptions") || "{}");
   moveSensitivity = THREE.MathUtils.clamp(Number(s.move) || 1, 0.5, 1.5);
@@ -3022,6 +3217,9 @@ try {
     1.5,
   );
   boomSensitivity = THREE.MathUtils.clamp(Number(s.boom) || 1, 0.5, 1.75);
+  if (Number.isFinite(Number(s.sound)))
+    soundVolume = THREE.MathUtils.clamp(Number(s.sound), 0, 1);
+  soundMuted = !!s.muted;
 } catch (_) {}
 const optionInputs = [
   [
@@ -3054,6 +3252,19 @@ function syncOptions() {
     );
     $(label).textContent = el.value + "%";
   }
+  const sound = $("soundVolume");
+  if (sound) {
+    sound.value = String(Math.round(soundVolume * 100));
+    $("soundVolumeValue").textContent = sound.value + "%";
+  }
+  const mute = $("soundMute");
+  if (mute) mute.textContent = soundMuted ? "SOUND OFF" : "SOUND ON";
+  if (audioBooted && siteAudio.master && siteAudio.ctx)
+    siteAudio.master.gain.setTargetAtTime(
+      soundMuted ? 0 : soundVolume,
+      siteAudio.ctx.currentTime,
+      0.05,
+    );
 }
 function saveOptions() {
   try {
@@ -3063,6 +3274,8 @@ function saveOptions() {
         move: moveSensitivity,
         throttle: throttleSensitivity,
         boom: boomSensitivity,
+        sound: soundVolume,
+        muted: soundMuted,
       }),
     );
   } catch (_) {}
@@ -3074,6 +3287,20 @@ optionInputs.forEach(([id, set, label]) =>
     saveOptions();
   }),
 );
+$("soundVolume").addEventListener("input", (e) => {
+  soundVolume = Number(e.target.value) / 100;
+  $("soundVolumeValue").textContent = e.target.value + "%";
+  if (soundVolume > 0) soundMuted = false;
+  saveOptions();
+  syncOptions();
+  bootAudio();
+});
+$("soundMute").onclick = () => {
+  soundMuted = !soundMuted;
+  saveOptions();
+  syncOptions();
+  bootAudio();
+};
 $("optionsToggle").onclick = () => {
   $("optionsMenu").classList.toggle("open");
   syncOptions();
@@ -3189,6 +3416,14 @@ function drawMap() {
   mc.fillRect(84, 65, 56, 9);
   mc.fillStyle = "#b08a5c";
   mc.fillRect(56, 65, 28, 9);
+  if (paved > 0) {
+    mc.fillStyle = "#111111";
+    mc.fillRect(56, 65, (28 * Math.min(8, paved)) / 8, 9);
+  }
+  mc.fillStyle = "#111";
+  mc.beginPath();
+  mc.arc(70 + (ASPHALT.x / 170) * 65, 70 + (ASPHALT.z / 170) * 65, 4, 0, 7);
+  mc.fill();
   mc.fillStyle = "#4a4e50";
   mc.fillRect(31, 0, 9, 140);
   mc.fillStyle = "#317c9e";
@@ -3297,42 +3532,398 @@ function objectiveBeacon() {
     const zone = workZone();
     return { x: zone.x, z: zone.z, label: "GRADE " + zone.label };
   }
-  if (jobNo === 1 && paved < 8) return { x: 0, z: 32, label: "PAVE" };
+  if (jobNo === 1 && paved < 8) {
+    const paver = machines.find((v) => v.def.id === "PAVER");
+    if (player().def.id !== "PAVER")
+      return {
+        x: paver ? paver.group.position.x : ASPHALT.x,
+        z: paver ? paver.group.position.z : ASPHALT.z,
+        label: "PAVER",
+      };
+    if ((player().cargo || 0) < 0.3)
+      return { x: ASPHALT.x, z: ASPHALT.z, label: "ASPHALT PILE" };
+    return {
+      x: PAVE_X0 + PAVE_W * (paved + 0.5),
+      z: 32,
+      label: "LAY MAT " + (paved + 1),
+    };
+  }
   const zone = workZone();
   return { x: zone.x, z: zone.z, label: zone.label };
 }
-let audioCtx, engineGain, engineOsc, hydroGain;
+const ENGINE_TONE = {
+  DOZER: { idle: 27, rise: 2.8, type: "sawtooth", noise: 160, body: 0.07, lope: 8.5 },
+  LOADER: { idle: 40, rise: 4.4, type: "square", noise: 230, body: 0.055, lope: 13 },
+  TRUCK: { idle: 33, rise: 3.5, type: "sawtooth", noise: 190, body: 0.065, lope: 10.5 },
+  CRANE: { idle: 30, rise: 1.5, type: "triangle", noise: 130, body: 0.04, lope: 7.5 },
+  EXCAVATOR: { idle: 29, rise: 2.3, type: "sawtooth", noise: 155, body: 0.05, lope: 9.2 },
+  PAVER: { idle: 46, rise: 2.1, type: "square", noise: 260, body: 0.045, lope: 15 },
+};
+const siteAudio = { ctx: null, master: null };
+let hornUntil = 0;
+let lastHitSfx = 0;
+function makeNoiseBuffer(ctx) {
+  const len = ctx.sampleRate * 2;
+  const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  let brown = 0;
+  for (let i = 0; i < len; i++) {
+    const white = Math.random() * 2 - 1;
+    brown = brown * 0.97 + white * 0.03;
+    data[i] = brown * 3.4;
+  }
+  return buf;
+}
 function bootAudio() {
   const AC = window.AudioContext || window.webkitAudioContext;
   if (!AC) return;
-  if (!audioCtx) {
-    audioCtx = new AC();
-    engineGain = audioCtx.createGain();
-    engineGain.gain.value = 0;
-    const filter = audioCtx.createBiquadFilter();
-    filter.type = "lowpass";
-    filter.frequency.value = 210;
-    engineOsc = audioCtx.createOscillator();
-    engineOsc.type = "sawtooth";
-    engineOsc.frequency.value = 42;
-    engineOsc.connect(filter);
-    filter.connect(engineGain);
-    engineGain.connect(audioCtx.destination);
-    engineOsc.start();
-    hydroGain = audioCtx.createGain();
-    hydroGain.gain.value = 0;
-    const hydro = audioCtx.createOscillator();
-    hydro.type = "triangle";
-    hydro.frequency.value = 78;
-    const band = audioCtx.createBiquadFilter();
-    band.type = "bandpass";
-    band.frequency.value = 160;
-    hydro.connect(band);
-    band.connect(hydroGain);
-    hydroGain.connect(audioCtx.destination);
-    hydro.start();
+  if (!siteAudio.ctx) {
+    const ctx = new AC();
+    siteAudio.ctx = ctx;
+    const master = ctx.createGain();
+    master.gain.value = soundMuted ? 0 : soundVolume;
+    master.connect(ctx.destination);
+    siteAudio.master = master;
+    const engine = ctx.createGain();
+    engine.gain.value = 0;
+    engine.connect(master);
+    siteAudio.engine = engine;
+    const fund = ctx.createOscillator();
+    fund.type = "sawtooth";
+    fund.frequency.value = 34;
+    const fundGain = ctx.createGain();
+    fundGain.gain.value = 0.34;
+    const low = ctx.createBiquadFilter();
+    low.type = "lowpass";
+    low.frequency.value = 240;
+    fund.connect(low);
+    low.connect(fundGain);
+    fundGain.connect(engine);
+    fund.start();
+    const sub = ctx.createOscillator();
+    sub.type = "sine";
+    sub.frequency.value = 17;
+    const subGain = ctx.createGain();
+    subGain.gain.value = 0.55;
+    sub.connect(subGain);
+    subGain.connect(engine);
+    sub.start();
+    const noise = ctx.createBufferSource();
+    noise.buffer = makeNoiseBuffer(ctx);
+    noise.loop = true;
+    const noiseFilter = ctx.createBiquadFilter();
+    noiseFilter.type = "bandpass";
+    noiseFilter.frequency.value = 180;
+    noiseFilter.Q.value = 0.7;
+    const noiseGain = ctx.createGain();
+    noiseGain.gain.value = 0.42;
+    noise.connect(noiseFilter);
+    noiseFilter.connect(noiseGain);
+    noiseGain.connect(engine);
+    noise.start();
+    const lope = ctx.createOscillator();
+    lope.frequency.value = 10;
+    const lopeDepth = ctx.createGain();
+    lopeDepth.gain.value = 4;
+    lope.connect(lopeDepth);
+    lopeDepth.connect(fund.frequency);
+    lope.start();
+    siteAudio.fund = fund;
+    siteAudio.sub = sub;
+    siteAudio.low = low;
+    siteAudio.noiseFilter = noiseFilter;
+    siteAudio.lope = lope;
+    const road = ctx.createGain();
+    road.gain.value = 0;
+    road.connect(master);
+    const roadNoise = ctx.createBufferSource();
+    roadNoise.buffer = noise.buffer;
+    roadNoise.loop = true;
+    const roadFilter = ctx.createBiquadFilter();
+    roadFilter.type = "highpass";
+    roadFilter.frequency.value = 280;
+    roadNoise.connect(roadFilter);
+    roadFilter.connect(road);
+    roadNoise.start();
+    siteAudio.road = road;
+    const hydro = ctx.createGain();
+    hydro.gain.value = 0;
+    hydro.connect(master);
+    const hydroOsc = ctx.createOscillator();
+    hydroOsc.type = "triangle";
+    hydroOsc.frequency.value = 90;
+    const hydroBand = ctx.createBiquadFilter();
+    hydroBand.type = "bandpass";
+    hydroBand.frequency.value = 220;
+    hydroBand.Q.value = 2.4;
+    hydroOsc.connect(hydroBand);
+    hydroBand.connect(hydro);
+    hydroOsc.start();
+    siteAudio.hydro = hydro;
+    siteAudio.hydroOsc = hydroOsc;
+    const pour = ctx.createGain();
+    pour.gain.value = 0;
+    pour.connect(master);
+    const pourNoise = ctx.createBufferSource();
+    pourNoise.buffer = noise.buffer;
+    pourNoise.loop = true;
+    const pourFilter = ctx.createBiquadFilter();
+    pourFilter.type = "bandpass";
+    pourFilter.frequency.value = 900;
+    pourFilter.Q.value = 0.6;
+    pourNoise.connect(pourFilter);
+    pourFilter.connect(pour);
+    pourNoise.start();
+    siteAudio.pour = pour;
+    const beep = ctx.createOscillator();
+    beep.type = "square";
+    beep.frequency.value = 980;
+    const beepGain = ctx.createGain();
+    beepGain.gain.value = 0;
+    beep.connect(beepGain);
+    beepGain.connect(master);
+    beep.start();
+    siteAudio.beep = beepGain;
+    audioBooted = true;
   }
-  if (audioCtx.state === "suspended") audioCtx.resume();
+  if (siteAudio.ctx.state === "suspended") siteAudio.ctx.resume();
+}
+function burstNoise(seconds, freq, gain) {
+  const ctx = siteAudio.ctx;
+  if (!ctx) return;
+  const t = ctx.currentTime;
+  const frames = Math.max(1, Math.floor(ctx.sampleRate * seconds));
+  const buf = ctx.createBuffer(1, frames, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < frames; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / frames);
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  const filter = ctx.createBiquadFilter();
+  filter.type = "lowpass";
+  filter.frequency.value = freq;
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(gain, t);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + seconds);
+  src.connect(filter);
+  filter.connect(g);
+  g.connect(siteAudio.master);
+  src.start(t);
+  src.stop(t + seconds + 0.02);
+}
+function sfxHorn() {
+  bootAudio();
+  const ctx = siteAudio.ctx;
+  if (!ctx || ctx.currentTime < hornUntil) return;
+  hornUntil = ctx.currentTime + 0.7;
+  const t = ctx.currentTime;
+  for (const freq of [186, 233]) {
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = "sawtooth";
+    o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.09, t + 0.03);
+    g.gain.setValueAtTime(0.09, t + 0.38);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.58);
+    o.connect(g);
+    g.connect(siteAudio.master);
+    o.start(t);
+    o.stop(t + 0.62);
+  }
+}
+function sfxImpact(amount) {
+  const ctx = siteAudio.ctx;
+  if (!ctx) return;
+  const t = ctx.currentTime;
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.type = "sine";
+  o.frequency.setValueAtTime(70 + amount * 50, t);
+  o.frequency.exponentialRampToValueAtTime(28, t + 0.16);
+  g.gain.setValueAtTime(Math.max(0.04, 0.18 * amount), t);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + 0.2);
+  o.connect(g);
+  g.connect(siteAudio.master);
+  o.start(t);
+  o.stop(t + 0.22);
+  burstNoise(0.12, 380, 0.07 * amount);
+}
+function sfxClank() {
+  const ctx = siteAudio.ctx;
+  if (!ctx) return;
+  const t = ctx.currentTime;
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.type = "square";
+  o.frequency.setValueAtTime(220, t);
+  o.frequency.exponentialRampToValueAtTime(70, t + 0.08);
+  g.gain.setValueAtTime(0.06, t);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + 0.1);
+  o.connect(g);
+  g.connect(siteAudio.master);
+  o.start(t);
+  o.stop(t + 0.12);
+  burstNoise(0.07, 1400, 0.05);
+}
+function sfxHiss() {
+  burstNoise(0.28, 1800, 0.06);
+}
+function sfxSwitch() {
+  const ctx = siteAudio.ctx;
+  if (!ctx) return;
+  const t = ctx.currentTime;
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.type = "sawtooth";
+  o.frequency.setValueAtTime(46, t);
+  o.frequency.linearRampToValueAtTime(18, t + 0.45);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.linearRampToValueAtTime(0.05, t + 0.05);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+  o.connect(g);
+  g.connect(siteAudio.master);
+  o.start(t);
+  o.stop(t + 0.52);
+  sfxClank();
+}
+function bumpStop(hitSpeed) {
+  if (hitSpeed > 1.35 && elapsed - lastHitSfx > 0.4) {
+    lastHitSfx = elapsed;
+    sfxImpact(Math.min(1, hitSpeed / 9));
+  }
+}
+function puffTexture() {
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = 64;
+  const g = canvas.getContext("2d");
+  const glow = g.createRadialGradient(32, 32, 2, 32, 32, 30);
+  glow.addColorStop(0, "rgba(255,255,255,0.9)");
+  glow.addColorStop(0.45, "rgba(255,255,255,0.35)");
+  glow.addColorStop(1, "rgba(255,255,255,0)");
+  g.fillStyle = glow;
+  g.fillRect(0, 0, 64, 64);
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+const puffMap = puffTexture();
+function makePuffSystem(color, size, count, opacity) {
+  const positions = new Float32Array(count * 3);
+  for (let i = 1; i < positions.length; i += 3) positions[i] = -40;
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  const points = new THREE.Points(
+    geo,
+    new THREE.PointsMaterial({
+      color,
+      size,
+      map: puffMap,
+      transparent: true,
+      opacity,
+      depthWrite: false,
+      sizeAttenuation: true,
+    }),
+  );
+  points.frustumCulled = false;
+  scene.add(points);
+  const parts = [];
+  for (let i = 0; i < count; i++)
+    parts.push({ i, life: 0, x: 0, y: -40, z: 0, vx: 0, vy: 0, vz: 0 });
+  return { geo, positions, parts, cursor: 0 };
+}
+const smoke = makePuffSystem(0x9aa1a2, 1.15, 70, 0.55);
+const dust = makePuffSystem(0xc4a67a, 1.35, 80, 0.42);
+const fxWorld = new THREE.Vector3();
+function puff(sys, x, y, z, vx, vy, vz, life) {
+  const p = sys.parts[sys.cursor];
+  sys.cursor = (sys.cursor + 1) % sys.parts.length;
+  p.life = life;
+  p.x = x;
+  p.y = y;
+  p.z = z;
+  p.vx = vx;
+  p.vy = vy;
+  p.vz = vz;
+}
+function stepPuffs(sys, dt, lift) {
+  for (const p of sys.parts) {
+    const i3 = p.i * 3;
+    if (p.life <= 0) {
+      sys.positions[i3 + 1] = -40;
+      continue;
+    }
+    p.life -= dt;
+    p.x += p.vx * dt;
+    p.y += p.vy * dt;
+    p.z += p.vz * dt;
+    p.vy += lift * dt;
+    p.vx *= 0.98;
+    p.vz *= 0.98;
+    sys.positions[i3] = p.x;
+    sys.positions[i3 + 1] = p.y;
+    sys.positions[i3 + 2] = p.z;
+  }
+  sys.geo.attributes.position.needsUpdate = true;
+}
+function emitMachineFx(m, dt, travel) {
+  if (fuel > 0 && m.exhaustAnchor) {
+    m.exhaustT = (m.exhaustT || 0) + dt;
+    const interval = Math.abs(travel) > 0.5 ? 0.045 : 0.1;
+    if (m.exhaustT >= interval) {
+      m.exhaustT = 0;
+      m.exhaustAnchor.getWorldPosition(fxWorld);
+      puff(
+        smoke,
+        fxWorld.x,
+        fxWorld.y,
+        fxWorld.z,
+        (Math.random() - 0.5) * 0.35,
+        1.15 + Math.random() * 0.7,
+        (Math.random() - 0.5) * 0.35,
+        0.65 + Math.random() * 0.45,
+      );
+    }
+  }
+  if (Math.abs(travel) > 0.85) {
+    m.dustT = (m.dustT || 0) + dt * Math.abs(travel);
+    if (m.dustT > 0.7) {
+      m.dustT = 0;
+      fxWorld.set((Math.random() - 0.5) * 1.4, 0.2, 2.3);
+      m.group.localToWorld(fxWorld);
+      puff(
+        dust,
+        fxWorld.x,
+        0.18,
+        fxWorld.z,
+        (Math.random() - 0.5) * 0.8,
+        0.35 + Math.random() * 0.45,
+        (Math.random() - 0.5) * 0.8,
+        0.45 + Math.random() * 0.35,
+      );
+    }
+  }
+  if (m.def.id === "DOZER" && (m.toolPosition ?? 1.25) < 1.12 && Math.abs(travel) > 0.4) {
+    m.bladeT = (m.bladeT || 0) + dt;
+    if (m.bladeT > 0.12) {
+      m.bladeT = 0;
+      fxWorld.set((Math.random() - 0.5) * 2.2, 0.35, -3.5);
+      m.group.localToWorld(fxWorld);
+      puff(
+        dust,
+        fxWorld.x,
+        0.3,
+        fxWorld.z,
+        (Math.random() - 0.5) * 1.2,
+        0.6 + Math.random() * 0.5,
+        (Math.random() - 0.5) * 1.2,
+        0.4,
+      );
+    }
+  }
+  if (m.reverseLamp) {
+    const backing = travel < -0.35 && !parked && fuel > 0;
+    m.reverseLamp.intensity = backing && Math.sin(elapsed * 9) > 0 ? 1.8 : 0;
+  }
 }
 addEventListener("pointerdown", bootAudio, { passive: true });
 addEventListener("keydown", bootAudio);
@@ -3579,9 +4170,11 @@ function animate() {
     LOADER: 8.5,
     CRANE: 6,
     EXCAVATOR: 5,
+    PAVER: 6.2,
   };
   let maxSpeed = speedByType[m.def.id] || 12;
   if (m.def.id === "TRUCK") maxSpeed *= throttleSensitivity;
+  if (m.def.id === "PAVER" && (m.toolPosition ?? 0.86) < 0.48) maxSpeed = 2.5;
   if (m.def.id === "TRUCK" && m.cargo > 0) maxSpeed *= 0.62;
   if (m.health < 30) maxSpeed *= 0.65;
   const onSoftBank = Math.abs(g.position.x - 35) < 6 && Math.abs(g.position.z + 6) < 22;
@@ -3605,6 +4198,7 @@ function animate() {
     LOADER: 1.55,
     CRANE: 0.75,
     EXCAVATOR: 0.85,
+    PAVER: 1.15,
   };
   if (m.def.id === "LOADER" && m.rearFrame) m.rearFrame.rotation.y = 0;
   if (Math.abs(speed) > 0.2)
@@ -3623,9 +4217,11 @@ function animate() {
     const pileDistance = Math.hypot(g.position.x + 4, g.position.z - 5),
       oldPileDistance = Math.hypot(previousX + 4, previousZ - 5);
     if (pileDistance < 6.4 && pileDistance < oldPileDistance) {
+      const hit = Math.abs(speed);
       g.position.x = previousX;
       g.position.z = previousZ;
       speed = 0;
+      bumpStop(hit);
       notice("STOCKPILE · the cone is solid. Park beside it and use the wheel loader.");
     }
   }
@@ -3639,12 +4235,14 @@ function animate() {
         previousX - other.group.position.x,
         previousZ - other.group.position.z,
       );
-    const radii = { TRUCK: 3.3, LOADER: 3.1, DOZER: 3.2, CRANE: 3.3, EXCAVATOR: 3.0 };
+    const radii = { TRUCK: 3.3, LOADER: 3.1, DOZER: 3.2, CRANE: 3.3, EXCAVATOR: 3.0, PAVER: 3.1 };
     const minDist = (radii[m.def.id] || 3.2) + (radii[other.def.id] || 3.2);
     if (nextDistance < minDist && nextDistance < previousDistance) {
+      const hit = Math.abs(speed);
       g.position.x = previousX;
       g.position.z = previousZ;
       speed = 0;
+      bumpStop(hit);
       break;
     }
   }
@@ -3671,9 +4269,11 @@ function animate() {
     return "";
   })();
   if (blockedBySite) {
+    const hit = Math.abs(speed);
     g.position.x = previousX;
     g.position.z = previousZ;
     speed *= 0.15;
+    bumpStop(hit * 0.65);
     if (elapsed - (m.blockNote || 0) > 2.2) {
       m.blockNote = elapsed;
       notice(blockedBySite);
@@ -3776,6 +4376,63 @@ function animate() {
   }
   if (m.steerWheels) {
     for (const a of m.steerWheels) a.rotation.y = -steer * 0.28;
+  }
+  if (m.def.id === "PAVER") {
+    m.toolPosition = THREE.MathUtils.clamp(m.toolPosition ?? 0.86, 0.22, 0.92);
+    if (m.implement) m.implement.position.y = m.toolPosition;
+    if (m.hopperFill) {
+      m.hopperFill.visible = m.cargo > 0.05;
+      m.hopperFill.scale.y = Math.max(0.12, Math.min(1, m.cargo / 6));
+    }
+    const screedDown = m.toolPosition < 0.45;
+    const onLane = Math.abs(g.position.z - 32) < 7.2 && Math.abs(g.position.x) < 38;
+    const laying =
+      jobNo === 1 &&
+      graded >= 40 &&
+      paved < 8 &&
+      screedDown &&
+      onLane &&
+      m.cargo > 0.05 &&
+      Math.abs(speed) > 0.25;
+    if (laying) {
+      const screed = worldPoint(g, 0, 0.2, 2.7);
+      const ix = Math.floor((screed.x - PAVE_X0) / PAVE_W);
+      if (ix === paved) {
+        m.paveTravel = (m.paveTravel || 0) + Math.abs(speed) * dt;
+        if (Math.random() < 0.55)
+          puff(
+            smoke,
+            screed.x + (Math.random() - 0.5) * 2.4,
+            0.45,
+            screed.z,
+            (Math.random() - 0.5) * 0.3,
+            0.8,
+            (Math.random() - 0.5) * 0.3,
+            0.45,
+          );
+        if (m.paveTravel >= 6) {
+          m.paveTravel = 0;
+          paved += 1;
+          m.cargo = Math.max(0, m.cargo - 1.15);
+          cash += 140;
+          updateWorkVisuals();
+          hud();
+          saveGame(true);
+          notice(
+            paved >= 8
+              ? "APPROACH IS BLACK · 8/8. The mat is down. Crane can set the girders."
+              : `BLACK MAT · ${paved}/8. Keep the screed down and creep into the next section.`,
+          );
+        }
+      } else if (elapsed - (m.paveNote || 0) > 2.4) {
+        m.paveNote = elapsed;
+        notice(
+          ix < paved
+            ? "That section is already black. The next open joint is further east."
+            : "Start at the west cones. The paver has to lay the sections in order.",
+        );
+      }
+    } else m.paveTravel = 0;
   }
   if (m.def.id === "CRANE" && m.craneCable) {
     if (parked && Math.abs(excLeftX) > 0.04 && m.craneUpper)
@@ -3985,6 +4642,17 @@ function animate() {
         bumpField(grade, cell, 0.016);
         if (!m.nextGravelDrop || m.dumpTimer - m.nextGravelDrop >= 0.12) {
           depositGravelAt(dropPoint, Math.min(poured, 0.45));
+          buryPavedRock();
+          puff(
+            dust,
+            dropPoint.x,
+            dropPoint.y + 0.35,
+            dropPoint.z,
+            (Math.random() - 0.5) * 0.6,
+            0.5,
+            (Math.random() - 0.5) * 0.6,
+            0.35,
+          );
           animateMaterialFlow(
             dropPoint,
             dropPoint.clone().add(new THREE.Vector3(0, -0.05, 0)),
@@ -4013,6 +4681,8 @@ function animate() {
         if (m.tailgate) m.tailgate.rotation.x = 0;
         $("gateRelease").textContent = "GATE OPEN / CLOSE";
         m.workAnim = 0;
+        if (jobNo === 1 && delivered >= 30)
+          notice("Rock base is down. Grade it with the D7. The black pile is asphalt — only the paver turns the lane black.");
       }
     }
   } else if (m.workAnim > 0) {
@@ -4057,12 +4727,58 @@ function animate() {
       );
   camera.position.lerp(target.clone().add(behind), 1 - Math.exp(-dt * 5.2));
   camera.lookAt(target.x, target.y + 0.2, target.z);
-  if (audioCtx && engineGain) {
-    const toolBusy = Math.abs(toolAxis) + Math.abs(excRightX) + Math.abs(excRightY) + Math.abs(excLeftX) + Math.abs(excLeftY);
-    const vol = parked ? 0.012 : Math.min(0.055, 0.01 + Math.abs(speed) * 0.0032);
-    engineGain.gain.setTargetAtTime(vol, audioCtx.currentTime, 0.08);
-    engineOsc.frequency.setTargetAtTime(38 + Math.abs(speed) * 2.4 + (m.def.id === "DOZER" ? 8 : 0), audioCtx.currentTime, 0.1);
-    hydroGain.gain.setTargetAtTime(toolBusy > 0.15 ? 0.03 : 0, audioCtx.currentTime, 0.05);
+  if (siteAudio.ctx && siteAudio.engine) {
+    const tone = ENGINE_TONE[m.def.id] || ENGINE_TONE.TRUCK;
+    const t = siteAudio.ctx.currentTime;
+    const travel = Math.abs(speed);
+    const throttle = Math.min(1, travel / 6);
+    const toolBusy =
+      Math.abs(toolAxis) +
+      Math.abs(excRightX) +
+      Math.abs(excRightY) +
+      Math.abs(excLeftX) +
+      Math.abs(excLeftY) +
+      (m.dumping ? 0.8 : 0) +
+      (m.gateOpen ? 0.25 : 0);
+    const alive = fuel > 0.4;
+    const rpm = tone.idle + throttle * tone.rise * 14 + (toolBusy > 0.2 ? 6 : 0);
+    siteAudio.fund.type = tone.type;
+    siteAudio.fund.frequency.setTargetAtTime(rpm, t, 0.12);
+    siteAudio.sub.frequency.setTargetAtTime(rpm * 0.5, t, 0.12);
+    siteAudio.low.frequency.setTargetAtTime(160 + throttle * 220, t, 0.15);
+    siteAudio.noiseFilter.frequency.setTargetAtTime(tone.noise + throttle * 80, t, 0.15);
+    siteAudio.lope.frequency.setTargetAtTime(tone.lope + throttle * 7, t, 0.2);
+    siteAudio.engine.gain.setTargetAtTime(
+      alive ? tone.body * (parked ? 0.42 : 0.55 + throttle * 0.9) : 0,
+      t,
+      0.1,
+    );
+    siteAudio.road.gain.setTargetAtTime(
+      alive && !parked ? Math.min(0.05, travel * 0.0045) : 0,
+      t,
+      0.08,
+    );
+    const hydroOn = toolBusy > 0.12 && alive;
+    siteAudio.hydro.gain.setTargetAtTime(
+      hydroOn ? 0.03 + Math.min(0.045, toolBusy * 0.014) : 0,
+      t,
+      0.06,
+    );
+    siteAudio.hydroOsc.frequency.setTargetAtTime(70 + toolBusy * 46, t, 0.08);
+    const pouring = !!(m.dumping && m.gateOpen && m.cargo > 0.05);
+    const working = m.workAnim > 0.15 && m.def.id !== "CRANE";
+    siteAudio.pour.gain.setTargetAtTime(pouring ? 0.075 : working ? 0.028 : 0, t, 0.08);
+    const backing = speed < -0.4 && !parked && alive;
+    const beepOn = backing && Math.sin(elapsed * 9) > 0.15;
+    siteAudio.beep.gain.setTargetAtTime(beepOn ? 0.04 : 0, t, 0.02);
+  }
+  emitMachineFx(m, dt, speed);
+  stepPuffs(smoke, dt, 0.2);
+  stepPuffs(dust, dt, -0.2);
+  if (fuel > 0 && !boardView) {
+    const rumble = 0.01 + Math.min(0.055, Math.abs(speed) * 0.005);
+    camera.position.y += Math.sin(elapsed * (18 + Math.abs(speed))) * rumble;
+    camera.position.x += Math.sin(elapsed * 31) * rumble * 0.35;
   }
   renderer.render(scene, camera);
   $("fuel").textContent = Math.floor(fuel) + "%";
@@ -4091,7 +4807,7 @@ updateControlVisibility();
 notice(
   restored
     ? "Welcome back — your site has been restored."
-    : "Field Ops 3D v0.16: the pavement stops at the orange cones. Dump on the tan gap, out the back of the truck.",
+    : "Field Ops 3D v0.18: dump rock on the tan gap. Only the paver lays asphalt, and the lane turns black behind the screed.",
 );
 animate();
 addEventListener("resize", () => {
