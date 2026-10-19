@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Field Ops 3D — Site Crew v0.14</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Field Ops 3D — Site Crew v0.16</title>
 <style>
 :root{color-scheme:dark}*{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#8db9d1;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#f5f5f2}canvas{display:block}#hud{position:fixed;inset:10px 10px auto;display:flex;gap:8px;justify-content:space-between;align-items:flex-start;pointer-events:none;z-index:3}.panel{background:#182126e8;border:1px solid #ffffff2a;border-radius:10px;padding:9px 12px;box-shadow:0 3px 12px #0002;backdrop-filter:blur(5px);font-size:12px;line-height:1.5}.panel strong{font-size:14px;letter-spacing:.06em}.muted{color:#c4d0d2}#job{position:fixed;left:10px;top:88px;width:min(255px,58vw);z-index:3;pointer-events:none}#notice{position:fixed;left:50%;top:17%;transform:translateX(-50%);background:#172126ed;padding:10px 16px;border:1px solid #ffffff30;border-radius:9px;z-index:6;max-width:90vw;text-align:center;opacity:0;transition:opacity .2s;pointer-events:none}#notice.show{opacity:1}#crosshair{position:fixed;left:50%;top:50%;width:10px;height:10px;border:1px solid #fff9;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}#bottom{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);z-index:4;text-align:center;background:#182126df;border:1px solid #ffffff25;border-radius:10px;padding:8px 12px;font-size:12px;max-width:96vw;width:max-content;pointer-events:none}#controls{position:fixed;inset:auto 12px 86px;display:flex;justify-content:space-between;align-items:end;gap:10px;z-index:5;pointer-events:none;max-height:58vh}.dpad,.actions{pointer-events:auto}.dpad{position:relative;width:138px;height:138px;border-radius:50%;background:#142027a8;border:2px solid #ffffff45;touch-action:none;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 14px #0004}.stick{width:58px;height:58px;border-radius:50%;background:#d8e0e4d9;border:2px solid #fff;box-shadow:0 2px 8px #0006;pointer-events:none;transform:translate(0,0)}.actions{display:grid;grid-template-columns:repeat(2,minmax(62px,76px));gap:6px;max-width:164px;max-height:56vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;padding:2px; -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}button{ -webkit-user-select:none;user-select:none;-webkit-touch-callout:none; font:800 11px system-ui;border:1px solid #ffffff55;border-radius:12px;background:#26363def;color:white;min-height:43px;padding:6px;touch-action:none;box-shadow:0 3px 8px #0004}button.primary{background:#e5a82c;color:#171b1c;border-color:#ffd777}button:active{filter:brightness(1.3);transform:translateY(1px)}#toolDock{display:contents}#toolJoystickWrap{display:none;pointer-events:auto;flex-direction:column;align-items:center;gap:4px}#toolJoystickWrap.show{display:flex}.toolJoyLabel{font-size:9px;font-weight:900;color:#ffe08a;background:#182126dc;padding:3px 7px;border-radius:8px}.tooljoy{position:relative;width:116px;height:116px;border-radius:50%;background:#142027c9;border:2px solid #ffffff60;touch-action:none;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 14px #0005}.toolstick{width:48px;height:48px;border-radius:50%;background:#d8e0e4e8;border:2px solid #fff;box-shadow:0 2px 8px #0006;pointer-events:none;transform:translate(0,0)}#mobileNote{font-size:10px;color:#c4d0d2}#help{display:none}#minimap{position:fixed;right:10px;top:260px;width:112px;height:112px;border-radius:10px;border:1px solid #ffffff55;background:#182126d9;z-index:3}#toastline{font-size:11px;color:#d7e1e1}#saveState{font-size:10px;color:#a7d8a2}#jobTip{display:block;margin-top:4px;font-size:10px}#waypoint{position:fixed;left:50%;top:8px;transform:translateX(-50%);z-index:4;background:#182126f5;border:2px solid #ffd777;border-radius:20px;padding:8px 14px;font-size:12px;font-weight:900;pointer-events:none;white-space:nowrap;box-shadow:0 3px 10px #0004;color:#ffe08a}#leftPanelTools{position:fixed;left:10px;top:204px;z-index:8;display:flex;gap:5px;pointer-events:auto}#leftPanelTools button{min-height:32px;padding:5px 8px;background:#26363df2;font-size:10px}#machinePicker{position:fixed;left:10px;bottom:230px;z-index:9;display:none;width:min(190px,48vw);padding:7px;background:#182126f2;border:1px solid #ffd777;border-radius:10px;box-shadow:0 5px 18px #0006;pointer-events:auto}#machinePicker.open{display:grid;gap:5px}#machinePicker strong{font-size:10px;color:#ffd777;padding:2px 4px}#machinePicker button{min-height:34px;text-align:left;padding:5px 8px}@media(max-width:520px){#machinePicker{left:7px;bottom:218px;width:145px}#leftPanelTools{gap:3px}#leftPanelTools button{padding:4px 6px;font-size:9px}}body.panels-right #job{left:auto;right:10px}body.panels-right #materialGuide{left:auto;right:10px}body.panels-right #leftPanelTools{left:auto;right:10px}body.panels-hidden #job,body.panels-hidden #materialGuide{display:none}@media(max-width:520px){#leftPanelTools{top:178px;left:7px}body.panels-right #leftPanelTools{left:auto;right:7px}body.panels-right #job{right:7px}body.panels-right #materialGuide{right:7px}}#materialGuide{position:fixed;left:10px;top:246px;z-index:3;max-width:210px;background:#182126df;border:1px solid #ffffff25;border-radius:9px;padding:7px 10px;font-size:10px;pointer-events:none}#optionsMenu{position:fixed;left:10px;top:250px;z-index:10;width:min(270px,78vw);max-height:58vh;overflow:auto;display:none;background:#182126f5;border:1px solid #ffd777;border-radius:12px;padding:12px;box-shadow:0 5px 20px #0008;pointer-events:auto}#optionsMenu.open{display:block}#optionsMenu label{display:block;font-size:11px;margin:10px 0 4px}#optionsMenu input[type=range]{width:100%;accent-color:#e5a82c}#optionsMenu .optionRow{display:flex;justify-content:space-between;gap:8px;align-items:center}#guideBtn{position:fixed;right:10px;top:190px;z-index:7;min-height:34px;padding:6px 10px;background:#e5a82c;color:#172126;border-color:#ffe08a}#machineGuide{position:fixed;right:10px;top:230px;z-index:7;width:min(230px,58vw);background:#182126f2;border:1px solid #ffd777;border-radius:10px;padding:10px 12px;box-shadow:0 5px 20px #0006;font-size:11px;line-height:1.45;display:none;pointer-events:auto}#machineGuide.open{display:block}#machineGuide strong{font-size:12px;color:#ffd15a}#machineGuide ol{margin:6px 0 0;padding-left:18px}#machineGuide li{margin:3px 0}#machineGuideClose{float:right;min-height:26px;padding:2px 8px}#bottom{display:none}#minimap{touch-action:none}@media(min-width:850px){#controls{inset:auto 18px 18px}.dpad{width:118px;height:118px;opacity:.8}.stick{width:50px;height:50px}.actions{grid-template-columns:repeat(4,76px);max-width:none}#minimap{width:140px;height:140px}#job{width:270px}#bottom{bottom:12px}}@media(max-width:520px){.tooljoy{width:94px;height:94px}.toolstick{width:40px;height:40px}#hud{inset:7px 7px auto}#job{top:80px;left:7px;width:min(205px,57vw);font-size:11px;padding:8px}#minimap{top:255px;right:7px;width:88px;height:88px}#controls{left:8px;right:8px;bottom:82px;align-items:end;max-height:62vh}.actions{max-height:60vh}.dpad{width:126px;height:126px;flex-shrink:0}.stick{width:54px;height:54px}.actions{grid-template-columns:repeat(2,68px);gap:5px;max-width:142px}button{min-height:40px;font-size:10px;padding:4px;border-radius:10px}#bottom{display:none}#crosshair{display:none}}
 @media(max-width:520px){body.dual-joystick-layout #controls{left:6px;right:6px;display:grid;grid-template-columns:88px minmax(0,1fr) 82px;column-gap:7px;align-items:end}body.dual-joystick-layout #joystick{grid-column:1;grid-row:1;width:88px;height:88px;justify-self:start;flex-shrink:0}body.dual-joystick-layout .actions{grid-column:2;grid-row:1;min-width:0;width:100%;max-width:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}body.dual-joystick-layout #toolJoystickWrap{grid-column:3;grid-row:1;justify-self:end;flex-shrink:0;align-self:end}body.dual-joystick-layout #stick{width:40px;height:40px}body.dual-joystick-layout .tooljoy{width:82px;height:82px}body.dual-joystick-layout .toolstick{width:36px;height:36px}body.dual-joystick-layout .toolJoyLabel{font-size:8px;padding:2px 4px}body.dual-joystick-layout button{min-height:36px;font-size:9px;padding:3px}}@media(min-width:521px){body.dual-joystick-layout #controls{left:12px;right:12px;display:grid;grid-template-columns:118px minmax(0,1fr) 116px;column-gap:12px;align-items:end}body.dual-joystick-layout #joystick{grid-column:1;grid-row:1;justify-self:start;flex-shrink:0}body.dual-joystick-layout .actions{grid-column:2;grid-row:1;width:100%;max-width:none;grid-template-columns:repeat(3,minmax(68px,1fr))}body.dual-joystick-layout #toolJoystickWrap{grid-column:3;grid-row:1;justify-self:end;flex-shrink:0}}</style>
@@ -112,11 +112,22 @@ const ground = mesh(
 ground.rotation.x = -Math.PI / 2;
 ground.receiveShadow = true;
 // gravel work lanes and road base
-box(0x68645a, 0, 0.01, 32, 190, 0.08, 17);
+box(0x68645a, -66, 0.01, 32, 58, 0.08, 16);
+box(0x68645a, 66, 0.01, 32, 58, 0.08, 16);
 box(0x68645a, -50, 0.02, -7, 17, 0.08, 92);
-box(0x4a4e50, 0, 0.08, 32, 190, 0.06, 10);
+box(0x4a4e50, -66, 0.08, 32, 58, 0.06, 10);
+box(0x4a4e50, 66, 0.08, 32, 58, 0.06, 10);
+function pavementEnd(x) {
+  box(0x2c3032, x, 0.22, 32, 0.55, 0.36, 11.2);
+  for (const z of [25.4, 38.6]) {
+    mesh(new THREE.ConeGeometry(0.34, 0.82, 7), mat(0xe07a2f), x, 0.5, z);
+    box(0xf4f1ea, x, 0.68, z, 0.22, 0.08, 0.22);
+  }
+}
+pavementEnd(-37.15);
+pavementEnd(37.15);
 for (let x = -88; x < 95; x += 12)
-  box(0xd4c38d, 0.14, 0.13, 32, 5, 0.025, 0.13);
+  if (Math.abs(x) > 40) box(0xd4c38d, x, 0.13, 32, 5, 0.025, 0.13);
 // river, bridge foundations and construction zone
 box(0x317c9e, 49, -0.18, -8, 22, 0.16, 46);
 for (let z of [-25, 15]) {
@@ -231,7 +242,7 @@ function bladePush(f, x, z, fx, fz, target) {
   if (ahead >= 0) bumpField(f, ahead, cut * 0.82);
   return cut;
 }
-const approachField = makeField("approach", -34, 26, 34, 38, 2, 0x8d7c63, 0.15, 0.22);
+const approachField = makeField("approach", -37.2, 23.2, 37.2, 40.8, 2, 0xb08a5c, -0.02, 0.028);
 const quarryField = makeField("quarry", -58, -36, -42, 30, 2.4, 0x8a735c, 0.12, 0.2);
 const basinField = makeField("basin", 8, -20, 26, 0, 1.5, 0x6a5a42, 0.08, 0.16);
 const yardField = makeField("yard", -52, -42, -26, -20, 2, 0x7d7364, 0.1, 0.14);
@@ -245,7 +256,7 @@ box(0x6a6248, -64, 3.2, 16, 4, 6.4, 22);
 box(0x5c5648, -62.2, 1.4, 16, 2.2, 2.6, 18);
 const asphaltPatches = [];
 for (let i = 0; i < 8; i++) {
-  const patch = box(0x25292b, -21 + i * 6, 0.235, 32, 5.58, 0.11, 7.95);
+  const patch = box(0x25292b, -21 + i * 6, 0.14, 32, 5.58, 0.08, 7.6);
   patch.visible = false;
   asphaltPatches.push(patch);
 }
@@ -275,7 +286,7 @@ function depositGravelAt(worldPos, amount) {
       new THREE.DodecahedronGeometry(r, 0),
       gravelMats[Math.floor(Math.random() * gravelMats.length)],
       worldPos.x + (Math.random() - 0.5) * 1.35,
-      0.19 + Math.random() * 0.16,
+      (worldPos.y || 0.16) + Math.random() * 0.1,
       worldPos.z + (Math.random() - 0.5) * 1.25,
     );
     stone.rotation.set(Math.random() * 3, Math.random() * 3, Math.random() * 3);
@@ -1415,7 +1426,7 @@ function workZone() {
   if (jobNo === 3) return { x: -50, z: -2, rx: 12, rz: 34, label: "QUARRY ROAD", long: true };
   if (jobNo === 4) return { x: 17, z: -10, r: 16, label: "TRENCH" };
   if (jobNo === 5) return { x: -40, z: -30, r: 16, label: "DEPOT YARD" };
-  return { x: 0, z: 32, r: 28, label: "APPROACH" };
+  return { x: 0, z: 32, rx: 40, rz: 14, label: "APPROACH", long: true };
 }
 function inZone(x, z, zone = workZone()) {
   if (zone.long) return Math.abs(x - zone.x) < zone.rx && Math.abs(z - zone.z) < zone.rz;
@@ -1896,9 +1907,9 @@ function hud() {
       $("objective").textContent =
         "Scoop aggregate with the wheel loader, tip it into the dump truck, and haul it to the marked road.";
       $("stage").textContent =
-        `Stage 1 of 4 · Road supply (${Math.min(30, delivered)}/30)`;
+        `Stage 1 of 4 · Road supply (${Math.round(Math.min(30, delivered) * 10) / 10}/30)`;
       $("jobTip").textContent =
-        "The yellow rectangle under the truck is the load lane, beside the tan pile. Stay parked and the yard loader fills the bed. At the green marker: bed up, then GATE OPEN.";
+        "Load on the yellow rectangle. The pavement stops at the orange cones. Drive onto the tan gap until the back of the truck is off the asphalt, then BED UP and GATE OPEN.";
     } else if (graded < 40) {
       $("objective").textContent =
         "Use the D7 to spread and level the loose rock base.";
@@ -1936,7 +1947,7 @@ function hud() {
           ? "Haul aggregate to the drainage basin for flood-control backfill."
           : "Haul aggregate to the storm-drain repair zone.";
       $("stage").textContent =
-        `Stage 2 of ${jobNo === 2 ? 3 : 2} · Backfill delivery (${Math.min(30, delivered)}/30)`;
+        `Stage 2 of ${jobNo === 2 ? 3 : 2} · Backfill delivery (${Math.round(Math.min(30, delivered) * 10) / 10}/30)`;
       $("jobTip").textContent =
         "The green marker is this contract's site, not the bridge approach. Bed up, then GATE OPEN.";
     } else if (jobNo === 2 && graded < 40) {
@@ -1958,7 +1969,7 @@ function hud() {
           ? "Haul aggregate to rebuild the quarry access road."
           : "Deliver aggregate to rebuild the depot vehicle yard.";
       $("stage").textContent =
-        `Stage 1 of 2 · Material delivery (${Math.min(30, delivered)}/30)`;
+        `Stage 1 of 2 · Material delivery (${Math.round(Math.min(30, delivered) * 10) / 10}/30)`;
       $("jobTip").textContent =
         "Load at the tan pile or the yellow lane, then unload at this contract's green marker.";
     } else {
@@ -2830,12 +2841,12 @@ holdButton(
         m.dumpStartCargo = m.cargo;
         m.dumpDelivered = 0;
         notice(
-          "BED RAISED · gate closed. Tap GATE OPEN / CLOSE when ready to pour.",
+          "BED RAISED · gate closed. Get the back of the truck onto the tan gap, then GATE OPEN. Rock falls out the rear.",
         );
         hud();
       } else if (m.cargo > 0)
         notice(
-          "Bed raised. Drive into the green road marker to empty the load.",
+          "Bed raised. The tan gap between the orange cones is the unfinished road.",
         );
       else notice("Dump bed raised, but the truck is empty.");
     }
@@ -3174,7 +3185,11 @@ function drawMap() {
   mc.fillStyle = "#64754b";
   mc.fillRect(0, 0, 140, 140);
   mc.fillStyle = "#4a4e50";
-  mc.fillRect(0, 65, 140, 9);
+  mc.fillRect(0, 65, 56, 9);
+  mc.fillRect(84, 65, 56, 9);
+  mc.fillStyle = "#b08a5c";
+  mc.fillRect(56, 65, 28, 9);
+  mc.fillStyle = "#4a4e50";
   mc.fillRect(31, 0, 9, 140);
   mc.fillStyle = "#317c9e";
   mc.fillRect(103, 0, 14, 140);
@@ -3943,18 +3958,32 @@ function animate() {
       const fullTiltDelay = 1.35;
       const pourRate = 0.75;
       if (m.dumpTimer > fullTiltDelay && m.gateOpen && m.cargo > 0) {
+        const grade = jobNo === 1 ? approachField : zoneField();
+        const dropPoint = worldPoint(
+          m.group,
+          (Math.random() - 0.5) * 0.42,
+          0.25,
+          4.2 + (Math.random() - 0.5) * 0.4,
+        );
+        const cell = fieldCell(grade, dropPoint.x, dropPoint.z);
+        const onApproach =
+          jobNo !== 1 || Math.abs(dropPoint.x) < 36.2;
+        if (cell < 0 || !onApproach) {
+          if (elapsed - (m.dumpOff || 0) > 2.2) {
+            m.dumpOff = elapsed;
+            notice(
+              "Tailgate is still on finished pavement. Drive onto the tan gap so the rock falls out the back.",
+            );
+          }
+        } else {
         const poured = Math.min(m.cargo, pourRate * dt);
         m.cargo = Math.max(0, m.cargo - poured);
         const before = delivered;
         delivered = Math.min(30, delivered + poured * 2);
         m.dumpDelivered = (m.dumpDelivered || 0) + poured;
+        dropPoint.y = grade.mesh.position.y + grade.h[cell] + 0.18;
+        bumpField(grade, cell, 0.016);
         if (!m.nextGravelDrop || m.dumpTimer - m.nextGravelDrop >= 0.12) {
-          const dropPoint = worldPoint(
-            m.group,
-            (Math.random() - 0.5) * 0.42,
-            0.25,
-            4.15 + (Math.random() - 0.5) * 0.55,
-          );
           depositGravelAt(dropPoint, Math.min(poured, 0.45));
           animateMaterialFlow(
             dropPoint,
@@ -3970,6 +3999,7 @@ function animate() {
           m.dumpPaid = true;
         }
         hud();
+        }
       }
       if (m.cargo <= 0) {
         m.dumping = false;
@@ -4061,7 +4091,7 @@ updateControlVisibility();
 notice(
   restored
     ? "Welcome back — your site has been restored."
-    : "Field Ops 3D v0.14: park on the yellow rectangle and press LOAD. The yard loader fills the truck and stays by the pile.",
+    : "Field Ops 3D v0.16: the pavement stops at the orange cones. Dump on the tan gap, out the back of the truck.",
 );
 animate();
 addEventListener("resize", () => {
