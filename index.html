@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Field Ops 3D — Site Crew v0.11</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Field Ops 3D — Site Crew v0.12</title>
 <style>
 :root{color-scheme:dark}*{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#8db9d1;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#f5f5f2}canvas{display:block}#hud{position:fixed;inset:10px 10px auto;display:flex;gap:8px;justify-content:space-between;align-items:flex-start;pointer-events:none;z-index:3}.panel{background:#182126e8;border:1px solid #ffffff2a;border-radius:10px;padding:9px 12px;box-shadow:0 3px 12px #0002;backdrop-filter:blur(5px);font-size:12px;line-height:1.5}.panel strong{font-size:14px;letter-spacing:.06em}.muted{color:#c4d0d2}#job{position:fixed;left:10px;top:88px;width:min(255px,58vw);z-index:3;pointer-events:none}#notice{position:fixed;left:50%;top:17%;transform:translateX(-50%);background:#172126ed;padding:10px 16px;border:1px solid #ffffff30;border-radius:9px;z-index:6;max-width:90vw;text-align:center;opacity:0;transition:opacity .2s;pointer-events:none}#notice.show{opacity:1}#crosshair{position:fixed;left:50%;top:50%;width:10px;height:10px;border:1px solid #fff9;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}#bottom{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);z-index:4;text-align:center;background:#182126df;border:1px solid #ffffff25;border-radius:10px;padding:8px 12px;font-size:12px;max-width:96vw;width:max-content;pointer-events:none}#controls{position:fixed;inset:auto 12px 86px;display:flex;justify-content:space-between;align-items:end;gap:10px;z-index:5;pointer-events:none;max-height:58vh}.dpad,.actions{pointer-events:auto}.dpad{position:relative;width:138px;height:138px;border-radius:50%;background:#142027a8;border:2px solid #ffffff45;touch-action:none;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 14px #0004}.stick{width:58px;height:58px;border-radius:50%;background:#d8e0e4d9;border:2px solid #fff;box-shadow:0 2px 8px #0006;pointer-events:none;transform:translate(0,0)}.actions{display:grid;grid-template-columns:repeat(2,minmax(62px,76px));gap:6px;max-width:164px;max-height:56vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;padding:2px; -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}button{ -webkit-user-select:none;user-select:none;-webkit-touch-callout:none; font:800 11px system-ui;border:1px solid #ffffff55;border-radius:12px;background:#26363def;color:white;min-height:43px;padding:6px;touch-action:none;box-shadow:0 3px 8px #0004}button.primary{background:#e5a82c;color:#171b1c;border-color:#ffd777}button:active{filter:brightness(1.3);transform:translateY(1px)}#toolDock{display:contents}#toolJoystickWrap{display:none;pointer-events:auto;flex-direction:column;align-items:center;gap:4px}#toolJoystickWrap.show{display:flex}.toolJoyLabel{font-size:9px;font-weight:900;color:#ffe08a;background:#182126dc;padding:3px 7px;border-radius:8px}.tooljoy{position:relative;width:116px;height:116px;border-radius:50%;background:#142027c9;border:2px solid #ffffff60;touch-action:none;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 14px #0005}.toolstick{width:48px;height:48px;border-radius:50%;background:#d8e0e4e8;border:2px solid #fff;box-shadow:0 2px 8px #0006;pointer-events:none;transform:translate(0,0)}#mobileNote{font-size:10px;color:#c4d0d2}#help{display:none}#minimap{position:fixed;right:10px;top:260px;width:112px;height:112px;border-radius:10px;border:1px solid #ffffff55;background:#182126d9;z-index:3}#toastline{font-size:11px;color:#d7e1e1}#saveState{font-size:10px;color:#a7d8a2}#jobTip{display:block;margin-top:4px;font-size:10px}#waypoint{position:fixed;left:50%;top:8px;transform:translateX(-50%);z-index:4;background:#182126f5;border:2px solid #ffd777;border-radius:20px;padding:8px 14px;font-size:12px;font-weight:900;pointer-events:none;white-space:nowrap;box-shadow:0 3px 10px #0004;color:#ffe08a}#leftPanelTools{position:fixed;left:10px;top:204px;z-index:8;display:flex;gap:5px;pointer-events:auto}#leftPanelTools button{min-height:32px;padding:5px 8px;background:#26363df2;font-size:10px}#machinePicker{position:fixed;left:10px;bottom:230px;z-index:9;display:none;width:min(190px,48vw);padding:7px;background:#182126f2;border:1px solid #ffd777;border-radius:10px;box-shadow:0 5px 18px #0006;pointer-events:auto}#machinePicker.open{display:grid;gap:5px}#machinePicker strong{font-size:10px;color:#ffd777;padding:2px 4px}#machinePicker button{min-height:34px;text-align:left;padding:5px 8px}@media(max-width:520px){#machinePicker{left:7px;bottom:218px;width:145px}#leftPanelTools{gap:3px}#leftPanelTools button{padding:4px 6px;font-size:9px}}body.panels-right #job{left:auto;right:10px}body.panels-right #materialGuide{left:auto;right:10px}body.panels-right #leftPanelTools{left:auto;right:10px}body.panels-hidden #job,body.panels-hidden #materialGuide{display:none}@media(max-width:520px){#leftPanelTools{top:178px;left:7px}body.panels-right #leftPanelTools{left:auto;right:7px}body.panels-right #job{right:7px}body.panels-right #materialGuide{right:7px}}#materialGuide{position:fixed;left:10px;top:246px;z-index:3;max-width:210px;background:#182126df;border:1px solid #ffffff25;border-radius:9px;padding:7px 10px;font-size:10px;pointer-events:none}#optionsMenu{position:fixed;left:10px;top:250px;z-index:10;width:min(270px,78vw);max-height:58vh;overflow:auto;display:none;background:#182126f5;border:1px solid #ffd777;border-radius:12px;padding:12px;box-shadow:0 5px 20px #0008;pointer-events:auto}#optionsMenu.open{display:block}#optionsMenu label{display:block;font-size:11px;margin:10px 0 4px}#optionsMenu input[type=range]{width:100%;accent-color:#e5a82c}#optionsMenu .optionRow{display:flex;justify-content:space-between;gap:8px;align-items:center}#guideBtn{position:fixed;right:10px;top:190px;z-index:7;min-height:34px;padding:6px 10px;background:#e5a82c;color:#172126;border-color:#ffe08a}#machineGuide{position:fixed;right:10px;top:230px;z-index:7;width:min(230px,58vw);background:#182126f2;border:1px solid #ffd777;border-radius:10px;padding:10px 12px;box-shadow:0 5px 20px #0006;font-size:11px;line-height:1.45;display:none;pointer-events:auto}#machineGuide.open{display:block}#machineGuide strong{font-size:12px;color:#ffd15a}#machineGuide ol{margin:6px 0 0;padding-left:18px}#machineGuide li{margin:3px 0}#machineGuideClose{float:right;min-height:26px;padding:2px 8px}#bottom{display:none}#minimap{touch-action:none}@media(min-width:850px){#controls{inset:auto 18px 18px}.dpad{width:118px;height:118px;opacity:.8}.stick{width:50px;height:50px}.actions{grid-template-columns:repeat(4,76px);max-width:none}#minimap{width:140px;height:140px}#job{width:270px}#bottom{bottom:12px}}@media(max-width:520px){.tooljoy{width:94px;height:94px}.toolstick{width:40px;height:40px}#hud{inset:7px 7px auto}#job{top:80px;left:7px;width:min(205px,57vw);font-size:11px;padding:8px}#minimap{top:255px;right:7px;width:88px;height:88px}#controls{left:8px;right:8px;bottom:82px;align-items:end;max-height:62vh}.actions{max-height:60vh}.dpad{width:126px;height:126px;flex-shrink:0}.stick{width:54px;height:54px}.actions{grid-template-columns:repeat(2,68px);gap:5px;max-width:142px}button{min-height:40px;font-size:10px;padding:4px;border-radius:10px}#bottom{display:none}#crosshair{display:none}}
 @media(max-width:520px){body.dual-joystick-layout #controls{left:6px;right:6px;display:grid;grid-template-columns:88px minmax(0,1fr) 82px;column-gap:7px;align-items:end}body.dual-joystick-layout #joystick{grid-column:1;grid-row:1;width:88px;height:88px;justify-self:start;flex-shrink:0}body.dual-joystick-layout .actions{grid-column:2;grid-row:1;min-width:0;width:100%;max-width:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}body.dual-joystick-layout #toolJoystickWrap{grid-column:3;grid-row:1;justify-self:end;flex-shrink:0;align-self:end}body.dual-joystick-layout #stick{width:40px;height:40px}body.dual-joystick-layout .tooljoy{width:82px;height:82px}body.dual-joystick-layout .toolstick{width:36px;height:36px}body.dual-joystick-layout .toolJoyLabel{font-size:8px;padding:2px 4px}body.dual-joystick-layout button{min-height:36px;font-size:9px;padding:3px}}@media(min-width:521px){body.dual-joystick-layout #controls{left:12px;right:12px;display:grid;grid-template-columns:118px minmax(0,1fr) 116px;column-gap:12px;align-items:end}body.dual-joystick-layout #joystick{grid-column:1;grid-row:1;justify-self:start;flex-shrink:0}body.dual-joystick-layout .actions{grid-column:2;grid-row:1;width:100%;max-width:none;grid-template-columns:repeat(3,minmax(68px,1fr))}body.dual-joystick-layout #toolJoystickWrap{grid-column:3;grid-row:1;justify-self:end;flex-shrink:0}}</style>
@@ -23,12 +23,12 @@
 .actions button{white-space:normal;line-height:1.15;overflow:hidden}
 </style>
 </head><body>
-<div id="hud"><div class="panel"><strong>FIELD OPS <span style="color:#e5a82c">3D</span></strong><br><span id="machine">D7 DOZER</span><br><span class="muted" id="machineHint">Push and grade the road</span></div><div class="panel" style="text-align:right">CASH <b id="cash">$12,500</b><br>FUEL <b id="fuel">100%</b> · LOAD <b id="load">0 t</b><br>SPEED <b id="speed">0 km/h</b> · <span id="saveState">AUTO-SAVE ON</span><div id="bucketFillWrap" style="display:none;text-align:left;margin-top:5px;min-width:130px">BUCKET <b id="bucketFillText">0 / 4 t · 0%</b><div style="height:7px;background:#ffffff25;border-radius:8px;overflow:hidden;margin-top:3px"><div id="bucketFillBar" style="height:100%;width:0;background:#d5ad72;transition:width .15s"></div></div></div></div></div>
+<div id="hud"><div class="panel"><strong>FIELD OPS <span style="color:#e5a82c">3D</span></strong><br><span id="machine">D7 DOZER</span><br><span class="muted" id="machineHint">Push and grade the road</span></div><div class="panel" style="text-align:right">CASH <b id="cash">$12,500</b><br>FUEL <b id="fuel">100%</b> · LOAD <b id="load">0 t</b><br>SPEED <b id="speed">0 km/h</b> · <span id="saveState">AUTO-SAVE ON</span><br><span id="shift" class="muted">06:40 · CLEAR</span> · <span id="condition" class="muted">FIT</span><div id="bucketFillWrap" style="display:none;text-align:left;margin-top:5px;min-width:130px">BUCKET <b id="bucketFillText">0 / 4 t · 0%</b><div style="height:7px;background:#ffffff25;border-radius:8px;overflow:hidden;margin-top:3px"><div id="bucketFillBar" style="height:100%;width:0;background:#d5ad72;transition:width .15s"></div></div></div></div></div>
 
 <div id="job" class="panel"><strong id="jobTitle">JOB 01 · ACCESS ROAD</strong><br><span id="objective">Haul aggregate to the marked road section.</span><div style="height:7px;background:#ffffff20;border-radius:8px;margin:8px 0 5px;overflow:hidden"><div id="bar" style="height:100%;width:0;background:#e5a82c;transition:width .2s"></div></div><b id="progress">0 / 100 work units</b><br><span id="stage" class="muted">Stage 1 of 3 · Deliver aggregate</span><br><span id="jobTip" class="muted">Tip: drive close to the pile before loading.</span></div>
-<div id="waypoint">🟡 CONTRACT BOARD · follow the marker</div><div id="leftPanelTools"><button id="panelSide" type="button">⇄ MOVE RIGHT</button><button id="panelHide" type="button">− HIDE MENUS</button><button id="machinePickerToggle" type="button">🚜 MACHINES ▾</button><button id="optionsToggle" type="button">⚙ OPTIONS</button></div><section id="optionsMenu"><div class="optionRow"><strong>CONTROL OPTIONS</strong><button id="optionsClose" type="button">CLOSE</button></div><label for="moveSensitivity">Touch movement sensitivity <span id="moveSensitivityValue">100%</span></label><input id="moveSensitivity" type="range" min="50" max="150" value="100" step="5"><label for="throttleSensitivity">Truck throttle response <span id="throttleSensitivityValue">100%</span></label><input id="throttleSensitivity" type="range" min="50" max="150" value="100" step="5"><label for="boomSensitivity">Boom / tool sensitivity <span id="boomSensitivityValue">100%</span></label><input id="boomSensitivity" type="range" min="50" max="175" value="100" step="5"><div style="font-size:10px;color:#c4d0d2;margin-top:8px">Changes save on this device. Horizontal camera movement is inverted.</div></section><section id="machinePicker" aria-label="Choose machine"><strong>CHOOSE MACHINE</strong><button type="button" data-machine="0">D7 DOZER</button><button type="button" data-machine="1">WHEEL LOADER</button><button type="button" data-machine="2">DUMP TRUCK</button><button type="button" data-machine="3">MOBILE CRANE</button><button type="button" data-machine="4">EXCAVATOR</button></section><div id="materialGuide">MATERIALS: Tan pile → loader bucket → dump-truck bed → green road marker. Loader: RIGHT joystick up/down raises/lowers lift arms; left/right curls or tips bucket. Transfer only with bucket physically over truck bed; bucket 4 t, truck 12.5 t. Truck: LOAD / USE at green road marker to dump onto road.</div><button id="guideBtn" type="button">📘 MACHINE GUIDE</button><section id="machineGuide" aria-live="polite"><button id="machineGuideClose" type="button">CLOSE</button><strong id="guideTitle">DUMP TRUCK</strong><div id="guideText"></div></section><div id="notice" role="status" aria-live="polite"></div><div id="crosshair"></div><canvas id="minimap" width="140" height="140" aria-label="Site map"></canvas>
+<div id="waypoint">🟡 CONTRACT BOARD · follow the marker</div><div id="leftPanelTools"><button id="panelSide" type="button">⇄ MOVE RIGHT</button><button id="panelHide" type="button">− HIDE MENUS</button><button id="machinePickerToggle" type="button">🚜 MACHINES ▾</button><button id="optionsToggle" type="button">⚙ OPTIONS</button></div><section id="optionsMenu"><div class="optionRow"><strong>CONTROL OPTIONS</strong><button id="optionsClose" type="button">CLOSE</button></div><label for="moveSensitivity">Touch movement sensitivity <span id="moveSensitivityValue">100%</span></label><input id="moveSensitivity" type="range" min="50" max="150" value="100" step="5"><label for="throttleSensitivity">Truck throttle response <span id="throttleSensitivityValue">100%</span></label><input id="throttleSensitivity" type="range" min="50" max="150" value="100" step="5"><label for="boomSensitivity">Boom / tool sensitivity <span id="boomSensitivityValue">100%</span></label><input id="boomSensitivity" type="range" min="50" max="175" value="100" step="5"><div style="font-size:10px;color:#c4d0d2;margin-top:8px">Changes save on this device. Horizontal camera movement is inverted.</div></section><section id="machinePicker" aria-label="Choose machine"><strong>CHOOSE MACHINE</strong><button type="button" data-machine="0">D7 DOZER</button><button type="button" data-machine="1">WHEEL LOADER</button><button type="button" data-machine="2">DUMP TRUCK</button><button type="button" data-machine="3">MOBILE CRANE</button><button type="button" data-machine="4">EXCAVATOR</button></section><div id="materialGuide">MATERIALS: Tan pile or yellow load lane → dump-truck bed → this contract's green marker. Flood control dumps at the basin, the quarry road is the north-south lane, the depot yard is by the warehouse. Loader: RIGHT joystick lifts and curls. Truck: bed up, then GATE OPEN. A loaded truck ruts, and the river bank is soft.</div><button id="guideBtn" type="button">📘 MACHINE GUIDE</button><section id="machineGuide" aria-live="polite"><button id="machineGuideClose" type="button">CLOSE</button><strong id="guideTitle">DUMP TRUCK</strong><div id="guideText"></div></section><div id="notice" role="status" aria-live="polite"></div><div id="crosshair"></div><canvas id="minimap" width="140" height="140" aria-label="Site map"></canvas>
 <div id="controls"><div class="dpad" id="joystick" aria-label="Driving joystick on left"><div class="stick" id="stick"></div></div><div id="toolJoystickWrap"><div class="toolJoyLabel">BOOM / BUCKET</div><div class="tooljoy" id="toolJoystick" aria-label="Excavator right joystick"><div class="toolstick" id="toolStick"></div></div><div class="toolJoyLabel">RIGHT JOYSTICK</div></div><div class="actions"><button id="switch" class="primary">🚜 MACHINE</button><button id="boardGo" class="primary">GO TO BOARD</button><button id="restart">↻ RESTART</button><button id="interact">LOAD / USE</button><button id="gateRelease" class="primary" style="display:none">GATE OPEN / CLOSE</button><button id="work">WORK</button><button id="refuel" style="display:none">FUEL</button><button id="throttle">▲ DRIVE</button><button id="brake">▼ BRAKE / REV</button><button id="toolUp">TOOL UP</button><button id="toolDown">TOOL DOWN</button><button id="toolCurl">BUCKET CURL</button><button id="curlBack">CURL BACK</button><button id="dumpBucket">DUMP BUCKET</button><button id="boomLeft">SLEW ◀</button><button id="boomRight">SLEW ▶</button><button id="boomOut">BOOM OUT</button><button id="boomIn">BOOM IN</button><button id="steerLeft">◀ STEER</button><button id="steerRight">STEER ▶</button><button id="park">PARK</button><button id="lights">LIGHTS OFF</button></div></div>
-<div id="bottom"><b>Joystick</b> drive / operate · Excavator & crane: PARK ON locks chassis so both sticks work tools · loader dirt transfers to truck, truck tips at green road · <b>MACHINE</b> switch · <b>LOAD / USE</b> load/transfer/dump · <b>WORK</b> crane lifts / paving only<br><span id="toastline">Start with the dump truck. Buy aggregate at the stockpile, then deliver to the road. Visit the yellow contract board after the bridge job.</span></div>
+<div id="bottom"><b>Joystick</b> drive / operate · Excavator & crane: PARK ON locks chassis so both sticks work tools · loader dirt transfers to truck, truck tips at green road · <b>MACHINE</b> switch · <b>LOAD / USE</b> load/transfer/dump · <b>WORK</b> crane lifts / paving only<br><span id="toastline">Park the dump truck in the yellow load lane, or scoop with the wheel loader. Deliver to the marked site. The crane has to set a girder before a deck appears.</span></div>
 <script type="module">
 
 window.addEventListener("error", (e) => {
@@ -77,7 +77,8 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 document.body.appendChild(renderer.domElement);
-scene.add(new THREE.HemisphereLight(0xdff2ff, 0x58604b, 2.1));
+const hemi = new THREE.HemisphereLight(0xdff2ff, 0x58604b, 2.1);
+scene.add(hemi);
 const sun = new THREE.DirectionalLight(0xffedc5, 3);
 sun.position.set(-45, 90, 55);
 sun.castShadow = true;
@@ -121,7 +122,13 @@ box(0x317c9e, 49, -0.18, -8, 22, 0.16, 46);
 for (let z of [-25, 15]) {
   box(0x888b87, 37, 0.6, z, 8, 1.2, 8);
   box(0x666c6d, 37, 1.3, z, 7, 0.25, 7);
+  box(0x888b87, 61, 0.6, z, 8, 1.2, 8);
+  box(0x666c6d, 61, 1.3, z, 7, 0.25, 7);
 }
+// Seats under the actual span. The river is 22 m; the steel has to land on both banks.
+box(0x7d8280, 36.2, 0.62, -5, 2.6, 1.05, 22);
+box(0x7d8280, 61.8, 0.62, -5, 2.6, 1.05, 22);
+box(0x4e4632, 34.2, 0.04, -4, 8, 0.08, 28);
 // Bridge bay is assembled in three visible deck lifts as the crane contract advances.
 const bridgeDecks = [];
 for (let i = 0; i < 3; i++) {
@@ -163,6 +170,79 @@ for (let i = 0; i < 8; i++) {
   patch.visible = false;
   gradePatches.push(patch);
 }
+const fields = [];
+function makeField(name, x0, z0, x1, z1, step, color, baseY, lump) {
+  const cols = Math.max(2, Math.round((x1 - x0) / step));
+  const rows = Math.max(2, Math.round((z1 - z0) / step));
+  const geo = new THREE.PlaneGeometry(x1 - x0, z1 - z0, cols, rows);
+  geo.rotateX(-Math.PI / 2);
+  const pos = geo.attributes.position;
+  const h = new Float32Array(pos.count);
+  for (let i = 0; i < pos.count; i++) {
+    const wx = (x0 + x1) / 2 + pos.getX(i);
+    const wz = (z0 + z1) / 2 + pos.getZ(i);
+    const n = Math.sin(wx * 0.73 + name.length) * Math.cos(wz * 0.51);
+    h[i] = lump ? lump * (0.35 + 0.65 * (n * 0.5 + 0.5)) : 0;
+    pos.setY(i, h[i]);
+  }
+  pos.needsUpdate = true;
+  geo.computeVertexNormals();
+  const surface = new THREE.Mesh(geo, mat(color));
+  surface.position.set((x0 + x1) / 2, baseY, (z0 + z1) / 2);
+  surface.receiveShadow = true;
+  surface.castShadow = false;
+  scene.add(surface);
+  const field = { name, mesh: surface, geo, pos, h, x0, z0, x1, z1, cols, rows, step, dirty: 0 };
+  fields.push(field);
+  return field;
+}
+function fieldCell(f, x, z) {
+  const localX = x - (f.x0 + f.x1) / 2;
+  const localZ = z - (f.z0 + f.z1) / 2;
+  const width = f.x1 - f.x0;
+  const depth = f.z1 - f.z0;
+  if (Math.abs(localX) > width / 2 + 0.01 || Math.abs(localZ) > depth / 2 + 0.01) return -1;
+  const ix = Math.round(((localX + width / 2) / width) * f.cols);
+  const iz = Math.round(((localZ + depth / 2) / depth) * f.rows);
+  if (ix < 0 || iz < 0 || ix > f.cols || iz > f.rows) return -1;
+  return iz * (f.cols + 1) + ix;
+}
+function bumpField(f, i, dy) {
+  if (i < 0) return;
+  f.h[i] = THREE.MathUtils.clamp(f.h[i] + dy, -0.55, 0.62);
+  f.pos.setY(i, f.h[i]);
+  f.dirty = 1;
+}
+function flushFields() {
+  for (const f of fields) {
+    if (!f.dirty) continue;
+    f.pos.needsUpdate = true;
+    f.geo.computeVertexNormals();
+    f.dirty = 0;
+  }
+}
+function bladePush(f, x, z, fx, fz, target) {
+  const i = fieldCell(f, x, z);
+  if (i < 0) return 0;
+  const ahead = fieldCell(f, x + fx * f.step * 0.9, z + fz * f.step * 0.9);
+  if (f.h[i] <= target + 0.012) return 0;
+  const cut = Math.min(0.05, f.h[i] - target);
+  bumpField(f, i, -cut);
+  if (ahead >= 0) bumpField(f, ahead, cut * 0.82);
+  return cut;
+}
+const approachField = makeField("approach", -34, 26, 34, 38, 2, 0x8d7c63, 0.15, 0.22);
+const quarryField = makeField("quarry", -58, -36, -42, 30, 2.4, 0x8a735c, 0.12, 0.2);
+const basinField = makeField("basin", 8, -20, 26, 0, 1.5, 0x6a5a42, 0.08, 0.16);
+const yardField = makeField("yard", -52, -42, -26, -20, 2, 0x7d7364, 0.1, 0.14);
+const bankField = makeField("bank", 30, -28, 40, 16, 2, 0x5a6244, -0.02, 0.05);
+for (let i = 0; i < bankField.h.length; i++) {
+  bankField.h[i] = -0.16;
+  bankField.pos.setY(i, -0.16);
+}
+bankField.pos.needsUpdate = true;
+box(0x6a6248, -64, 3.2, 16, 4, 6.4, 22);
+box(0x5c5648, -62.2, 1.4, 16, 2.2, 2.6, 18);
 const asphaltPatches = [];
 for (let i = 0; i < 8; i++) {
   const patch = box(0x25292b, -21 + i * 6, 0.235, 32, 5.58, 0.11, 7.95);
@@ -317,7 +397,8 @@ for (let i = 0; i < 3; i++) {
 // Bridge girders live on a rack until the crane hooks them and sets them on the abutments.
 // Rack is west of the crane spawn so the boom does not rest in the steel.
 const BEAM_RACK = { x: 2, z: -40 };
-const GIRDER_HALF = 7.3;
+const GIRDER_LEN = 26;
+const GIRDER_HALF = GIRDER_LEN / 2;
 const bridgeSlots = [
   { x: 49, z: -13 },
   { x: 49, z: -5 },
@@ -331,15 +412,17 @@ for (let i = 0; i < 3; i++) {
       const crib = box(0x5a4632, end * 4.2, 0.14, side * 0.55, 1.3, 0.22, 0.4, beam);
       crib.userData.crib = true;
     }
-  box(0x8a9194, 0, 0.48, 0, 14.6, 0.42, 0.68, beam);
-  box(0x5c6569, 0, 0.76, 0, 14.6, 0.12, 0.36, beam);
+  box(0x8a9194, 0, 0.48, 0, GIRDER_LEN, 0.42, 0.68, beam);
+  box(0x5c6569, 0, 0.76, 0, GIRDER_LEN, 0.12, 0.36, beam);
+  for (let k = -5; k <= 5; k++)
+    box(0x6d7679, k * 2.15, 0.48, 0, 0.08, 0.36, 0.62, beam);
   for (const end of [-1, 1])
-    box(0x3e4649, end * 6.9, 0.36, 0, 0.36, 0.58, 0.86, beam);
+    box(0x3e4649, end * (GIRDER_HALF - 0.4), 0.36, 0, 0.36, 0.58, 0.86, beam);
   beam.position.set(BEAM_RACK.x, 0.02, BEAM_RACK.z + i * 4.4);
   scene.add(beam);
   yardBeams.push(beam);
 }
-marker(BEAM_RACK.x - 16, BEAM_RACK.z + 4.4, 0x83c6e8, "BEAMS");
+marker(BEAM_RACK.x - GIRDER_HALF - 8, BEAM_RACK.z + 4.4, 0x83c6e8, "BEAMS");
 function girderGap(px, pz, bx, bz) {
   const dx = Math.max(0, Math.abs(px - bx) - GIRDER_HALF);
   return Math.hypot(dx, pz - bz);
@@ -417,6 +500,12 @@ function marker(x, z, color, label) {
 const stockMarker = marker(-4, 5, 0xd6a52d, "AGGREGATE");
 const roadMarker = marker(0, 32, 0x78c7a2, "ROAD");
 const bridgeMarker = marker(49, -5, 0x83c6e8, "BRIDGE");
+const laneMarker = marker(11, 9, 0xe7c56a, "LANE");
+function moveMarker(m, x, z) {
+  m.ring.position.set(x, 0.13, z);
+  m.post.position.set(x, 1.2, z);
+  m.flag.position.set(x + 0.85, 2, z);
+}
 const fuelMarker = marker(-37, -36, 0x71c58a, "FUEL");
 // Contract board: return here after a completed job to accept the next site assignment.
 const BOARD = { x: -43, z: -27 };
@@ -521,7 +610,7 @@ const machineTypes = [
     name: "MOBILE CRANE",
     hint: "Place bridge beams at the river",
     color: 0xd6a82e,
-    start: [20, 0, -35.6],
+    start: [28, 0, -32],
   },
   {
     id: "EXCAVATOR",
@@ -1230,7 +1319,7 @@ function loadGame() {
     const d = JSON.parse(raw);
     if (!d || ![2, 3, 4, 5, 6, 7].includes(d.v)) return false;
     active = THREE.MathUtils.clamp(
-      Number(d.active) || 2,
+      Number.isFinite(Number(d.active)) ? Number(d.active) : 2,
       0,
       machines.length - 1,
     );
@@ -1268,7 +1357,7 @@ function loadGame() {
           100,
         );
         machines[i].health = THREE.MathUtils.clamp(
-          Number(v.health) || 100,
+          Number.isFinite(Number(v.health)) ? Number(v.health) : 100,
           0,
           100,
         );
@@ -1284,6 +1373,7 @@ function loadGame() {
       );
     }
     placeSetGirders();
+    clearRackOverlap();
     if (Number.isInteger(d.carriedBeam) && d.carriedBeam >= beams && d.carriedBeam < 3)
       attachBeam(d.carriedBeam);
     if (Array.isArray(d.spoil))
@@ -1300,10 +1390,193 @@ function near(x, z, r = 13) {
   const p = player().group.position;
   return Math.hypot(p.x - x, p.z - z) < r;
 }
+const yardLane = { x: 11, z: 9 };
+function workZone() {
+  if (jobNo === 2) return { x: 17, z: -10, r: 18, label: "BASIN" };
+  if (jobNo === 3) return { x: -50, z: -2, rx: 12, rz: 34, label: "QUARRY ROAD", long: true };
+  if (jobNo === 4) return { x: 17, z: -10, r: 16, label: "TRENCH" };
+  if (jobNo === 5) return { x: -40, z: -30, r: 16, label: "DEPOT YARD" };
+  return { x: 0, z: 32, r: 28, label: "APPROACH" };
+}
+function inZone(x, z, zone = workZone()) {
+  if (zone.long) return Math.abs(x - zone.x) < zone.rx && Math.abs(z - zone.z) < zone.rz;
+  return Math.hypot(x - zone.x, z - zone.z) < zone.r;
+}
 function atRoad() {
-  return (
-    Math.hypot(player().group.position.x, player().group.position.z - 32) < 28
-  );
+  const p = player().group.position;
+  return inZone(p.x, p.z);
+}
+function zoneField() {
+  if (jobNo === 2 || jobNo === 4) return basinField;
+  if (jobNo === 3) return quarryField;
+  if (jobNo === 5) return yardField;
+  return approachField;
+}
+function syncJobSite() {
+  const zone = workZone();
+  moveMarker(roadMarker, zone.x, zone.z);
+  roadMarker.label = zone.label;
+}
+let siteMinutes = 6 * 60 + 40;
+function weatherNow() {
+  const slot = Math.floor((siteMinutes % 1440) / 240) % 5;
+  return ["clear", "clear", "overcast", "rain", "overcast"][slot];
+}
+function clockLabel() {
+  const day = siteMinutes % 1440;
+  const h = Math.floor(day / 60);
+  const m = Math.floor(day % 60);
+  const w = weatherNow();
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")} · ${w.toUpperCase()}`;
+}
+const rainCount = 160;
+const rainGeo = new THREE.BufferGeometry();
+const rainPos = new Float32Array(rainCount * 3);
+for (let i = 0; i < rainCount; i++) {
+  rainPos[i * 3] = (Math.random() - 0.5) * 36;
+  rainPos[i * 3 + 1] = Math.random() * 18;
+  rainPos[i * 3 + 2] = (Math.random() - 0.5) * 36;
+}
+rainGeo.setAttribute("position", new THREE.BufferAttribute(rainPos, 3));
+const rain = new THREE.Points(
+  rainGeo,
+  new THREE.PointsMaterial({ color: 0xd7e6f0, size: 0.14, transparent: true, opacity: 0.6 }),
+);
+scene.add(rain);
+function updateSky(dt, px, pz) {
+  siteMinutes += dt * 2;
+  const day = (siteMinutes % 1440) / 1440;
+  const ang = (day - 0.25) * Math.PI * 2;
+  const elev = Math.sin(ang);
+  sun.position.set(Math.cos(ang) * 90, Math.max(6, elev * 96), 36);
+  const night = elev < 0.08;
+  const w = weatherNow();
+  const rainOn = w === "rain";
+  const over = w === "overcast" || rainOn;
+  const sky = night ? 0x243444 : rainOn ? 0x667884 : over ? 0x89a0ae : 0x91c5e3;
+  scene.background.setHex(sky);
+  scene.fog.color.setHex(sky);
+  sun.intensity = night ? 0.55 : rainOn ? 0.9 : over ? 1.6 : 3;
+  hemi.intensity = night ? 0.85 : rainOn ? 1.05 : 2.1;
+  rain.visible = rainOn;
+  if (rainOn) {
+    rain.position.set(px, 0, pz);
+    const arr = rainGeo.attributes.position.array;
+    for (let i = 0; i < rainCount; i++) {
+      arr[i * 3 + 1] -= dt * 14;
+      if (arr[i * 3 + 1] < 0.2) arr[i * 3 + 1] = 16 + Math.random() * 4;
+    }
+    rainGeo.attributes.position.needsUpdate = true;
+  }
+  const shift = $("shift");
+  if (shift) shift.textContent = clockLabel();
+}
+function wear(machine, amount) {
+  machine.health = Math.max(0, (machine.health ?? 100) - amount);
+}
+let yardAI = { state: "idle", noted: false };
+function driveToward(loader, x, z, dt, pace) {
+  const g = loader.group;
+  const dx = x - g.position.x;
+  const dz = z - g.position.z;
+  const dist = Math.hypot(dx, dz);
+  if (dist < 1.3) return dist;
+  const face = Math.atan2(dx, -dz);
+  let diff = face - g.rotation.y;
+  while (diff > Math.PI) diff -= Math.PI * 2;
+  while (diff < -Math.PI) diff += Math.PI * 2;
+  g.rotation.y += THREE.MathUtils.clamp(diff, -dt * 1.6, dt * 1.6);
+  if (Math.abs(diff) < 0.7) {
+    const prevX = g.position.x;
+    const prevZ = g.position.z;
+    g.translateZ(-Math.min(pace, dist / dt) * dt);
+    const wet = Math.abs(g.position.x - 49) < 12.2 && Math.abs(g.position.z + 8) < 23;
+    const depot = Math.abs(g.position.x + 53) < 15 && Math.abs(g.position.z + 52) < 13;
+    const crowded = machines.some((other) => {
+      if (other === loader) return false;
+      const gap = Math.hypot(g.position.x - other.group.position.x, g.position.z - other.group.position.z);
+      return gap < (other.def.id === "TRUCK" ? 3.4 : 5);
+    });
+    if (wet || depot || crowded) {
+      g.position.x = prevX;
+      g.position.z = prevZ;
+    }
+  }
+  if (loader.rearFrame) loader.rearFrame.rotation.y = Math.sin(elapsed * 2.2) * 0.04;
+  return dist;
+}
+function yardCrew(dt) {
+  const loader = machines.find((v) => v.def.id === "LOADER");
+  const truck = machines.find((v) => v.def.id === "TRUCK");
+  if (!loader || !truck || player().def.id === "LOADER") {
+    yardAI.state = "idle";
+    return;
+  }
+  const parked =
+    Math.hypot(truck.group.position.x - yardLane.x, truck.group.position.z - yardLane.z) < 7 &&
+    Math.abs(speed) < 0.35 &&
+    player().def.id === "TRUCK";
+  if (yardAI.state === "idle") {
+    if (parked && truck.cargo < 12.2 && cash >= 14) {
+      yardAI.state = "toPile";
+      if (!yardAI.noted) {
+        yardAI.noted = true;
+        notice("YARD LOADER · you are in the lane. The crew will fill the bed. Rock is still $12/t.");
+      }
+    }
+    return;
+  }
+  if (!parked && yardAI.state !== "dump") {
+    yardAI.state = "idle";
+    return;
+  }
+  if (yardAI.state === "toPile") {
+    const d = driveToward(loader, -1.5, 8.5, dt, 5.2);
+    loader.toolPosition = THREE.MathUtils.damp(loader.toolPosition || 0, -0.35, 3, dt);
+    if (d < 2.2) yardAI.state = "scoop";
+  } else if (yardAI.state === "scoop") {
+    if (loader.cargo < 3.6 && cash >= 12) {
+      const qty = Math.min(3.6 - loader.cargo, 1.4 * dt, cash / 12);
+      loader.cargo += qty;
+      cash -= 12 * qty;
+      reduceAggregateVisual(qty * 0.4);
+      syncCargo(loader);
+      wear(loader, dt * 0.15);
+    } else yardAI.state = "toTruck";
+  } else if (yardAI.state === "toTruck") {
+    const side = truck.group.rotation.y + Math.PI / 2;
+    const tx = truck.group.position.x + Math.sin(side) * 4.6;
+    const tz = truck.group.position.z + Math.cos(side) * 4.6;
+    loader.toolPosition = THREE.MathUtils.damp(loader.toolPosition || 0, 0.85, 3, dt);
+    const d = driveToward(loader, tx, tz, dt, 5);
+    if (d < 2.4) yardAI.state = "dump";
+  } else if (yardAI.state === "dump") {
+    loader.bucketCurl = THREE.MathUtils.damp(loader.bucketCurl ?? 0.35, -0.7, 4, dt);
+    const room = 12.5 - truck.cargo;
+    const qty = Math.min(loader.cargo, room, 2.2 * dt);
+    if (qty > 0.01) {
+      truck.cargo += qty;
+      loader.cargo -= qty;
+      syncCargo(truck);
+      syncCargo(loader);
+      truck.loadAnim = 0.4;
+    }
+    if (loader.cargo <= 0.05 || room <= 0.05) {
+      loader.cargo = Math.max(0, loader.cargo);
+      loader.bucketCurl = 0.35;
+      syncCargo(loader);
+      yardAI.state = truck.cargo >= 12.2 || cash < 12 ? "idle" : "toPile";
+      if (truck.cargo >= 12.2)
+        notice("BED FULL · the yard loader is done. Haul it to the " + workZone().label.toLowerCase() + ".");
+      hud();
+    }
+  }
+  if (loader.armRig) {
+    const lift = loader.toolPosition || 0;
+    const armAngle = THREE.MathUtils.clamp(-0.16 + lift * 0.66, -0.56, 0.7);
+    loader.armRig.rotation.x = armAngle;
+    if (loader.implement) loader.implement.rotation.x = (loader.bucketCurl ?? 0.35) - armAngle;
+  }
 }
 const guideCopy = {
   DOZER: {
@@ -1329,7 +1602,7 @@ const guideCopy = {
   TRUCK: {
     title: "DUMP TRUCK · HAUL",
     steps: [
-      "The truck cannot buy rock by itself. Park beside the tan pile and let the wheel loader scoop and tip into the bed (12.5 t max).",
+      "Park in the yellow LANE beside the pile and the yard loader fills you, or switch to the wheel loader and tip the bucket yourself (12.5 t max, $12/t).",
       "Drive the loaded truck to the green road marker.",
       "Tap LOAD / USE to raise the bed. The gate stays shut until you tap GATE OPEN / CLOSE.",
       "Gravel pours only while the bed is up and the gate is open. Close the gate to keep the rest of the load.",
@@ -1485,6 +1758,9 @@ $("boardGo").onclick = () => {
 };
 function hud() {
   updateControlVisibility();
+  syncJobSite();
+  const cond = player().health ?? 100;
+  $("condition").textContent = cond > 85 ? "FIT" : cond > 55 ? "WORN" : cond > 30 ? "SERVICE DUE" : "LIMPING";
   $("cash").textContent = "$" + Math.floor(cash).toLocaleString();
   $("fuel").textContent = Math.floor(fuel) + "%";
   $("load").textContent = player().cargo.toFixed(1) + " t";
@@ -1572,7 +1848,7 @@ function hud() {
       $("stage").textContent =
         `Stage 1 of 4 · Road supply (${Math.min(30, delivered)}/30)`;
       $("jobTip").textContent =
-        "Loader scoops the tan pile and tips into the truck. At the green marker: LOAD / USE raises the bed, then GATE OPEN pours.";
+        "Park the truck in the yellow LANE and the yard loader fills it, or scoop it yourself. At the green marker: bed up, then GATE OPEN.";
     } else if (graded < 40) {
       $("objective").textContent =
         "Use the D7 to spread and level the loose rock base.";
@@ -1592,7 +1868,7 @@ function hud() {
       $("stage").textContent =
         `Stage 4 of 4 · Bridge lifts (${Math.min(3, beams)}/3)`;
       $("jobTip").textContent =
-        "Hook a girder at the BEAMS rack, hang it over the abutment, then SET GIRDER. No girder, no deck.";
+        "Hook a 26 m girder at the BEAMS rack and set it so both ends bear on the banks. No girder, no deck.";
     }
   } else if (jobNo === 2 || jobNo === 4) {
     if (excavated < 20) {
@@ -1612,7 +1888,7 @@ function hud() {
       $("stage").textContent =
         `Stage 2 of ${jobNo === 2 ? 3 : 2} · Backfill delivery (${Math.min(30, delivered)}/30)`;
       $("jobTip").textContent =
-        "Loader fills the truck at the tan pile. Dump at the green work zone with the bed up and the gate open.";
+        "The green marker is this contract's site, not the bridge approach. Bed up, then GATE OPEN.";
     } else if (jobNo === 2 && graded < 40) {
       $("objective").textContent =
         "Grade the flood-control backfill with the D7 before the contract can close.";
@@ -1634,7 +1910,7 @@ function hud() {
       $("stage").textContent =
         `Stage 1 of 2 · Material delivery (${Math.min(30, delivered)}/30)`;
       $("jobTip").textContent =
-        "Load the dump truck at the tan stockpile, then unload at the green work zone.";
+        "Load at the tan pile or the yellow lane, then unload at this contract's green marker.";
     } else {
       $("objective").textContent =
         jobNo === 3
@@ -1675,6 +1951,17 @@ function hookWorld() {
   if (!crane || !crane.craneHook) return null;
   crane.craneHook.updateWorldMatrix(true, false);
   return crane.craneHook.getWorldPosition(new THREE.Vector3());
+}
+function clearRackOverlap() {
+  const pad = 3.4;
+  const x0 = BEAM_RACK.x - GIRDER_HALF - pad;
+  const x1 = BEAM_RACK.x + GIRDER_HALF + pad;
+  const z0 = BEAM_RACK.z - pad;
+  const z1 = BEAM_RACK.z + 8.8 + pad;
+  for (const m of machines) {
+    const p = m.group.position;
+    if (p.x > x0 && p.x < x1 && p.z > z0 && p.z < z1) p.x = x1 + 1.4;
+  }
 }
 function placeSetGirders() {
   for (let i = 0; i < yardBeams.length; i++) {
@@ -1766,15 +2053,20 @@ function setCarriedBeam() {
     return true;
   }
   const hook = hookWorld();
-  const hookNear = hook && Math.hypot(hook.x - slot.x, hook.z - slot.z) < 12 && hook.y < 9;
-  if (!hookNear) {
-    notice("Hook is short of the abutment. BOOM OUT, slew over the slot, and lower the cable. The girder has to hang over the seat.");
+  const overSpan =
+    hook &&
+    Math.abs(hook.x - slot.x) < GIRDER_HALF + 1.2 &&
+    Math.abs(hook.z - slot.z) < 7.5 &&
+    hook.y < 9;
+  if (!overSpan) {
+    notice("Hook is short of the span. BOOM OUT until the 26 m girder hangs across both bank seats.");
     return true;
   }
   const beam = yardBeams[carriedBeam];
   scene.add(beam);
   beam.position.set(slot.x, 0.93, slot.z);
   beam.rotation.set(0, 0, 0);
+  cameraYaw = 0.95;
   beam.userData.set = true;
   beam.userData.carried = false;
   setCribs(beam, false);
@@ -1787,7 +2079,7 @@ function setCarriedBeam() {
     if (bridgeDecks[i]) bridgeDecks[i].visible = true;
   crane.workAnim = 1;
   updateWorkVisuals();
-  notice(`GIRDER SET · deck ${beams}/3 is down on the abutment. +$250.`);
+  notice(`GIRDER SET · 26 m steel is bearing on both banks. Deck ${beams}/3. +$250.`);
   if (beams >= 3) finishContract();
   hud();
   saveGame(true);
@@ -2064,7 +2356,7 @@ function act() {
       notice(
         m.cargo >= 12.5
           ? "Truck bed is full at 12.5 t. Haul it to the green road marker."
-          : "The truck does not load itself. Scoop with the wheel loader and tip the bucket over the bed. Rock costs $12/t from the pile.",
+          : "Park in the yellow LANE and the yard loader will fill you, or scoop with the wheel loader. Rock is $12/t.",
       );
       return;
     } else if (m.def.id === "LOADER") {
@@ -2073,9 +2365,24 @@ function act() {
       );
     } else notice("Use the dump truck or wheel loader to collect aggregate.");
   } else if (near(-37, -36, 12)) {
-    if (fuel >= 99) {
-      notice("Tank is already full.");
+    if (fuel >= 99 && (m.health ?? 100) >= 95) {
+      notice("Tank is already full and this machine does not need service.");
       return;
+    }
+    if ((m.health ?? 100) < 95) {
+      if (cash < 180) {
+        notice("Service is $180. Not enough cash to pull the wear out of this machine.");
+        if (fuel >= 99) return;
+      } else {
+        cash -= 180;
+        m.health = 100;
+        notice("SERVICE · wear pulled. This machine is fit again. $180.");
+        if (fuel >= 99) {
+          hud();
+          saveGame(true);
+          return;
+        }
+      }
     }
     if (cash < 250) {
       notice("Not enough cash for the $250 refuel service.");
@@ -2084,7 +2391,7 @@ function act() {
     fuel = 100;
     cash -= 250;
     notice("Fuel topped up. Service charge $250.");
-  } else if (near(0, 32, 28)) {
+  } else if (atRoad() && m.def.id !== "EXCAVATOR") {
     if (m.def.id === "TRUCK") {
       if (needsExcavation() && excavated < 20) {
         notice("Excavate the basin before delivering backfill.");
@@ -2304,17 +2611,25 @@ function refuelVehicle() {
     notice("Drive to the green fuel marker beside the depot.");
     return;
   }
-  if (fuel >= 99) {
-    notice("Tank is already full.");
+  const m = player();
+  if (fuel >= 99 && (m.health ?? 100) >= 95) {
+    notice("Tank is already full and this machine does not need service.");
     return;
   }
-  if (cash < 250) {
-    notice("Not enough cash for the $250 refuel service.");
-    return;
+  if (fuel < 99) {
+    if (cash < 250) {
+      notice("Not enough cash for the $250 refuel.");
+      return;
+    }
+    fuel = 100;
+    cash -= 250;
   }
-  fuel = 100;
-  cash -= 250;
-  notice("Refueled. $250 service charge.");
+  if ((m.health ?? 100) < 95 && cash >= 180) {
+    cash -= 180;
+    m.health = 100;
+    notice("Serviced. Wear is out of this machine.");
+  } else if (fuel >= 99) notice("Refueled. $250.");
+  else notice("Fuel topped up.");
   hud();
   saveGame(true);
   updateControlVisibility();
@@ -2864,12 +3179,24 @@ function objectiveBeacon() {
   }
   if (delivered < 30) {
     const truck = machines.find((v) => v.def.id === "TRUCK");
-    if (truck && truck.cargo > 0.4) return { x: 0, z: 32, label: "ROAD DUMP" };
+    const zone = workZone();
+    if (
+      player().def.id === "TRUCK" &&
+      truck &&
+      truck.cargo < 0.4 &&
+      Math.hypot(truck.group.position.x - yardLane.x, truck.group.position.z - yardLane.z) > 8
+    )
+      return { x: yardLane.x, z: yardLane.z, label: "LOAD LANE" };
+    if (truck && truck.cargo > 0.4) return { x: zone.x, z: zone.z, label: zone.label };
     return { x: -4, z: 5, label: "STOCKPILE" };
   }
-  if (graded < 40 && jobNo !== 4) return { x: 0, z: 32, label: "GRADE" };
+  if (graded < 40 && jobNo !== 4) {
+    const zone = workZone();
+    return { x: zone.x, z: zone.z, label: "GRADE " + zone.label };
+  }
   if (jobNo === 1 && paved < 8) return { x: 0, z: 32, label: "PAVE" };
-  return { x: 0, z: 32, label: "WORK ZONE" };
+  const zone = workZone();
+  return { x: zone.x, z: zone.z, label: zone.label };
 }
 let audioCtx, engineGain, engineOsc, hydroGain;
 function bootAudio() {
@@ -3099,6 +3426,7 @@ function animate() {
       m.cargo = Math.min(4, m.cargo + scoopAmount);
       cash -= 12 * scoopAmount;
       reduceAggregateVisual(scoopAmount * 0.4);
+      wear(m, scoopAmount * 0.04);
       syncCargo(m);
       m.loadAnim = 1;
       m.workAnim = 0.35;
@@ -3153,6 +3481,15 @@ function animate() {
   if (m.def.id === "TRUCK") maxSpeed *= throttleSensitivity;
   if (m.def.id === "TRUCK" && m.cargo > 0) maxSpeed *= 0.62;
   if (m.health < 30) maxSpeed *= 0.65;
+  const onSoftBank = Math.abs(g.position.x - 35) < 6 && Math.abs(g.position.z + 6) < 22;
+  if (onSoftBank && m.cargo > 3) {
+    maxSpeed *= 0.4;
+    if (elapsed - (m.softNote || 0) > 3.5) {
+      m.softNote = elapsed;
+      notice("SOFT BANK · the loaded machine is rutting in. Stay off the river edge.");
+    }
+  }
+  if (weatherNow() === "rain") maxSpeed *= 0.82;
   speed = THREE.MathUtils.damp(
     speed,
     forward * maxSpeed,
@@ -3220,7 +3557,11 @@ function animate() {
   const blockedBySite = (() => {
     const depot = Math.abs(g.position.x + 53) < 16.2 && Math.abs(g.position.z + 52) < 14.2;
     const inRiver = Math.abs(g.position.x - 49) < 12.5 && Math.abs(g.position.z + 8) < 24;
-    const onBridge = beams > 0 && Math.abs(g.position.x - 49) < 4.6 && g.position.z > -22 && g.position.z < 14;
+    const onBridge =
+      beams > 0 &&
+      Math.abs(g.position.x - 49) < 14 &&
+      g.position.z > -16 &&
+      g.position.z < -16 + beams * 8.4;
     const rackLive = yardBeams.some((b, i) => !b.userData.set && carriedBeam !== i);
     if (rackLive) {
       const pad = 3.4;
@@ -3247,6 +3588,17 @@ function animate() {
   if (Math.abs(speed) > 0.3)
     fuel = Math.max(0, fuel - dt * (0.025 + Math.abs(speed) * 0.0024));
   m.fuel = fuel;
+  if (m.def.id === "TRUCK" && Math.abs(speed) > 0.45 && m.cargo > 2.5) {
+    const sink = 0.02 * (m.cargo / 12.5);
+    for (const side of [-1.15, 1.15]) {
+      const rx = g.position.x + Math.cos(g.rotation.y) * side + Math.sin(g.rotation.y) * 1.7;
+      const rz = g.position.z - Math.sin(g.rotation.y) * side + Math.cos(g.rotation.y) * 1.7;
+      for (const f of fields) {
+        const cell = fieldCell(f, rx, rz);
+        if (cell >= 0) bumpField(f, cell, f.name === "bank" ? -sink * 2.6 : -sink);
+      }
+    }
+  }
   // The D7 grades continuously when its lowered blade crosses loose aggregate.
   if (m.def.id === "DOZER") {
     if (parked && Math.abs(excLeftY) > 0.06)
@@ -3270,8 +3622,7 @@ function animate() {
     if (m.implement) m.implement.position.y = m.toolPosition;
     m.gradeTimer = (m.gradeTimer || 0) + dt;
     const bladeDown = (m.toolPosition ?? 1.25) < 1.12;
-    const inRoad =
-      Math.abs(g.position.z - 32) < 12 && Math.abs(g.position.x) < 32;
+    const inRoad = inZone(g.position.x, g.position.z);
     if (
       bladeDown &&
       inRoad &&
@@ -3280,7 +3631,11 @@ function animate() {
       m.gradeTimer > 0.18
     ) {
       const bladePoint = worldPoint(g, 0, 0.15, -3.35);
-      let moved = 0;
+      const fx = -Math.sin(g.rotation.y);
+      const fz = -Math.cos(g.rotation.y);
+      const cut = bladePush(zoneField(), bladePoint.x, bladePoint.z, fx, fz, jobNo === 2 ? -0.08 : 0.02);
+      if (cut > 0) wear(m, 0.04);
+      let moved = cut > 0 ? 1 : 0;
       for (const stone of roadMaterialBits) {
         if (!stone.visible) continue;
         const d = Math.hypot(
@@ -3288,8 +3643,6 @@ function animate() {
           stone.position.z - bladePoint.z,
         );
         if (d < 3.6) {
-          const fx = -Math.sin(g.rotation.y),
-            fz = -Math.cos(g.rotation.y);
           stone.position.x += fx * 1.15;
           stone.position.z += fz * 1.15;
           stone.position.y = 0.28;
@@ -3309,7 +3662,7 @@ function animate() {
           0,
           7,
         );
-        gradePatches[ix].visible = true;
+        if (jobNo === 1) gradePatches[ix].visible = true;
         m.gradeTimer = 0;
         updateWorkVisuals();
         hud();
@@ -3431,6 +3784,15 @@ function animate() {
           m.cargo = Math.min(1.6, m.cargo + cut);
           excavated = Math.min(20, excavated + 1);
           cash += 8;
+          wear(m, 0.08);
+          for (let k = 0; k < 5; k++) {
+            const cell = fieldCell(
+              basinField,
+              15 + (k % 3) * 1.6,
+              -12 + Math.floor(k / 3) * 1.6,
+            );
+            bumpField(basinField, cell, -0.045);
+          }
           m.workAnim = 0.45;
           updateWorkVisuals();
           animateMaterialFlow(
@@ -3558,6 +3920,9 @@ function animate() {
     }
   }
   updateMaterialFlights(dt);
+  updateSky(dt, g.position.x, g.position.z);
+  yardCrew(dt);
+  flushFields();
   boardBeacon.position.y = 6.2 + Math.sin(elapsed * 2.5) * 0.35;
   const beacon = objectiveBeacon();
   const bdx = beacon.x - g.position.x,
@@ -3577,7 +3942,7 @@ function animate() {
     : g.position.clone().setY(g.position.y + 2.3);
   const behind = boardView
     ? new THREE.Vector3(0, 5.5, 10)
-    : new THREE.Vector3(0, 7.3 + cameraPitch, cameraDistance).applyAxisAngle(
+    : new THREE.Vector3(0, 7.3 + cameraPitch, carriedBeam != null ? Math.max(cameraDistance, 18) : cameraDistance).applyAxisAngle(
         new THREE.Vector3(0, 1, 0),
         g.rotation.y + cameraYaw,
       );
@@ -3607,6 +3972,7 @@ function animate() {
   }
 }
 const restored = loadGame();
+clearRackOverlap();
 updateWorkVisuals();
 machines.forEach(syncCargo);
 setActive(active);
@@ -3616,7 +3982,7 @@ updateControlVisibility();
 notice(
   restored
     ? "Welcome back — your site has been restored."
-    : "Field Ops 3D v0.11: the loader bends at the hitch, and the bucket stays on the arm pins.",
+    : "Field Ops 3D v0.12: 26 m girders span the river, each contract has its own site, and the yard loader fills a truck parked in the lane.",
 );
 animate();
 addEventListener("resize", () => {
