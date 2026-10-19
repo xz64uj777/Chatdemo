@@ -8,7 +8,7 @@ After the GitHub Pages workflow succeeds: https://xz64uj777.github.io/Chatdemo/
 
 The game is a browser-first Three.js construction and field-operations simulator. It includes five machines, a multi-contract campaign, on-site material handling, equipment-specific guidance, touch controls, and local save progress.
 
-v0.12 play loop: girders are 26 m and bear on both banks of the 22 m river. Each contract has its own site — flood control is the basin, the quarry road is the north-south lane, storm drain stays on the trench, and the depot yard is beside the warehouse. The D7 blade pushes a heightfield, a loaded truck leaves ruts, and the river bank is soft. Park the dump truck in the yellow load lane and the yard loader fills the bed. A clock and weather run over the site; rain slows the machines. Wear is serviced at the fuel island. The wheel loader still articulates at the hitch, and the crane still has to hook a girder before a deck appears.
+v0.12 play loop: girders are 26 m and bear on both banks of the 22 m river. Each contract has its own site — flood control is the basin, the quarry road is the north-south lane, storm drain stays on the trench, and the depot yard is beside the warehouse. The D7 blade pushes a heightfield, a loaded truck leaves ruts, and the river bank is soft. Park the dump truck in the yellow load lane and the yard loader fills the bed. A clock and weather run over the site; rain slows the machines. Wear is serviced at the fuel island. The wheel loader steers as one machine again. The dump truck starts on the yellow load lane beside the pile. The crane still has to hook a girder before a deck appears.
 
 ## Controls and first steps
 

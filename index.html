@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Field Ops 3D — Site Crew v0.12</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Field Ops 3D — Site Crew v0.13</title>
 <style>
 :root{color-scheme:dark}*{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#8db9d1;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#f5f5f2}canvas{display:block}#hud{position:fixed;inset:10px 10px auto;display:flex;gap:8px;justify-content:space-between;align-items:flex-start;pointer-events:none;z-index:3}.panel{background:#182126e8;border:1px solid #ffffff2a;border-radius:10px;padding:9px 12px;box-shadow:0 3px 12px #0002;backdrop-filter:blur(5px);font-size:12px;line-height:1.5}.panel strong{font-size:14px;letter-spacing:.06em}.muted{color:#c4d0d2}#job{position:fixed;left:10px;top:88px;width:min(255px,58vw);z-index:3;pointer-events:none}#notice{position:fixed;left:50%;top:17%;transform:translateX(-50%);background:#172126ed;padding:10px 16px;border:1px solid #ffffff30;border-radius:9px;z-index:6;max-width:90vw;text-align:center;opacity:0;transition:opacity .2s;pointer-events:none}#notice.show{opacity:1}#crosshair{position:fixed;left:50%;top:50%;width:10px;height:10px;border:1px solid #fff9;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}#bottom{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);z-index:4;text-align:center;background:#182126df;border:1px solid #ffffff25;border-radius:10px;padding:8px 12px;font-size:12px;max-width:96vw;width:max-content;pointer-events:none}#controls{position:fixed;inset:auto 12px 86px;display:flex;justify-content:space-between;align-items:end;gap:10px;z-index:5;pointer-events:none;max-height:58vh}.dpad,.actions{pointer-events:auto}.dpad{position:relative;width:138px;height:138px;border-radius:50%;background:#142027a8;border:2px solid #ffffff45;touch-action:none;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 14px #0004}.stick{width:58px;height:58px;border-radius:50%;background:#d8e0e4d9;border:2px solid #fff;box-shadow:0 2px 8px #0006;pointer-events:none;transform:translate(0,0)}.actions{display:grid;grid-template-columns:repeat(2,minmax(62px,76px));gap:6px;max-width:164px;max-height:56vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;padding:2px; -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}button{ -webkit-user-select:none;user-select:none;-webkit-touch-callout:none; font:800 11px system-ui;border:1px solid #ffffff55;border-radius:12px;background:#26363def;color:white;min-height:43px;padding:6px;touch-action:none;box-shadow:0 3px 8px #0004}button.primary{background:#e5a82c;color:#171b1c;border-color:#ffd777}button:active{filter:brightness(1.3);transform:translateY(1px)}#toolDock{display:contents}#toolJoystickWrap{display:none;pointer-events:auto;flex-direction:column;align-items:center;gap:4px}#toolJoystickWrap.show{display:flex}.toolJoyLabel{font-size:9px;font-weight:900;color:#ffe08a;background:#182126dc;padding:3px 7px;border-radius:8px}.tooljoy{position:relative;width:116px;height:116px;border-radius:50%;background:#142027c9;border:2px solid #ffffff60;touch-action:none;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 14px #0005}.toolstick{width:48px;height:48px;border-radius:50%;background:#d8e0e4e8;border:2px solid #fff;box-shadow:0 2px 8px #0006;pointer-events:none;transform:translate(0,0)}#mobileNote{font-size:10px;color:#c4d0d2}#help{display:none}#minimap{position:fixed;right:10px;top:260px;width:112px;height:112px;border-radius:10px;border:1px solid #ffffff55;background:#182126d9;z-index:3}#toastline{font-size:11px;color:#d7e1e1}#saveState{font-size:10px;color:#a7d8a2}#jobTip{display:block;margin-top:4px;font-size:10px}#waypoint{position:fixed;left:50%;top:8px;transform:translateX(-50%);z-index:4;background:#182126f5;border:2px solid #ffd777;border-radius:20px;padding:8px 14px;font-size:12px;font-weight:900;pointer-events:none;white-space:nowrap;box-shadow:0 3px 10px #0004;color:#ffe08a}#leftPanelTools{position:fixed;left:10px;top:204px;z-index:8;display:flex;gap:5px;pointer-events:auto}#leftPanelTools button{min-height:32px;padding:5px 8px;background:#26363df2;font-size:10px}#machinePicker{position:fixed;left:10px;bottom:230px;z-index:9;display:none;width:min(190px,48vw);padding:7px;background:#182126f2;border:1px solid #ffd777;border-radius:10px;box-shadow:0 5px 18px #0006;pointer-events:auto}#machinePicker.open{display:grid;gap:5px}#machinePicker strong{font-size:10px;color:#ffd777;padding:2px 4px}#machinePicker button{min-height:34px;text-align:left;padding:5px 8px}@media(max-width:520px){#machinePicker{left:7px;bottom:218px;width:145px}#leftPanelTools{gap:3px}#leftPanelTools button{padding:4px 6px;font-size:9px}}body.panels-right #job{left:auto;right:10px}body.panels-right #materialGuide{left:auto;right:10px}body.panels-right #leftPanelTools{left:auto;right:10px}body.panels-hidden #job,body.panels-hidden #materialGuide{display:none}@media(max-width:520px){#leftPanelTools{top:178px;left:7px}body.panels-right #leftPanelTools{left:auto;right:7px}body.panels-right #job{right:7px}body.panels-right #materialGuide{right:7px}}#materialGuide{position:fixed;left:10px;top:246px;z-index:3;max-width:210px;background:#182126df;border:1px solid #ffffff25;border-radius:9px;padding:7px 10px;font-size:10px;pointer-events:none}#optionsMenu{position:fixed;left:10px;top:250px;z-index:10;width:min(270px,78vw);max-height:58vh;overflow:auto;display:none;background:#182126f5;border:1px solid #ffd777;border-radius:12px;padding:12px;box-shadow:0 5px 20px #0008;pointer-events:auto}#optionsMenu.open{display:block}#optionsMenu label{display:block;font-size:11px;margin:10px 0 4px}#optionsMenu input[type=range]{width:100%;accent-color:#e5a82c}#optionsMenu .optionRow{display:flex;justify-content:space-between;gap:8px;align-items:center}#guideBtn{position:fixed;right:10px;top:190px;z-index:7;min-height:34px;padding:6px 10px;background:#e5a82c;color:#172126;border-color:#ffe08a}#machineGuide{position:fixed;right:10px;top:230px;z-index:7;width:min(230px,58vw);background:#182126f2;border:1px solid #ffd777;border-radius:10px;padding:10px 12px;box-shadow:0 5px 20px #0006;font-size:11px;line-height:1.45;display:none;pointer-events:auto}#machineGuide.open{display:block}#machineGuide strong{font-size:12px;color:#ffd15a}#machineGuide ol{margin:6px 0 0;padding-left:18px}#machineGuide li{margin:3px 0}#machineGuideClose{float:right;min-height:26px;padding:2px 8px}#bottom{display:none}#minimap{touch-action:none}@media(min-width:850px){#controls{inset:auto 18px 18px}.dpad{width:118px;height:118px;opacity:.8}.stick{width:50px;height:50px}.actions{grid-template-columns:repeat(4,76px);max-width:none}#minimap{width:140px;height:140px}#job{width:270px}#bottom{bottom:12px}}@media(max-width:520px){.tooljoy{width:94px;height:94px}.toolstick{width:40px;height:40px}#hud{inset:7px 7px auto}#job{top:80px;left:7px;width:min(205px,57vw);font-size:11px;padding:8px}#minimap{top:255px;right:7px;width:88px;height:88px}#controls{left:8px;right:8px;bottom:82px;align-items:end;max-height:62vh}.actions{max-height:60vh}.dpad{width:126px;height:126px;flex-shrink:0}.stick{width:54px;height:54px}.actions{grid-template-columns:repeat(2,68px);gap:5px;max-width:142px}button{min-height:40px;font-size:10px;padding:4px;border-radius:10px}#bottom{display:none}#crosshair{display:none}}
 @media(max-width:520px){body.dual-joystick-layout #controls{left:6px;right:6px;display:grid;grid-template-columns:88px minmax(0,1fr) 82px;column-gap:7px;align-items:end}body.dual-joystick-layout #joystick{grid-column:1;grid-row:1;width:88px;height:88px;justify-self:start;flex-shrink:0}body.dual-joystick-layout .actions{grid-column:2;grid-row:1;min-width:0;width:100%;max-width:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}body.dual-joystick-layout #toolJoystickWrap{grid-column:3;grid-row:1;justify-self:end;flex-shrink:0;align-self:end}body.dual-joystick-layout #stick{width:40px;height:40px}body.dual-joystick-layout .tooljoy{width:82px;height:82px}body.dual-joystick-layout .toolstick{width:36px;height:36px}body.dual-joystick-layout .toolJoyLabel{font-size:8px;padding:2px 4px}body.dual-joystick-layout button{min-height:36px;font-size:9px;padding:3px}}@media(min-width:521px){body.dual-joystick-layout #controls{left:12px;right:12px;display:grid;grid-template-columns:118px minmax(0,1fr) 116px;column-gap:12px;align-items:end}body.dual-joystick-layout #joystick{grid-column:1;grid-row:1;justify-self:start;flex-shrink:0}body.dual-joystick-layout .actions{grid-column:2;grid-row:1;width:100%;max-width:none;grid-template-columns:repeat(3,minmax(68px,1fr))}body.dual-joystick-layout #toolJoystickWrap{grid-column:3;grid-row:1;justify-self:end;flex-shrink:0}}</style>
@@ -500,7 +500,12 @@ function marker(x, z, color, label) {
 const stockMarker = marker(-4, 5, 0xd6a52d, "AGGREGATE");
 const roadMarker = marker(0, 32, 0x78c7a2, "ROAD");
 const bridgeMarker = marker(49, -5, 0x83c6e8, "BRIDGE");
-const laneMarker = marker(11, 9, 0xe7c56a, "LANE");
+const laneMarker = marker(8, 12, 0xe7c56a, "LANE");
+box(0xc9a24a, 8, 0.045, 12, 16, 0.05, 11);
+box(0xf3d27a, 8, 0.08, 12, 14.2, 0.04, 9.2);
+for (let i = -2; i <= 2; i++) box(0x2b2416, 8 + i * 2.4, 0.11, 12, 0.34, 0.03, 8.2);
+box(0xe7c56a, 1.2, 3.1, 12, 0.22, 5.4, 0.22);
+box(0xf0c84a, 2.5, 5.2, 12, 2.6, 1.3, 0.14);
 function moveMarker(m, x, z) {
   m.ring.position.set(x, 0.13, z);
   m.post.position.set(x, 1.2, z);
@@ -603,7 +608,7 @@ const machineTypes = [
     name: "DUMP TRUCK",
     hint: "Haul loader-filled aggregate to the road",
     color: 0x477fae,
-    start: [9, 0, 22],
+    start: [8, 0, 16],
   },
   {
     id: "CRANE",
@@ -711,7 +716,6 @@ function makeMachine(def) {
     for (const child of [...g.children]) {
       if (child !== rearFrame && child.position.z > 0.4) rearFrame.add(child);
     }
-    steerWheels.length = 0;
     const pinSteel = mat(0x626c70, 0.55, 0.28);
     const armLen = 2.28;
     armRig = new THREE.Group();
@@ -1096,6 +1100,16 @@ function makeMachine(def) {
     box(0x1f2729, 0, 1.72, -2.22, 0.85, 0.12, 0.08, g);
     for (const x of [-1.18, 1.18])
       box(0xffd66d, x, 2.08, -1.88, 0.24, 0.2, 0.16, g);
+    implement = new THREE.Group();
+    implement.position.set(0, 1.25, -3.62);
+    g.add(implement);
+    box(0xd7dbd8, 0, 0.08, 0, 4.7, 1.28, 0.16, implement);
+    box(0x5e6563, 0, -0.58, -0.1, 4.85, 0.16, 0.34, implement);
+    box(0xb4bab8, 0, 0.74, 0.08, 4.5, 0.16, 0.22, implement);
+    for (const side of [-1, 1]) {
+      box(0xc8cecc, side * 2.28, 0.04, 0.04, 0.12, 1.16, 0.4, implement);
+      box(0xd49a22, side * 1.15, 0.28, 1.05, 0.18, 0.16, 1.85, implement);
+    }
   }
   if (def.id === "LOADER" && rearFrame) {
     mesh(
@@ -1204,7 +1218,7 @@ function makeMachine(def) {
   const startYaw = {
     DOZER: -2.5,
     LOADER: -0.95,
-    TRUCK: Math.PI,
+    TRUCK: 0,
     CRANE: Math.PI / 2,
     EXCAVATOR: 0,
   };
@@ -1390,7 +1404,7 @@ function near(x, z, r = 13) {
   const p = player().group.position;
   return Math.hypot(p.x - x, p.z - z) < r;
 }
-const yardLane = { x: 11, z: 9 };
+const yardLane = { x: 8, z: 12 };
 function workZone() {
   if (jobNo === 2) return { x: 17, z: -10, r: 18, label: "BASIN" };
   if (jobNo === 3) return { x: -50, z: -2, rx: 12, rz: 34, label: "QUARRY ROAD", long: true };
@@ -1502,7 +1516,7 @@ function driveToward(loader, x, z, dt, pace) {
       g.position.z = prevZ;
     }
   }
-  if (loader.rearFrame) loader.rearFrame.rotation.y = Math.sin(elapsed * 2.2) * 0.04;
+  if (loader.rearFrame) loader.rearFrame.rotation.y = 0;
   return dist;
 }
 function yardCrew(dt) {
@@ -1592,7 +1606,7 @@ const guideCopy = {
   LOADER: {
     title: "WHEEL LOADER · TWO-JOYSTICK CONTROLS",
     steps: [
-      "LEFT joystick drives. Steering bends the machine at the center hitch — the wheels do not cut like a car, and the tail swings. You can articulate while stopped, then crowd in.",
+      "LEFT joystick drives and steers the whole machine. The front wheels cut, and the tail follows. It does not jackknife.",
       "RIGHT joystick forward/back raises and lowers the lift arms. The bucket stays pinned to the arm tips and holds its attitude unless you curl it. Stick left tips the bucket; stick right curls it back.",
       "Lower the arms until the cutting edge is in the tan pile, then creep forward. Being near the pile is not enough.",
       "Raise the loaded bucket, position beside the dump truck, then tip the bucket forward to unload. LOAD / USE only completes the material handoff.",
@@ -1602,7 +1616,7 @@ const guideCopy = {
   TRUCK: {
     title: "DUMP TRUCK · HAUL",
     steps: [
-      "Park in the yellow LANE beside the pile and the yard loader fills you, or switch to the wheel loader and tip the bucket yourself (12.5 t max, $12/t).",
+      "You start on the yellow rectangle beside the tan pile. Stay there and the yard loader fills you, or switch to the wheel loader and tip the bucket yourself (12.5 t max, $12/t).",
       "Drive the loaded truck to the green road marker.",
       "Tap LOAD / USE to raise the bed. The gate stays shut until you tap GATE OPEN / CLOSE.",
       "Gravel pours only while the bed is up and the gate is open. Close the gate to keep the rest of the load.",
@@ -1848,7 +1862,7 @@ function hud() {
       $("stage").textContent =
         `Stage 1 of 4 · Road supply (${Math.min(30, delivered)}/30)`;
       $("jobTip").textContent =
-        "Park the truck in the yellow LANE and the yard loader fills it, or scoop it yourself. At the green marker: bed up, then GATE OPEN.";
+        "The yellow rectangle under the truck is the load lane, beside the tan pile. Stay parked and the yard loader fills the bed. At the green marker: bed up, then GATE OPEN.";
     } else if (graded < 40) {
       $("objective").textContent =
         "Use the D7 to spread and level the loose rock base.";
@@ -3503,17 +3517,8 @@ function animate() {
     CRANE: 0.75,
     EXCAVATOR: 0.85,
   };
-  if (m.def.id === "LOADER") {
-    if (Math.abs(steer) > 0.04)
-      m.articulate = THREE.MathUtils.clamp(
-        (m.articulate || 0) - steer * dt * 0.9,
-        -0.58,
-        0.58,
-      );
-    if (m.rearFrame) m.rearFrame.rotation.y = -(m.articulate || 0);
-    if (Math.abs(speed) > 0.12)
-      g.rotation.y += (Math.sin(m.articulate || 0) * speed * dt) / 3.5;
-  } else if (Math.abs(speed) > 0.2)
+  if (m.def.id === "LOADER" && m.rearFrame) m.rearFrame.rotation.y = 0;
+  if (Math.abs(speed) > 0.2)
     g.rotation.y -=
       steer *
       dt *
@@ -3982,7 +3987,7 @@ updateControlVisibility();
 notice(
   restored
     ? "Welcome back — your site has been restored."
-    : "Field Ops 3D v0.12: 26 m girders span the river, each contract has its own site, and the yard loader fills a truck parked in the lane.",
+    : "Field Ops 3D v0.13: the yellow load lane is the rectangle under the dump truck. The loader steers as one machine, and the D7 has its blade back.",
 );
 animate();
 addEventListener("resize", () => {
