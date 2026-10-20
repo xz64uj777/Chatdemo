@@ -1075,6 +1075,11 @@ function makeMachine(def) {
         cargoVisual,
       );
       rock.rotation.set(ci * 0.7, ci * 1.3, ci * 0.2);
+      rock.userData.home = {
+        x: rock.position.x,
+        y: rock.position.y,
+        z: rock.position.z,
+      };
     }
     cargoVisual.visible = false;
   }
@@ -2601,10 +2606,20 @@ function syncCargo(m) {
       rock.position.x = ((i % 4) - 1.5) * 0.48;
       rock.position.z = -0.78 + Math.floor((i % 8) / 4) * 0.48;
     } else if (m.def.id === "TRUCK") {
-      const layer = Math.floor(i / 12);
-      rock.position.y = 0.66 + layer * 0.16;
-      rock.position.x = ((i % 6) - 2.5) * 0.43;
-      rock.position.z = -1.65 + Math.floor(i / 6) * 0.68;
+      if (!rock.userData.home) {
+        rock.userData.home = {
+          x: rock.position.x,
+          y: rock.position.y,
+          z: rock.position.z,
+        };
+      }
+      if (m.bedSliding) {
+        const moving = rock.position.z > rock.userData.home.z + 0.12;
+        rock.visible = moving || i < visibleCount;
+        return;
+      }
+      const home = rock.userData.home;
+      rock.position.set(home.x, home.y, home.z);
     }
   });
 }
@@ -2770,9 +2785,62 @@ function setCarriedBeam() {
 function worldPoint(obj, x = 0, y = 0, z = 0) {
   return obj.localToWorld(new THREE.Vector3(x, y, z));
 }
-function animateMaterialFlow(from, to, count = 10) {
+function truckTailLip(m, fallback) {
+  if (!m.tailgate) return fallback.clone().setY((fallback.y || 0.2) + 2.2);
+  return worldPoint(
+    m.tailgate,
+    (Math.random() - 0.5) * 1.7,
+    -0.42,
+    0.28,
+  );
+}
+function slideTruckBed(m, dt) {
+  if (!m.cargoVisual) return;
+  const tip = m.implement ? m.implement.rotation.x : 0;
+  const gate = m.tailgate ? m.tailgate.rotation.x : 0;
+  const open = gate > 0.4;
+  const sliding = tip > 0.16 && m.cargo > 0.02 && (m.dumping || tip > 0.2);
+  m.bedSliding = sliding;
+  if (!sliding) return;
+  const stopZ = open ? 3.2 : 2.15;
+  m.cargoVisual.children.forEach((rock, i) => {
+    const home = rock.userData.home;
+    if (!rock.visible) {
+      if (home) rock.position.set(home.x, home.y, home.z);
+      return;
+    }
+    if (!home) return;
+    const flow = (0.7 + tip * 3.1 + (i % 5) * 0.16) * dt;
+    if (rock.position.z < stopZ) {
+      rock.position.z += flow;
+      rock.position.y = THREE.MathUtils.damp(rock.position.y, 0.7, 2.4, dt);
+      rock.position.x = THREE.MathUtils.damp(
+        rock.position.x,
+        home.x * (open ? 0.55 : 0.8),
+        1.6,
+        dt,
+      );
+      rock.rotation.x += dt * (2.4 + (i % 3));
+      rock.rotation.z += dt * (i % 2 ? 1.4 : -1.1);
+    }
+    if (open && rock.position.z >= 2.85) {
+      const from = rock.getWorldPosition(new THREE.Vector3());
+      rock.position.set(home.x, home.y, home.z - 0.4);
+      const ground = worldPoint(
+        m.group,
+        (Math.random() - 0.5) * 1.1,
+        0.18,
+        4.35,
+      );
+      animateMaterialFlow(from, ground, 2, { size: 0.15, duration: 0.58 });
+    }
+  });
+}
+function animateMaterialFlow(from, to, count = 10, opts = {}) {
   const a = from.clone(),
     b = to.clone();
+  const size = opts.size ?? 0.09;
+  const dur = opts.duration ?? 0.42;
   for (let i = 0; i < count; i++) {
     const start = a
       .clone()
@@ -2793,7 +2861,7 @@ function animateMaterialFlow(from, to, count = 10) {
         ),
       );
     const rock = mesh(
-      new THREE.DodecahedronGeometry(0.09 + (i % 3) * 0.025, 0),
+      new THREE.DodecahedronGeometry(size + (i % 3) * 0.03, 0),
       mat([0x776b57, 0x9b8b70, 0x625c51, 0xb2a184][i % 4]),
       start.x,
       start.y,
@@ -2807,7 +2875,7 @@ function animateMaterialFlow(from, to, count = 10) {
       end,
       t: 0,
       delay: i * 0.055,
-      duration: 0.42 + Math.random() * 0.22,
+      duration: dur + Math.random() * 0.28,
       fall: Math.max(0.15, start.y - end.y),
     });
   }
@@ -3486,7 +3554,7 @@ $("gateRelease").addEventListener("pointerdown", (e) => {
     : "GATE OPEN / CLOSE";
   notice(
     m.gateOpen
-      ? "GATE OPEN · aggregate is pouring gradually from the raised bed. Tap to close the gate."
+      ? "GATE OPEN · the load is sliding out the tailgate. Tap to close the gate."
       : "GATE CLOSED · remaining aggregate stays in the bed.",
   );
 });
@@ -5213,7 +5281,7 @@ function animate() {
     m.implement.rotation.x = THREE.MathUtils.damp(
       m.implement.rotation.x,
       targetTip,
-      2.1,
+      4.4,
       dt,
     );
     if (m.tailgate)
@@ -5223,10 +5291,15 @@ function animate() {
         3,
         dt,
       );
+    slideTruckBed(m, dt);
+    if (!m.dumping && (m.cargoSlide || 0) > 0.01) {
+      m.cargoSlide = THREE.MathUtils.damp(m.cargoSlide, 0, 4, dt);
+      syncCargo(m);
+    }
     if (m.dumping) {
       m.dumpTimer = (m.dumpTimer || 0) + dt;
-      const fullTiltDelay = 1.35;
-      const pourRate = 0.75;
+      const fullTiltDelay = 0.55;
+      const pourRate = 1.55;
       if (m.dumpTimer > fullTiltDelay && m.gateOpen && m.cargo > 0) {
         const dropPoint = worldPoint(
           m.group,
@@ -5250,7 +5323,8 @@ function animate() {
           const before = hauled;
           hauled = Math.min(24, hauled + poured);
           m.dumpDelivered = (m.dumpDelivered || 0) + poured;
-          if (!m.nextGravelDrop || m.dumpTimer - m.nextGravelDrop >= 0.12) {
+          if (!m.nextGravelDrop || m.dumpTimer - m.nextGravelDrop >= 0.07) {
+            const lip = truckTailLip(m, dropPoint);
             puff(
               dust,
               dropPoint.x,
@@ -5261,11 +5335,10 @@ function animate() {
               (Math.random() - 0.5) * 0.8,
               0.45,
             );
-            animateMaterialFlow(
-              dropPoint,
-              dropPoint.clone().add(new THREE.Vector3(0, -0.05, 0)),
-              4,
-            );
+            animateMaterialFlow(lip, dropPoint.clone().setY(0.22), 6, {
+              size: 0.16,
+              duration: 0.62,
+            });
             m.nextGravelDrop = m.dumpTimer;
           }
           syncCargo(m);
@@ -5296,7 +5369,8 @@ function animate() {
         m.dumpDelivered = (m.dumpDelivered || 0) + poured;
         dropPoint.y = grade.mesh.position.y + grade.h[cell] + 0.18;
         bumpField(grade, cell, 0.016);
-        if (!m.nextGravelDrop || m.dumpTimer - m.nextGravelDrop >= 0.12) {
+        if (!m.nextGravelDrop || m.dumpTimer - m.nextGravelDrop >= 0.07) {
+          const lip = truckTailLip(m, dropPoint);
           depositGravelAt(dropPoint, Math.min(poured, 0.45));
           buryPavedRock();
           puff(
@@ -5309,11 +5383,10 @@ function animate() {
             (Math.random() - 0.5) * 0.6,
             0.35,
           );
-          animateMaterialFlow(
-            dropPoint,
-            dropPoint.clone().add(new THREE.Vector3(0, -0.05, 0)),
-            4,
-          );
+          animateMaterialFlow(lip, dropPoint.clone(), 6, {
+            size: 0.16,
+            duration: 0.62,
+          });
           m.nextGravelDrop = m.dumpTimer;
         }
         syncCargo(m);
@@ -5327,10 +5400,18 @@ function animate() {
         }
         }
       }
+      m.cargoSlide = THREE.MathUtils.damp(
+        m.cargoSlide || 0,
+        m.gateOpen && m.cargo > 0 ? 1 : 0.35,
+        2.8,
+        dt,
+      );
+      syncCargo(m);
       if (m.cargo <= 0) {
         m.dumping = false;
         m.gateOpen = false;
         m.dumpTimer = 0;
+        m.cargoSlide = 0;
         m.dumpStartCargo = 0;
         m.dumpDelivered = 0;
         m.dumpPaid = false;
