@@ -22,6 +22,9 @@
   body.dual-joystick-layout .actions{max-width:460px;justify-self:center}
 }
 .actions button{white-space:normal;line-height:1.15;overflow:hidden}
+#joystick{order:1}
+#controls .actions{order:2}
+#toolJoystickWrap{order:3}
 </style>
 </head><body>
 <div id="hud"><div class="panel"><strong>FIELD OPS <span style="color:#e5a82c">3D</span></strong><br><span id="machine">D7 DOZER</span><br><span class="muted" id="machineHint">Push and grade the road</span></div><div class="panel" style="text-align:right">CASH <b id="cash">$12,500</b><br>FUEL <b id="fuel">100%</b> · LOAD <b id="load">0 t</b><br>SPEED <b id="speed">0 km/h</b> · <span id="saveState">AUTO-SAVE ON</span><br><span id="shift" class="muted">06:40 · CLEAR</span> · <span id="condition" class="muted">FIT</span><div id="bucketFillWrap" style="display:none;text-align:left;margin-top:5px;min-width:130px">BUCKET <b id="bucketFillText">0 / 4 t · 0%</b><div style="height:7px;background:#ffffff25;border-radius:8px;overflow:hidden;margin-top:3px"><div id="bucketFillBar" style="height:100%;width:0;background:#d5ad72;transition:width .15s"></div></div></div></div></div>
@@ -216,12 +219,29 @@ const foundationMark = mesh(
   -10,
 );
 foundationMark.rotation.x = -Math.PI / 2;
+const DRAIN = { x: 12, z: 18 };
 const trenchPatches = [];
 for (let i = 0; i < 5; i++) {
-  const patch = box(0x45453b, 17, 0.05, -14 + i * 2, 7, 0.06, 1.7);
-  patch.visible = false;
+  const patch = box(0x2c2824, DRAIN.x - 10 + i * 5, 0.07, DRAIN.z, 4.6, 0.06, 2.6);
+  patch.visible = true;
   trenchPatches.push(patch);
 }
+box(0x3e3a34, DRAIN.x, 0.05, DRAIN.z, 28, 0.08, 3.4);
+box(0x6d6458, DRAIN.x, 0.08, DRAIN.z - 2.1, 28.4, 0.06, 0.35);
+box(0x6d6458, DRAIN.x, 0.08, DRAIN.z + 2.1, 28.4, 0.06, 0.35);
+for (let i = 0; i < 4; i++) {
+  const pipe = mesh(
+    new THREE.CylinderGeometry(0.42, 0.42, 2.4, 12),
+    mat(0xd2b56a),
+    DRAIN.x - 9 + i * 6,
+    0.48,
+    DRAIN.z + 2.6,
+  );
+  pipe.rotation.z = Math.PI / 2;
+}
+box(0xe5a82c, DRAIN.x, 2.6, DRAIN.z - 3.4, 0.22, 4.6, 0.22);
+box(0xffd56a, DRAIN.x + 0.7, 4.2, DRAIN.z - 3.4, 1.5, 0.7, 0.12);
+box(0x24282a, DRAIN.x + 0.7, 4.15, DRAIN.z - 3.28, 1.2, 0.42, 0.04);
 const gradePatches = [];
 for (let i = 0; i < 8; i++) {
   const patch = box(0xa29473, -21 + i * 6, 0.16, 32, 5.6, 0.05, 8);
@@ -339,6 +359,7 @@ function bladePush(f, x, z, fx, fz, target) {
 const approachField = makeField("approach", -37.2, 23.2, 37.2, 40.8, 2, 0xb08a5c, -0.02, 0.028);
 const quarryField = makeField("quarry", -58, -36, -42, 30, 2.4, 0x8a735c, 0.12, 0.2);
 const basinField = makeField("basin", 8, -20, 26, 0, 1.5, 0x6a5a42, 0.08, 0.16);
+const drainField = makeField("drain", -4, 12, 28, 24, 1.6, 0x6a5a42, 0.02, 0.05);
 const yardField = makeField("yard", -52, -42, -26, -20, 2, 0x7d7364, 0.1, 0.14);
 const bankField = makeField("bank", 30, -28, 40, 16, 2, 0x5a6244, -0.02, 0.05);
 const demoField = makeField("demo", -32, 51, 4, 71, 2, 0x8b8577, 0.03, 0.02);
@@ -1992,7 +2013,7 @@ const yardLane = { x: 8, z: 12 };
 function workZone() {
   if (jobNo === 2) return { x: 17, z: -10, r: 18, label: "BASIN" };
   if (jobNo === 3) return { x: -50, z: -2, rx: 12, rz: 34, label: "QUARRY ROAD", long: true };
-  if (jobNo === 4) return { x: 17, z: -10, r: 16, label: "TRENCH" };
+  if (jobNo === 4) return { x: DRAIN.x, z: DRAIN.z, rx: 16, rz: 8, label: "STORM DRAIN", long: true };
   if (jobNo === 5) return { x: -40, z: -30, r: 16, label: "DEPOT YARD" };
   if (jobNo === 6) return { x: DEMO_PAD.x, z: DEMO_PAD.z, rx: 20, rz: 12, label: "CLEARANCE", long: true };
   return { x: 0, z: 32, rx: 40, rz: 14, label: "APPROACH", long: true };
@@ -2008,7 +2029,8 @@ function atRoad() {
   return inZone(p.x, p.z);
 }
 function zoneField() {
-  if (jobNo === 2 || jobNo === 4) return basinField;
+  if (jobNo === 4) return drainField;
+  if (jobNo === 2) return basinField;
   if (jobNo === 3) return quarryField;
   if (jobNo === 5) return yardField;
   if (jobNo === 6) return demoField;
@@ -2304,7 +2326,7 @@ function updateControlVisibility() {
   const id = player().def.id;
   document.body.classList.toggle(
     "dual-joystick-layout",
-    ["LOADER", "DOZER"].includes(id),
+    ["LOADER", "DOZER", "EXCAVATOR"].includes(id),
   );
   $("work").style.display = id === "CRANE" || id === "PAVER" ? "" : "none";
   $("work").textContent =
@@ -2554,11 +2576,13 @@ function hud() {
       $("objective").textContent =
         jobNo === 2
           ? "Excavate the flood-control basin inside the yellow foundation circle."
-          : "Clear the storm-drain trench with the excavator.";
+          : "Clear the storm-drain ditch on the south shoulder of the approach road.";
       $("stage").textContent =
         `Stage 1 of 2 · Excavation (${Math.min(20, excavated)}/20)`;
       $("jobTip").textContent =
-        "Dig with the joysticks. Soil stays in the bucket — slew clear and dump a mound. The loader can scoop that spoil for free.";
+        jobNo === 4
+          ? "Follow the green STORM DRAIN marker. It is the long dark ditch with the yellow pipes, south of the approach road — not the flood basin by the river."
+          : "Dig with the joysticks. Soil stays in the bucket — slew clear and dump a mound. The loader can scoop that spoil for free.";
     } else if (delivered < 30) {
       $("objective").textContent =
         jobNo === 2
@@ -3312,7 +3336,13 @@ function act() {
       notice(`Road graded: ${graded}/40. Keep working the marked section.`);
     } else
       notice("Road zone: truck delivers aggregate; dozer grades the surface.");
-  } else if (near(17, -10, 16) && m.def.id === "EXCAVATOR") {
+  } else if (
+    m.def.id === "EXCAVATOR" &&
+    (jobNo === 4
+      ? Math.abs(m.group.position.x - DRAIN.x) < 16 &&
+        Math.abs(m.group.position.z - DRAIN.z) < 9
+      : near(17, -10, 16))
+  ) {
     if (m.cargo > 0.15) {
       m.bucketCurl = -0.9;
       if (m.excavatorBucket) m.excavatorBucket.rotation.x = -m.bucketCurl;
@@ -3529,7 +3559,7 @@ function updateWorkVisuals() {
     });
   buryPavedRock();
   syncSiteGrade();
-  trenchPatches.forEach((p, i) => (p.visible = excavated >= (i + 1) * 4));
+  trenchPatches.forEach((p, i) => (p.visible = jobNo === 4 || excavated >= (i + 1) * 4));
   bridgeDecks.forEach((p, i) => {
     p.visible = i < beams * 3;
   });
@@ -4229,7 +4259,9 @@ function objectiveBeacon() {
       return { x: DISPOSAL.x, z: DISPOSAL.z, label: "RUBBLE TIP" };
     }
   }
-  if ((jobNo === 2 || jobNo === 4) && excavated < 20)
+  if (jobNo === 4 && excavated < 20)
+    return { x: DRAIN.x, z: DRAIN.z, label: "STORM DRAIN" };
+  if (jobNo === 2 && excavated < 20)
     return { x: 17, z: -10, label: "EXCAVATION" };
   if (jobNo === 1 && delivered >= 30 && graded >= 40 && paved >= 8) {
     if (carriedBeam == null && beams < 3)
@@ -5330,7 +5362,10 @@ function animate() {
         }
       }
     }
-    const digZone = Math.hypot(g.position.x - 17, g.position.z + 10) < 23,
+    const digZone =
+        jobNo === 4
+          ? Math.abs(g.position.x - DRAIN.x) < 16 && Math.abs(g.position.z - DRAIN.z) < 8
+          : jobNo === 2 && Math.hypot(g.position.x - 17, g.position.z + 10) < 23,
       scooping =
         (excRightX < -0.08 || excLeftY < -0.08) &&
         (m.bucketCurl ?? 0.4) > -0.2,
@@ -5357,18 +5392,20 @@ function animate() {
           excavated = Math.min(20, excavated + 1);
           cash += 8;
           wear(m, 0.08);
+          const digAt = jobNo === 4 ? DRAIN : { x: 17, z: -10 };
+          const digField = jobNo === 4 ? drainField : basinField;
           for (let k = 0; k < 5; k++) {
             const cell = fieldCell(
-              basinField,
-              15 + (k % 3) * 1.6,
-              -12 + Math.floor(k / 3) * 1.6,
+              digField,
+              digAt.x + ((k % 3) - 1) * 1.6,
+              digAt.z + Math.floor(k / 3) * 1.6,
             );
-            bumpField(basinField, cell, -0.045);
+            bumpField(digField, cell, -0.045);
           }
           m.workAnim = 0.45;
           updateWorkVisuals();
           animateMaterialFlow(
-            new THREE.Vector3(17, 0.32, -10),
+            new THREE.Vector3(digAt.x, 0.32, digAt.z),
             worldPoint(m.excavatorBucket),
             5,
           );
@@ -5383,7 +5420,10 @@ function animate() {
     } else m.digTimer = 0;
     const dumpingSpoil = (m.bucketCurl ?? 0.1) < -0.28 && m.cargo > 0.12;
     const tip = worldPoint(m.excavatorBucket || g, 0, -1.34, 0.14);
-    const inHole = Math.hypot(tip.x - 17, tip.z + 10) < 6;
+    const inHole =
+      jobNo === 4
+        ? Math.abs(tip.x - DRAIN.x) < 14 && Math.abs(tip.z - DRAIN.z) < 2.2
+        : Math.hypot(tip.x - 17, tip.z + 10) < 6;
     if (dumpingSpoil && !inHole) {
       m.spoilDump = (m.spoilDump || 0) + dt;
       if (m.spoilDump > 0.28) {
