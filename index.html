@@ -239,9 +239,11 @@ for (let i = 0; i < 4; i++) {
   );
   pipe.rotation.z = Math.PI / 2;
 }
-box(0xe5a82c, DRAIN.x, 2.6, DRAIN.z - 3.4, 0.22, 4.6, 0.22);
-box(0xffd56a, DRAIN.x + 0.7, 4.2, DRAIN.z - 3.4, 1.5, 0.7, 0.12);
-box(0x24282a, DRAIN.x + 0.7, 4.15, DRAIN.z - 3.28, 1.2, 0.42, 0.04);
+const drainMarkers = [
+  box(0xe5a82c, DRAIN.x, 2.6, DRAIN.z - 3.4, 0.22, 4.6, 0.22),
+  box(0xffd56a, DRAIN.x + 0.7, 4.2, DRAIN.z - 3.4, 1.5, 0.7, 0.12),
+  box(0x24282a, DRAIN.x + 0.7, 4.15, DRAIN.z - 3.28, 1.2, 0.42, 0.04),
+];
 const gradePatches = [];
 for (let i = 0; i < 8; i++) {
   const patch = box(0xa29473, -21 + i * 6, 0.16, 32, 5.6, 0.05, 8);
@@ -696,7 +698,7 @@ for (let i = 0; i < 3; i++) {
   scene.add(beam);
   yardBeams.push(beam);
 }
-marker(BEAM_RACK.x - GIRDER_HALF - 8, BEAM_RACK.z + 4.4, 0x83c6e8, "BEAMS");
+const beamsMarker = marker(BEAM_RACK.x - GIRDER_HALF - 8, BEAM_RACK.z + 4.4, 0x83c6e8, "BEAMS");
 function girderGap(px, pz, bx, bz) {
   const dx = Math.max(0, Math.abs(px - bx) - GIRDER_HALF);
   return Math.hypot(dx, pz - bz);
@@ -2036,17 +2038,22 @@ function zoneField() {
   if (jobNo === 6) return demoField;
   return approachField;
 }
+function showMarker(m, on) {
+  if (!m) return;
+  for (const part of [m.ring, m.post, m.flag]) if (part) part.visible = on;
+}
 function syncJobSite() {
   const zone = workZone();
+  const open = !contractComplete;
   moveMarker(roadMarker, zone.x, zone.z);
   roadMarker.label = zone.label;
-  const demo = jobNo === 6;
-  for (const part of [
-    disposalMarker.ring,
-    disposalMarker.post,
-    disposalMarker.flag,
-  ])
-    part.visible = demo;
+  showMarker(roadMarker, open);
+  showMarker(bridgeMarker, open && jobNo === 1);
+  showMarker(asphaltMarker, open && jobNo === 1);
+  showMarker(beamsMarker, open && jobNo === 1);
+  foundationMark.visible = open && jobNo === 2;
+  for (const part of drainMarkers) part.visible = open && jobNo === 4;
+  showMarker(disposalMarker, open && jobNo === 6);
 }
 let siteMinutes = 6 * 60 + 40;
 function weatherNow() {
@@ -3559,7 +3566,7 @@ function updateWorkVisuals() {
     });
   buryPavedRock();
   syncSiteGrade();
-  trenchPatches.forEach((p, i) => (p.visible = jobNo === 4 || excavated >= (i + 1) * 4));
+  trenchPatches.forEach((p) => (p.visible = jobNo === 4));
   bridgeDecks.forEach((p, i) => {
     p.visible = i < beams * 3;
   });
@@ -4149,10 +4156,12 @@ function drawMap() {
     mc.fillStyle = "#111111";
     mc.fillRect(56, 65, (28 * Math.min(8, paved)) / 8, 9);
   }
-  mc.fillStyle = "#111";
-  mc.beginPath();
-  mc.arc(70 + (ASPHALT.x / 170) * 65, 70 + (ASPHALT.z / 170) * 65, 4, 0, 7);
-  mc.fill();
+  if (jobNo === 1 && !contractComplete) {
+    mc.fillStyle = "#111";
+    mc.beginPath();
+    mc.arc(70 + (ASPHALT.x / 170) * 65, 70 + (ASPHALT.z / 170) * 65, 4, 0, 7);
+    mc.fill();
+  }
   mc.fillStyle = "#4a4e50";
   mc.fillRect(31, 0, 9, 140);
   mc.fillStyle = "#317c9e";
@@ -4175,13 +4184,19 @@ function drawMap() {
   mc.fillRect(43, 54, 5, 5);
   mc.fillStyle = "#ffdf43";
   mc.fillRect(43, 44, 8, 8);
-  mc.fillStyle = "#8b8577";
-  mc.fillRect(70 + (DEMO_PAD.x / 170) * 65 - 5, 70 + (DEMO_PAD.z / 170) * 65 - 3, 10, 6);
-  mc.fillStyle = "#9aa0a0";
-  mc.fillRect(70 + (DISPOSAL.x / 170) * 65 - 2, 70 + (DISPOSAL.z / 170) * 65 - 2, 4, 4);
-  mc.fillStyle = "#182126";
-  mc.font = "bold 8px sans-serif";
-  mc.fillText("JOB", 44, 42);
+  if (jobNo === 6 && !contractComplete) {
+    mc.fillStyle = "#8b8577";
+    mc.fillRect(70 + (DEMO_PAD.x / 170) * 65 - 5, 70 + (DEMO_PAD.z / 170) * 65 - 3, 10, 6);
+    mc.fillStyle = "#9aa0a0";
+    mc.fillRect(70 + (DISPOSAL.x / 170) * 65 - 2, 70 + (DISPOSAL.z / 170) * 65 - 2, 4, 4);
+  }
+  if (!contractComplete) {
+    const zone = workZone();
+    mc.fillStyle = "#7ddea0";
+    mc.beginPath();
+    mc.arc(70 + (zone.x / 170) * 65, 70 + (zone.z / 170) * 65, 4, 0, 7);
+    mc.fill();
+  }
   const p = player().group.position;
   mc.fillStyle = "#fff";
   mc.beginPath();
