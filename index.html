@@ -5379,8 +5379,11 @@ function animate() {
         }
       }
     }
+    // Aggregate interaction follows the actual bucket tip, not the excavator tracks.
+    const bucketTipForDig = worldPoint(m.excavatorBucket || g, 0, -1.34, 0.14);
     const atAggregatePile =
-        Math.hypot(g.position.x - (-4), g.position.z - 5) < 17;
+      Math.abs(bucketTipForDig.x + 4) < 6.5 &&
+      Math.abs(bucketTipForDig.z - 5) < 9;
     const digZone =
         atAggregatePile ||
         (jobNo === 4
