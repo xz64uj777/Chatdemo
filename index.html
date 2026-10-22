@@ -771,6 +771,9 @@ function marker(x, z, color, label) {
   ring.rotation.x = -Math.PI / 2;
   const post = box(color, x, 1.2, z, 0.25, 2.2, 0.25);
   const flag = box(color, x + 0.85, 2, z, 0.9, 0.45, 0.12);
+  // Keep ground rings/labels for navigation, but remove the tall flag posts and pennants.
+  post.visible = false;
+  flag.visible = false;
   return { ring, post, flag, label };
 }
 const stockMarker = marker(-4, 5, 0xd6a52d, "AGGREGATE");
@@ -5377,10 +5380,13 @@ function animate() {
         }
       }
     }
+    const atAggregatePile =
+        Math.hypot(g.position.x - (-4), g.position.z - 5) < 17;
     const digZone =
-        jobNo === 4
+        atAggregatePile ||
+        (jobNo === 4
           ? Math.abs(g.position.x - DRAIN.x) < 16 && Math.abs(g.position.z - DRAIN.z) < 8
-          : jobNo === 2 && Math.hypot(g.position.x - 17, g.position.z + 10) < 23,
+          : jobNo === 2 && Math.hypot(g.position.x - 17, g.position.z + 10) < 23),
       scooping =
         (excRightX < -0.08 || excLeftY < -0.08) &&
         (m.bucketCurl ?? 0.4) > -0.2,
@@ -5407,15 +5413,22 @@ function animate() {
           excavated = Math.min(20, excavated + 1);
           cash += 8;
           wear(m, 0.08);
-          const digAt = jobNo === 4 ? DRAIN : { x: 17, z: -10 };
-          const digField = jobNo === 4 ? drainField : basinField;
-          for (let k = 0; k < 5; k++) {
-            const cell = fieldCell(
-              digField,
-              digAt.x + ((k % 3) - 1) * 1.6,
-              digAt.z + Math.floor(k / 3) * 1.6,
-            );
-            bumpField(digField, cell, -0.045);
+          const digAt = atAggregatePile
+            ? { x: -4, z: 5 }
+            : jobNo === 4 ? DRAIN : { x: 17, z: -10 };
+          if (atAggregatePile) {
+            // Excavator takes real visible material from the tan aggregate stockpile.
+            reduceAggregateVisual(cut * 8);
+          } else {
+            const digField = jobNo === 4 ? drainField : basinField;
+            for (let k = 0; k < 5; k++) {
+              const cell = fieldCell(
+                digField,
+                digAt.x + ((k % 3) - 1) * 1.6,
+                digAt.z + Math.floor(k / 3) * 1.6,
+              );
+              bumpField(digField, cell, -0.045);
+            }
           }
           m.workAnim = 0.45;
           updateWorkVisuals();
