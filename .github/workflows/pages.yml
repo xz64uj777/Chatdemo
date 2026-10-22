@@ -57,8 +57,10 @@ jobs:
 
       - name: Stage playable site
         run: |
-          mkdir -p site
+          mkdir -p site/rebuild
           cp index.html site/index.html
+          cp -R rebuild/. site/rebuild/
+          test -s site/rebuild/index.html
 
       - name: Upload static game
         uses: actions/upload-pages-artifact@v3
